@@ -1,0 +1,23 @@
+.price {
+  display: flex;
+  column-gap: 4px;
+  font-family: "Iceland", sans-serif;
+  font-size: 28px;
+  line-height: 24px;
+  margin-bottom: 4px;
+}
+
+.image {
+  margin-bottom: 4px;
+  width: 240px;
+  height: 120px;
+  object-fit: cover;
+}
+
+.name {
+  font-family: "JetBrains Mono", monospace, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  margin-bottom: calc(48px - 24px);
+  text-align: center;
+}
