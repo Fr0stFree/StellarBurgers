@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import React, { FC } from 'react';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './styles.module.css';
 
@@ -10,14 +10,14 @@ type BurgerIngredientProps = {
 
 const BurgerIngredient: FC = ({ image, name, price }: BurgerIngredientProps) => {
   return (
-    <>
-      <img src={image} alt={name} className={styles.image} />
-      <p className={styles.price}>
-        <span>{price}</span>
+    <div className={styles.ingredient}>
+      <img src={image} alt={name} className="mb-1" />
+      <p className="mb-1" style={{display: "flex"}}>
+        <span className="text text_type_digits-default mr-1">{price}</span>
         <CurrencyIcon type="primary" />
       </p>
-      <p className={styles.name}>{name}</p>
-    </>
+      <p className="text text_type_main-small mb-6">{name}</p>
+    </div>
   );
 
 }

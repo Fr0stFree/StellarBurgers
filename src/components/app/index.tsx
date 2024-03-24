@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 
 import AppHeader from '../app-header';
 import BurgerConstructor from '../burger-constructor';
@@ -15,14 +15,14 @@ const App: FC = () => {
   }, []);
 
   return (
-    <div className={styles.content}>
+    <div className={`${styles.content} mt-10 mr-10 ml-10`}>
       <AppHeader />
-      <main className={styles.main}>
+      <main style={{display: "flex", columnGap: 40, maxWidth: 1240}}>
         <BurgerIngredients
           buns={ingredients.filter((ingredient) => ingredient.type === 'bun')}
           sauces={ingredients.filter((ingredient) => ingredient.type === 'sauce')}
         />
-        <BurgerConstructor ingredient={ingredients.filter((ingredient) => ingredient.type === 'main')} />
+        <BurgerConstructor ingredients={ingredients.filter((ingredient) => ingredient.type === 'main')} />
       </main>
       <AppFooter />
     </div>

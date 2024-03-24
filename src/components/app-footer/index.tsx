@@ -1,8 +1,8 @@
-import { FC } from 'react';
+import React, { FC } from 'react';
 
 const AppFooter: FC = () => {
   return (
-    <footer>¯\_(ツ)_/¯</footer>
+    <footer className="pt-6">¯\_(ツ)_/¯</footer>
   );
 }
 

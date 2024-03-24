@@ -1,16 +1,38 @@
-import { FC } from 'react';
-import BurgerIngredient from "../burger-ingredient";
+import React, { FC } from 'react';
 import { type Ingredient } from "../../services/ingredients";
+import { CurrencyIcon, Button , DragIcon, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components'
+import styles from './styles.module.css';
 
-type BurgerIngredientsProps = {
-  ingredient: Ingredient[];
+type BurgerConstructorProps = {
+  ingredients: Ingredient[];
 }
-const BurgerConstructor: FC = ({ ingredient }: BurgerIngredientsProps) => {
+
+const BurgerConstructor: FC = ({ ingredients }: BurgerConstructorProps) => {
   return (
-    <article>
-      <ul>
-        {ingredient.map((ingredient) => <li key={ingredient._id}><BurgerIngredient {...ingredient} /></li>)}
+    <article className="mt-25 mr-4 ml-4">
+      <ul className={`${styles.list} mb-10`}>
+        {ingredients.map((ingredient, index, ingredients ) => {
+          const { price, name, image } = ingredient;
+          const isTop = index === 0;
+          const isBottom = index === ingredients.length - 1;
+          const isLocked = isTop || isBottom;
+          return (
+            <li key={ingredient._id} className={styles.item}>
+              <DragIcon type="primary" />
+              <ConstructorElement price={price} text={name} thumbnail={image} isLocked={isLocked} type={isTop ? 'top' : isBottom ? 'bottom' : undefined} />
+            </li>
+          );
+        })}
       </ul>
+      <div>
+        <p className={styles.order}>
+          <div className="mr-10">
+            <span className="text text_type_digits-medium">610</span>
+            <CurrencyIcon type="primary" />
+          </div>
+          <Button type="primary" size="medium" htmlType="button">Оформить заказ</Button>
+        </p>
+      </div>
     </article>
   );
 }

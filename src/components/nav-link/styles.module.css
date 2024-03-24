@@ -6,15 +6,9 @@
   text-decoration: none;
   color: #F2F2F3;
   transition: opacity .7s;
+  cursor: pointer;
 }
 
 .link:hover {
   opacity: 0.6;
-}
-
-.text {
-  font-weight: 400;
-  line-height: 24px;
-  font-size: 16px;
-  font-family: "JetBrains Mono", monospace, sans-serif;
 }
