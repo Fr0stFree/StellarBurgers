@@ -226,6 +226,6 @@ const ingredients: Ingredient[] = [
   }
 ]
 
-export const loadIngredients = (): Ingredient[] => {
+export const loadIngredients: () => Ingredient[] = () => {
   return ingredients;
 }
