@@ -2,7 +2,6 @@ import React, { FC } from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 
 import { type Ingredient } from '../../services/ingredients';
-
 import BurgerIngredient from "../burger-ingredient";
 import styles from './styles.module.css';
 

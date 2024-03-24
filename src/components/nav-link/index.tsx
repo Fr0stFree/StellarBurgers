@@ -1,4 +1,5 @@
-import {ComponentPropsWithoutRef, FC, ReactNode} from 'react';
+import React, { ComponentPropsWithoutRef, FC, ReactNode } from 'react';
+
 import styles from './styles.module.css';
 
 type NavItemProps = {

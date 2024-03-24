@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
+
 import styles from './styles.module.css';
 
 type BurgerIngredientProps = {

@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
-import { type Ingredient } from "../../services/ingredients";
 import { CurrencyIcon, Button , DragIcon, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components'
+
+import { type Ingredient } from "../../services/ingredients";
 import styles from './styles.module.css';
 
 type BurgerConstructorProps = {
@@ -24,15 +25,13 @@ const BurgerConstructor: FC = ({ ingredients }: BurgerConstructorProps) => {
           );
         })}
       </ul>
-      <div>
-        <p className={styles.order}>
-          <div className="mr-10">
-            <span className="text text_type_digits-medium">610</span>
-            <CurrencyIcon type="primary" />
-          </div>
-          <Button type="primary" size="medium" htmlType="button">Оформить заказ</Button>
-        </p>
-      </div>
+      <p className={styles.order}>
+        <div className="mr-10">
+          <span className="text text_type_digits-medium">610</span>
+          <CurrencyIcon type="primary" />
+        </div>
+        <Button type="primary" size="medium" htmlType="button">Оформить заказ</Button>
+      </p>
     </article>
   );
 }
