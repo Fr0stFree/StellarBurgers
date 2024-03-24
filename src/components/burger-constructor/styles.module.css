@@ -1,0 +1,22 @@
+.list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+  overflow-y: auto;
+  /* TODO: it shouldn't be hardcoded. Find a way to make it dynamic */
+  max-height: 58vh;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  column-gap: 8px;
+}
+
+.order {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
