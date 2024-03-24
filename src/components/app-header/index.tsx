@@ -7,18 +7,18 @@ import NavLink from "../nav-link";
 const AppHeader: FC = () => {
   return (
     <header className={styles.header}>
-      <nav style={{maxWidth: 1240, margin: "auto"}}>
-        <ul style={{display: "flex", listStyle: "none"}} className="mt-4 mb-4">
+      <nav className={styles.nav}>
+        <ul className={`${styles.nav_list} mt-4 mb-4`}>
           <li className="mr-5 ml-5">
             <NavLink text={"Конструктор"}><BurgerIcon type="primary"/></NavLink>
           </li>
           <li className="mr-5 ml-5">
             <NavLink text={"Лента заказов"}><ListIcon type="secondary"/></NavLink>
           </li>
-          <li className={styles.header__logo}>
+          <li className={styles.logo}>
             <Logo/>
           </li>
-          <li className="mr-5" style={{marginLeft: "auto"}}>
+          <li className={`${styles.nav_item_pushed} mr-5`}>
             <NavLink text={"Профиль"}><ProfileIcon type="secondary"/></NavLink>
           </li>
         </ul>

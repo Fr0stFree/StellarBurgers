@@ -5,20 +5,20 @@ import { type Ingredient } from "../../services/ingredients";
 import styles from './styles.module.css';
 
 type BurgerConstructorProps = {
-  ingredients: Ingredient[];
+  mains: Ingredient[];
 }
 
-const BurgerConstructor: FC = ({ ingredients }: BurgerConstructorProps) => {
+const BurgerConstructor: FC = ({ mains }: BurgerConstructorProps) => {
   return (
-    <article className="mt-25 mr-4 ml-4">
+    <section className="mt-25 mr-4 ml-4">
       <ul className={`${styles.list} mb-10`}>
-        {ingredients.map((ingredient, index, ingredients ) => {
-          const { price, name, image } = ingredient;
+        {mains.map((main, index, mains ) => {
+          const { price, name, image } = main;
           const isTop = index === 0;
-          const isBottom = index === ingredients.length - 1;
+          const isBottom = index === mains.length - 1;
           const isLocked = isTop || isBottom;
           return (
-            <li key={ingredient._id} className={styles.item}>
+            <li key={main._id} className={styles.item}>
               <DragIcon type="primary" />
               <ConstructorElement price={price} text={name} thumbnail={image} isLocked={isLocked} type={isTop ? 'top' : isBottom ? 'bottom' : undefined} />
             </li>
@@ -32,7 +32,7 @@ const BurgerConstructor: FC = ({ ingredients }: BurgerConstructorProps) => {
         </div>
         <Button type="primary" size="medium" htmlType="button">Оформить заказ</Button>
       </p>
-    </article>
+    </section>
   );
 }
 

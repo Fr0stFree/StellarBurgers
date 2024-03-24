@@ -1,11 +1,26 @@
 .header {
   width: 100%;
-  background-color: #1C1C21;
+  background-color: var(--background-secondary);
 }
 
-.header__logo {
+.nav {
+  max-width: 1240px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.nav_list {
+  display: flex;
+  list-style: none;
+}
+
+.logo {
   position: absolute;
-  top: 50px;
+  top: 44px;
   left: 50%;
   transform: translateX(-50%);
+}
+
+.nav_item_pushed {
+  margin-left: auto;
 }

@@ -1,3 +1,14 @@
+.ingredients {
+  overflow-y: auto;
+  /* TODO: it shouldn't be hardcoded. Find a way to make it dynamic */
+  max-height: 65vh;
+}
+
+.ingredients_tab {
+  display: flex;
+  list-style: none;
+}
+
 .ingredients_list {
   display: flex;
   flex-wrap: wrap;

@@ -3,6 +3,9 @@
   display: flex;
   flex-direction: column;
   row-gap: 16px;
+  overflow-y: auto;
+  /* TODO: it shouldn't be hardcoded. Find a way to make it dynamic */
+  max-height: 58vh;
 }
 
 .item {
