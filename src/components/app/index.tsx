@@ -3,7 +3,6 @@ import React, {FC, useEffect, useMemo, useState} from 'react';
 import AppHeader from '../app-header';
 import BurgerConstructor from '../burger-constructor';
 import BurgerIngredients from '../burger-ingredients';
-import AppFooter from '../app-footer';
 import styles from './styles.module.css';
 import {type Ingredient, loadIngredients} from "../../services/ingredients";
 
@@ -11,7 +10,15 @@ const App: FC = () => {
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
 
   useEffect<() => void>(() => {
-    setIngredients(loadIngredients());
+    const load = async () => {
+      try {
+        const ingredients = await loadIngredients();
+        setIngredients(ingredients);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    load();
   }, []);
 
   const buns = useMemo(() => ingredients.filter((ingredient) => ingredient.type === 'bun'), [ingredients]);
