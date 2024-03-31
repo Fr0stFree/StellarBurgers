@@ -1,17 +1,18 @@
 import React, { FC } from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 
-import { type Ingredient } from '../../services/ingredients';
+import { type IIngredient } from '../../services/ingredients';
 import BurgerIngredient from "../burger-ingredient";
 import styles from './styles.module.css';
 
 type BurgerIngredientsProps = {
-  buns: Ingredient[];
-  sauces: Ingredient[];
-  mains: Ingredient[];
+  buns: IIngredient[];
+  sauces: IIngredient[];
+  mains: IIngredient[];
+  onIngredientClick: (ingredient: IIngredient) => void;
 };
 
-const BurgerIngredients: FC = ({ buns, sauces, mains }: BurgerIngredientsProps) => {
+const BurgerIngredients: FC<BurgerIngredientsProps> = ({ buns, sauces, mains, onIngredientClick }) => {
   const [currentTab, setCurrentTab] = React.useState<Tab>('sauce')
 
   return (
@@ -28,19 +29,19 @@ const BurgerIngredients: FC = ({ buns, sauces, mains }: BurgerIngredientsProps) 
         <section className="mb-10">
           <h2 className="text text_type_main-medium mb-6">Булки</h2>
           <ul className={styles.ingredients_list}>
-            {buns.map((bun) => <li key={bun._id}><BurgerIngredient {...bun} /></li>)}
+            {buns.map((bun) => <li key={bun._id}><BurgerIngredient ingredient={bun} onClick={onIngredientClick} /></li>)}
           </ul>
         </section>
         <section className="mb-10">
           <h2 className="text text_type_main-medium mb-6">Соусы</h2>
           <ul className={styles.ingredients_list}>
-            {sauces.map((sauce) => <li key={sauce._id}><BurgerIngredient {...sauce} /></li>)}
+            {sauces.map((sauce) => <li key={sauce._id}><BurgerIngredient ingredient={sauce} onClick={onIngredientClick} /></li>)}
           </ul>
         </section>
         <section className="mb-10">
           <h2 className="text text_type_main-medium mb-6">Начинки</h2>
           <ul className={styles.ingredients_list}>
-            {mains.map((main) => <li key={main._id}><BurgerIngredient {...main} /></li>)}
+            {mains.map((main) => <li key={main._id}><BurgerIngredient ingredient={main} onClick={onIngredientClick} /></li>)}
           </ul>
         </section>
       </div>

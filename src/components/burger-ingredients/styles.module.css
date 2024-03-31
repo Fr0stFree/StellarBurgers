@@ -1,7 +1,7 @@
 .ingredients {
   overflow-y: auto;
   /* TODO: it shouldn't be hardcoded. Find a way to make it dynamic */
-  max-height: 65vh;
+  max-height: 60vh;
 }
 
 .ingredients_tab {

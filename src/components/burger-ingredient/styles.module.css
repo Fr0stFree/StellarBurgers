@@ -3,6 +3,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  cursor: pointer;
+  opacity: .75;
+  transition: opacity 0.4s;
+}
+
+.ingredient:hover {
+  opacity: 1;
 }
 
 .description {

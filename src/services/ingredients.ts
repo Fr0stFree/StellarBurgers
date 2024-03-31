@@ -1,6 +1,6 @@
 const INGREDIENTS_URL = 'https://norma.nomoreparties.space/api/ingredients';
 
-export interface Ingredient {
+export interface IIngredient {
   _id: string;
   name: string;
   type: string;
@@ -15,13 +15,13 @@ export interface Ingredient {
   __v: number;
 }
 
-export const loadIngredients: () => Promise<Ingredient[]> = async () => {
+export const loadIngredients: () => Promise<IIngredient[]> = async () => {
 
   const response = await fetch(INGREDIENTS_URL);
   if (!response.ok) {
     throw new Error(`Ошибка загрузки ингредиентов: ${response.status}`);
   }
-  const { data, success }: { data: Ingredient[], success: boolean } = await response.json();
+  const { data, success }: { data: IIngredient[], success: boolean } = await response.json();
   if (!success) {
     throw new Error(`Ошибка загрузки ингредиентов: ${data}`);
   }

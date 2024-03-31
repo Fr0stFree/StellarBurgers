@@ -1,14 +1,16 @@
 import React, { FC } from 'react';
 import { CurrencyIcon, Button , DragIcon, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components'
 
-import { type Ingredient } from "../../services/ingredients";
+import { type IIngredient } from "../../services/ingredients";
 import styles from './styles.module.css';
 
 type BurgerConstructorProps = {
-  mains: Ingredient[];
+  mains: IIngredient[];
+  onIngredientClick: (ingredient: IIngredient) => void;
+  onPlaceOrderClick: () => void;
 }
 
-const BurgerConstructor: FC = ({ mains }: BurgerConstructorProps) => {
+const BurgerConstructor: FC<BurgerConstructorProps> = ({ mains, onIngredientClick, onPlaceOrderClick }) => {
   return (
     <section className="mt-25 mr-4 ml-4">
       <ul className={`${styles.list} mb-10`}>
@@ -16,11 +18,17 @@ const BurgerConstructor: FC = ({ mains }: BurgerConstructorProps) => {
           const { price, name, image } = main;
           const isTop = index === 0;
           const isBottom = index === mains.length - 1;
-          const isLocked = isTop || isBottom;
           return (
             <li key={main._id} className={styles.item}>
-              <DragIcon type="primary" />
-              <ConstructorElement price={price} text={name} thumbnail={image} isLocked={isLocked} type={isTop ? 'top' : isBottom ? 'bottom' : undefined} />
+              <div className={styles.constructor_element_drag}><DragIcon type="primary" /></div>
+              <div className={styles.constructor_element_wrapper} onClick={() => onIngredientClick(main)}>
+                <ConstructorElement price={price}
+                                    text={name}
+                                    thumbnail={image}
+                                    isLocked={false}
+                                    type={isTop ? 'top' : isBottom ? 'bottom' : undefined}
+                />
+              </div>
             </li>
           );
         })}
@@ -30,7 +38,7 @@ const BurgerConstructor: FC = ({ mains }: BurgerConstructorProps) => {
           <span className="text text_type_digits-medium">610</span>
           <CurrencyIcon type="primary" />
         </div>
-        <Button type="primary" size="medium" htmlType="button">Оформить заказ</Button>
+        <Button type="primary" size="medium" htmlType="button" onClick={onPlaceOrderClick}>Оформить заказ</Button>
       </p>
     </section>
   );

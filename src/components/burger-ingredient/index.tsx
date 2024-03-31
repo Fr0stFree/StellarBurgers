@@ -2,22 +2,25 @@ import React, { FC } from 'react';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 
 import styles from './styles.module.css';
+import {IIngredient} from "../../services/ingredients";
 
 type BurgerIngredientProps = {
-  image: string;
-  name: string;
-  price: number;
+  ingredient: IIngredient;
+  onClick: (ingredient: IIngredient) => void;
 };
 
-const BurgerIngredient: FC = ({ image, name, price }: BurgerIngredientProps) => {
+const BurgerIngredient: FC<BurgerIngredientProps> = ({ ingredient , onClick }) => {
+
+  const handleClick = () => onClick(ingredient);
+
   return (
-    <div className={styles.ingredient}>
-      <img src={image} alt={name} className="mb-1" />
+    <div className={styles.ingredient} onClick={handleClick}>
+      <img src={ingredient.image} alt={ingredient.name} className="mb-1" />
       <p className={`${styles.description} mb-1`}>
-        <span className="text text_type_digits-default mr-1">{price}</span>
+        <span className="text text_type_digits-default mr-1">{ingredient.price}</span>
         <CurrencyIcon type="primary" />
       </p>
-      <p className="text text_type_main-small mb-6">{name}</p>
+      <p className="text text_type_main-small mb-6">{ingredient.name}</p>
     </div>
   );
 
