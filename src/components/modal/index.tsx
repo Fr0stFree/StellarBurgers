@@ -1,4 +1,4 @@
-import {FC, ReactNode } from 'react';
+import {FC, ReactNode, useEffect} from 'react';
 import { createPortal } from "react-dom";
 
 import styles from './styles.module.css';
@@ -13,6 +13,12 @@ type ModalProps = {
 const modalRoot: HTMLElement = document.getElementById('modal-root');
 
 const Modal: FC<ModalProps> = ({ isOpen, onClose, children }) => {
+  const closeModalByEscape = (event: KeyboardEvent) => event.key === 'Escape' && onClose();
+  useEffect(() => {
+    document.addEventListener('keydown', closeModalByEscape);
+    return () => document.removeEventListener('keydown', closeModalByEscape);
+  }, [closeModalByEscape]);
+
   const content = (
     <div className={styles.overlay} onClick={onClose}>
       <div className={styles.modal} onClick={e => e.stopPropagation()}>
