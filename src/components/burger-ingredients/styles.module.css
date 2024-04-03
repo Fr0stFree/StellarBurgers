@@ -1,7 +1,7 @@
 .ingredients {
   overflow-y: auto;
   /* TODO: it shouldn't be hardcoded. Find a way to make it dynamic */
-  max-height: 65vh;
+  max-height: 60vh;
 }
 
 .ingredients_tab {
@@ -9,11 +9,3 @@
   list-style: none;
 }
 
-.ingredients_list {
-  display: flex;
-  flex-wrap: wrap;
-  row-gap: 40px;
-  column-gap: 24px;
-  justify-content: center;
-  list-style: none;
-}

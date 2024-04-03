@@ -1,17 +1,17 @@
 import React, { FC } from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 
-import { type Ingredient } from '../../services/ingredients';
-import BurgerIngredient from "../burger-ingredient";
+import BurgerIngredientsPartition from "../burger-ingredients-partition";
+import { type IIngredient } from '../../services/ingredients';
 import styles from './styles.module.css';
 
 type BurgerIngredientsProps = {
-  buns: Ingredient[];
-  sauces: Ingredient[];
-  mains: Ingredient[];
+  buns: IIngredient[];
+  sauces: IIngredient[];
+  mains: IIngredient[];
 };
 
-const BurgerIngredients: FC = ({ buns, sauces, mains }: BurgerIngredientsProps) => {
+const BurgerIngredients: FC<BurgerIngredientsProps> = ({ buns, sauces, mains }) => {
   const [currentTab, setCurrentTab] = React.useState<Tab>('sauce')
 
   return (
@@ -25,24 +25,9 @@ const BurgerIngredients: FC = ({ buns, sauces, mains }: BurgerIngredientsProps) 
         </ul>
       </section>
       <div className={styles.ingredients}>
-        <section className="mb-10">
-          <h2 className="text text_type_main-medium mb-6">Булки</h2>
-          <ul className={styles.ingredients_list}>
-            {buns.map((bun) => <li key={bun._id}><BurgerIngredient {...bun} /></li>)}
-          </ul>
-        </section>
-        <section className="mb-10">
-          <h2 className="text text_type_main-medium mb-6">Соусы</h2>
-          <ul className={styles.ingredients_list}>
-            {sauces.map((sauce) => <li key={sauce._id}><BurgerIngredient {...sauce} /></li>)}
-          </ul>
-        </section>
-        <section className="mb-10">
-          <h2 className="text text_type_main-medium mb-6">Начинки</h2>
-          <ul className={styles.ingredients_list}>
-            {mains.map((main) => <li key={main._id}><BurgerIngredient {...main} /></li>)}
-          </ul>
-        </section>
+        <BurgerIngredientsPartition title="Булки" ingredients={buns} />
+        <BurgerIngredientsPartition title="Соусы" ingredients={sauces} />
+        <BurgerIngredientsPartition title="Начинки" ingredients={mains} />
       </div>
     </article>
   );

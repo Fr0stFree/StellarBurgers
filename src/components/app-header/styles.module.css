@@ -12,13 +12,14 @@
 .nav_list {
   display: flex;
   list-style: none;
+  position: relative;
 }
 
 .logo {
   position: absolute;
-  top: 44px;
   left: 50%;
   transform: translateX(-50%);
+  top: -12px;
 }
 
 .nav_item_pushed {
