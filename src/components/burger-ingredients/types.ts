@@ -1,4 +1,4 @@
-import { type IIngredient } from "../../services/ingredients";
+import { type IIngredient } from "../../services/ingredients/types";
 
 export interface IMemoizedIngredients {
   buns: IIngredient[];

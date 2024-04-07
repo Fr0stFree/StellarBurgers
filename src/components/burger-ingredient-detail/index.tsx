@@ -1,6 +1,6 @@
 import { FC } from "react";
 
-import { type IIngredient } from "../../services/ingredients";
+import { type IIngredient } from "../../services/ingredients/types";
 import styles from "./styles.module.css";
 
 type BurgerIngredientDetailProps = {

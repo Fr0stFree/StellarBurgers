@@ -1,18 +1,22 @@
-import React, { FC } from 'react';
+import React, {FC, useMemo} from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 
 import BurgerIngredientsPartition from "../burger-ingredients-partition";
-import { type IIngredient } from '../../services/ingredients';
 import styles from './styles.module.css';
+import { type IMemoizedIngredients } from "./types";
+import { useAppSelector } from "../../hooks";
 
-type BurgerIngredientsProps = {
-  buns: IIngredient[];
-  sauces: IIngredient[];
-  mains: IIngredient[];
-};
-
-const BurgerIngredients: FC<BurgerIngredientsProps> = ({ buns, sauces, mains }) => {
+const BurgerIngredients: FC = () => {
   const [currentTab, setCurrentTab] = React.useState<Tab>('sauce')
+  const ingredients = useAppSelector(state => state.ingredients.all);
+
+  const { buns, sauces, mains } = useMemo<IMemoizedIngredients>(() => (
+    ingredients.reduce((accumulator, ingredient) => {
+      const mapping = {main: "mains", sauce: "sauces", bun: "buns"}
+      accumulator[mapping[ingredient.type]].push(ingredient);
+      return accumulator;
+    }, { buns: [], sauces: [], mains: [] })
+  ), [ingredients]);
 
   return (
     <article className="pt-10">

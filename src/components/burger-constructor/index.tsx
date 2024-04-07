@@ -1,30 +1,16 @@
-import React, {FC, ReactNode, useState} from 'react';
+import React, { FC } from 'react';
 import { CurrencyIcon, Button , DragIcon, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components'
 
-import { type IIngredient } from "../../services/ingredients";
+import { type IIngredient } from "../../services/ingredients/types";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 import styles from './styles.module.css';
-import Modal from "../modal";
-import BurgerIngredientDetail from "../burger-ingredient-detail";
-import OrderDetail from "../order-detail";
+import { viewOrder, previewIngredient } from "../../services/ingredients/slices";
 
-type BurgerConstructorProps = {
-  ingredients: IIngredient[];
-}
-
-type IModalState = {
-  isOpen: boolean;
-  children: ReactNode
-}
-
-const BurgerConstructor: FC<BurgerConstructorProps> = ({ ingredients }) => {
-  const [modalState, setModalState] = useState<IModalState>({ isOpen: false, children: null });
-  const handleIngredientClick = (ingredient: IIngredient) => (
-    setModalState({ isOpen: true, children: <BurgerIngredientDetail ingredient={ingredient} /> })
-  );
-  const handlePlaceOrderClick = () => (
-    setModalState({ isOpen: true, children: <OrderDetail orderId={Math.floor(Math.random() * 1000000)} /> })
-  );
-  const handleClose = () => setModalState({ isOpen: false, children: null });
+const BurgerConstructor: FC = () => {
+  const dispatch = useAppDispatch();
+  const ingredients = useAppSelector(state => state.ingredients.selected);
+  const handleIngredientClick = (ingredient: IIngredient) => dispatch(previewIngredient(ingredient));
+  const handlePlaceOrderClick = () => void dispatch(viewOrder({}));
 
   return (
     <>
@@ -57,9 +43,6 @@ const BurgerConstructor: FC<BurgerConstructorProps> = ({ ingredients }) => {
           <Button type="primary" size="medium" htmlType="button" onClick={handlePlaceOrderClick}>Оформить заказ</Button>
         </p>
       </section>
-      <Modal isOpen={modalState.isOpen} onClose={handleClose}>
-        {modalState.children}
-      </Modal>
     </>
   );
 }

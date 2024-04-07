@@ -1,19 +1,18 @@
-import React, {FC, useState} from 'react';
+import React, { FC } from 'react';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 
 import styles from './styles.module.css';
-import {IIngredient} from "../../services/ingredients";
-import Modal from "../modal";
-import BurgerIngredientDetail from "../burger-ingredient-detail";
+import { IIngredient } from "../../services/ingredients/types";
+import { useAppDispatch } from "../../hooks";
+import { previewIngredient } from "../../services/ingredients/slices";
 
 type BurgerIngredientProps = {
   ingredient: IIngredient;
 };
 
 const BurgerIngredient: FC<BurgerIngredientProps> = ({ ingredient }) => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const handleClick = () => setIsOpen(true);
-  const handleClose = () => setIsOpen(false);
+  const dispatch = useAppDispatch();
+  const handleClick = () => void dispatch(previewIngredient(ingredient));
 
   return (
     <>
@@ -25,10 +24,7 @@ const BurgerIngredient: FC<BurgerIngredientProps> = ({ ingredient }) => {
         </p>
         <p className="text text_type_main-small mb-6">{ingredient.name}</p>
       </div>
-      <Modal isOpen={isOpen} onClose={handleClose}>
-        <BurgerIngredientDetail ingredient={ingredient} />
-      </Modal>
-  </>
+    </>
   );
 }
 
