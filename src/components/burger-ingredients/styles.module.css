@@ -9,3 +9,6 @@
   list-style: none;
 }
 
+.article {
+  max-width: 600px;
+}

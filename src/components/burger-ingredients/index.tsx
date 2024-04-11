@@ -4,10 +4,15 @@ import { useInView } from "react-intersection-observer";
 
 import BurgerIngredientsPartition from "./components/burger-ingredients-partition";
 import styles from './styles.module.css';
-import { type IFilteredIngredients } from "./types";
 import { useAppSelector } from "../../hooks";
 import { IngredientType } from "../../services/constants";
 import { IIngredient } from "../../services/ingredients/types";
+
+type FilteredIngredients = {
+  [IngredientType.BUN]: IIngredient[];
+  [IngredientType.SAUCE]: IIngredient[];
+  [IngredientType.MAIN]: IIngredient[];
+}
 
 const BurgerIngredients: FC = () => {
   const ingredients = useAppSelector(state => state.ingredients.all);
@@ -17,7 +22,7 @@ const BurgerIngredients: FC = () => {
   const [mainsRef, , mainsEntry] = useInView({onChange: (inView) => inView && setCurrentTab(IngredientType.MAIN) });
 
   const filteredIngredients = useMemo(() => (
-    ingredients.reduce((accumulator: IFilteredIngredients, ingredient: IIngredient) => {
+    ingredients.reduce((accumulator: FilteredIngredients, ingredient: IIngredient) => {
       accumulator[ingredient.type].push(ingredient);
       return accumulator;
     }, { [IngredientType.MAIN]: [], [IngredientType.SAUCE]: [], [IngredientType.BUN]: [] })
@@ -29,7 +34,7 @@ const BurgerIngredients: FC = () => {
   }
 
   return (
-    <article className="pt-10">
+    <article className={`${styles.article} pt-10`}>
       <section className="mb-10">
         <h1 className="text text_type_main-large mb-5">Соберите бургер</h1>
         <ul className={styles.ingredients_tab}>

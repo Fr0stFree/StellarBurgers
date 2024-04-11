@@ -1,6 +1,6 @@
-import {createSlice, type PayloadAction} from '@reduxjs/toolkit';
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
-import {type IIngredient, IOrder, ISelectedIngredient} from "./types";
+import { type IIngredient, IOrder, ISelectedIngredient } from "./types";
 import { IngredientType } from "../constants";
 
 type OpenedModal = {
@@ -63,17 +63,18 @@ const ingredientsSlice = createSlice({
     addIngredient(state, action: PayloadAction<IIngredient>) {
       let result: IIngredient[] = [...state.selected];
       if (action.payload.type === IngredientType.BUN) {
-        result = result.filter(ingredient => ingredient.type !== IngredientType.BUN);
+        result = result.filter(ingredient => ingredient.type !== IngredientType.BUN)
         result.unshift(action.payload);
         result.push(action.payload);
       } else {
-        const firstBunIndex = state.selected.findIndex(ingredient => ingredient.type === IngredientType.BUN);
-        result.splice(firstBunIndex + 1, 0, action.payload);
+        result[0]?.type === IngredientType.BUN ? result.splice(1, 0, action.payload) : result.unshift(action.payload);
       }
       state.selected = result.map((ingredient, index) => ({ ...ingredient, index }));
     },
-    removeIngredient(state, action: PayloadAction<IIngredient>) {
-      state.selected.splice(state.selected.findIndex(ingredient => ingredient._id === action.payload._id), 1);
+    removeIngredient(state, action: PayloadAction<ISelectedIngredient>) {
+      const result =  [...state.selected];
+      result.splice(action.payload.index, 1);
+      state.selected = result.map((ingredient, index) => ({ ...ingredient, index }));
     },
     moveIngredient(state, action: PayloadAction<{ dragIndex: number, hoverIndex: number }>) {
       const result = [...state.selected];

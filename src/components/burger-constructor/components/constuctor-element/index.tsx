@@ -1,58 +1,56 @@
-import React, {FC, useRef} from "react"
+import React, { FC, useRef } from "react"
+import { useDrag, useDrop } from "react-dnd";
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import {useDrag, useDrop} from "react-dnd";
+
 import styles from "./styles.module.css";
-import { type IIngredient, type ISelectedIngredient } from "../../../../services/ingredients/types";
-import {moveIngredient, removeIngredient} from "../../../../services/ingredients/slices";
+import { type ISelectedIngredient } from "../../../../services/ingredients/types";
+import { moveIngredient, removeIngredient } from "../../../../services/ingredients/slices";
 import { useAppDispatch } from "../../../../hooks";
-import {DraggableType, IngredientType} from "../../../../services/constants";
+import { DraggableType, IngredientType } from "../../../../services/constants";
 
 type ConstructorIngredientProps = {
-  type?: 'top' | 'bottom';
   ingredient: ISelectedIngredient;
+  position?: 'bottom' | 'top';
 }
 
-const ConstructorIngredient: FC<ConstructorIngredientProps> = ({ingredient, type }) => {
+const ConstructorIngredient: FC<ConstructorIngredientProps> = ({ingredient, position}) => {
   const dispatch = useAppDispatch();
-  const handleRemoveIngredient = (ingredient: IIngredient) => dispatch(removeIngredient(ingredient));
+  const handleRemoveIngredient = (ingredient: ISelectedIngredient) => dispatch(removeIngredient(ingredient));
   const ref = useRef<HTMLDivElement>(null)
 
   const [,drop] = useDrop({
     accept: DraggableType.SELECTED_INGREDIENT,
-    hover(item: ISelectedIngredient, monitor) {
+    hover(dragItem: {index: number, type: IngredientType}, monitor) {
       if (!ref.current) return;
-      const dragIndex = item.index;
-      const hoverIndex = ingredient.index;
+      if (dragItem.index === ingredient.index) return;
 
-      if (dragIndex === hoverIndex) return;
       const hoverBoundingRect = ref.current?.getBoundingClientRect();
       const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
       const clientOffset = monitor.getClientOffset();
       const hoverClientY = clientOffset!.y - hoverBoundingRect.top;
-      if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) return;
-      if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) return;
-      item.index = hoverIndex
-      dispatch(moveIngredient({ dragIndex, hoverIndex }))
+
+      if (ingredient.type === IngredientType.BUN) return;
+      if (dragItem.index < ingredient.index && hoverClientY < hoverMiddleY) return;
+      if (dragItem.index > ingredient.index && hoverClientY > hoverMiddleY) return;
+
+      dispatch(moveIngredient({ dragIndex: dragItem.index, hoverIndex: ingredient.index }));
+      dragItem.index = ingredient.index;
     },
   })
-
-  const [{ isDragging }, drag] = useDrag({
+  const [, drag] = useDrag({
     type: DraggableType.SELECTED_INGREDIENT,
-    item: () => ({ ingredient, index: ingredient.index }),
-    collect: (monitor: any) => ({
-      isDragging: monitor.isDragging(),
-    }),
+    item: { type: ingredient.type, index: ingredient.index },
   })
 
   drag(drop(ref))
 
   return (
-    <div className={styles.item} ref={ref} style={{ opacity: isDragging ? 0 : 1 }}>
-      { type ? <div className="ml-6"></div> : <div className={styles.drag_icon} ><DragIcon type="primary" /></div>}
+    <div className={styles.item} ref={ingredient.type !== IngredientType.BUN ? ref : undefined}>
+      { ingredient.type === IngredientType.BUN ? <div className="ml-6"></div> : <div className={styles.drag_icon} ><DragIcon type="primary" /></div>}
       <ConstructorElement price={ingredient.price}
                           text={ingredient.name}
                           thumbnail={ingredient.image}
-                          type={type}
+                          type={position}
                           isLocked={ingredient.type === IngredientType.BUN}
                           handleClose={() => handleRemoveIngredient(ingredient)}
       />

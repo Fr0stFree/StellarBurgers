@@ -5,7 +5,7 @@ import { useDrop } from "react-dnd";
 import { type IIngredient } from "../../services/ingredients/types";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { addIngredient } from "../../services/ingredients/slices";
-import { DraggableType, IngredientType } from "../../services/constants";
+import { DraggableType } from "../../services/constants";
 import { thunkMakeOrder } from "../../services/ingredients/thunks";
 import styles from './styles.module.css';
 import ConstructorIngredient from "./components/constuctor-element";
@@ -31,18 +31,17 @@ const BurgerConstructor: FC = () => {
 
   const orderPrice = useMemo(() => ingredients.reduce((accumulator, ingredient) => accumulator + ingredient.price, 0), [ingredients]);
 
-
   return (
     <>
       <section className="mt-25 mr-4 ml-4" ref={newIngredientDropzone} style={isNewIngredientHovered ? hoveredStyles : {}}>
         <ul className={`${styles.list} mb-10`}>
           {ingredients.map((ingredient) => (
             <li key={ingredient._id + ingredient.index} className={styles.item}>
-              <ConstructorIngredient type={ingredient.index === 0 ? 'top' : ingredient.index === ingredients.length - 1 ? 'bottom' : undefined}
-                                     ingredient={ingredient} />
+              <ConstructorIngredient ingredient={ingredient}
+                                     position={ingredient.index === 0 ? 'top' : ingredient.index === ingredients.length - 1 ? 'bottom' : undefined}
+              />
             </li>
-            )
-          )}
+          ))}
         </ul>
         <p className={styles.order}>
           <div className="mr-10">

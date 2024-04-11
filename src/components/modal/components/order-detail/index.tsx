@@ -2,7 +2,7 @@ import { FC } from "react";
 
 import styles from './styles.module.css';
 import orderDoneImage from '../../../../images/order-done.svg';
-import {IOrder} from "../../../../services/ingredients/types";
+import { IOrder } from "../../../../services/ingredients/types";
 
 type OrderDetailProps = {
   order: IOrder;

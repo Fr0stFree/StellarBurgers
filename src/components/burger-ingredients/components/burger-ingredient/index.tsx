@@ -12,6 +12,12 @@ type BurgerIngredientProps = {
   ingredient: IIngredient;
 };
 
+const draggingStyles = {
+  boxShadow: '0 0 15px -3px #8585AD',
+  borderRadius: '18px',
+  transition: 'box-shadow .4s',
+}
+
 const BurgerIngredient: FC<BurgerIngredientProps> = ({ ingredient }) => {
   const dispatch = useAppDispatch();
   const handleClick = () => void dispatch(previewIngredient(ingredient));
@@ -22,11 +28,7 @@ const BurgerIngredient: FC<BurgerIngredientProps> = ({ ingredient }) => {
       isDragging: monitor.isDragging(),
     }),
   }));
-  const draggingStyles = {
-    boxShadow: '0 0 15px -3px #8585AD',
-    borderRadius: '18px',
-    transition: 'box-shadow .4s',
-  }
+
   return (
     <>
       <div className={styles.ingredient} onClick={handleClick} ref={dragRef} style={isDragging ? draggingStyles : {}}>
