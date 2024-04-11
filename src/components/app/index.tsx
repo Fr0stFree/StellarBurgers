@@ -10,7 +10,7 @@ import Modal from "../modal";
 
 const App: FC = () => {
   const dispatch = useAppDispatch();
-  useEffect<() => void>(() => void dispatch(thunkLoadIngredients()), [dispatch]);
+  useEffect(() => void dispatch(thunkLoadIngredients()), [dispatch]);
 
   return (
     <>

@@ -7,7 +7,7 @@ type NavItemProps = {
   children: ReactNode;
 } & ComponentPropsWithoutRef<'a'>
 
-const NavLink: FC = ({ text, children, ...props}: NavItemProps) => {
+const NavLink: FC<NavItemProps> = ({ text, children, ...props}) => {
   return (
     <a className={styles.link} {...props}>
       {children}
