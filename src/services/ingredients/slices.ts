@@ -1,105 +1,102 @@
-import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import {createAsyncThunk, createSlice, type PayloadAction} from '@reduxjs/toolkit';
+import {v4 as uuid4} from 'uuid';
 
-import { type IIngredient, IOrder, ISelectedIngredient } from "./types";
-import { IngredientType } from "../constants";
-
-type OpenedModal = {
-  isOpen: true;
-  contentType: 'ingredient' | 'order';
-}
-type ClosedModal = {
-  isOpen: false;
-}
+import {type IIngredient, ISelectedIngredient} from "./types.ts";
+import {IngredientType} from "../constants.ts";
+import ingredientsApi from "./api.ts";
+import {makeOrder} from "../orders/slices.ts";
 
 interface IngredientsState {
   all: IIngredient[],
   selected: ISelectedIngredient[],
   previewed: IIngredient | null,
-  ingredientsLoading: 'idle' | 'pending' | 'succeeded' | 'failed',
-  orderLoading: 'idle' | 'pending' | 'succeeded' | 'failed',
-  order: IOrder | null,
-  modal: OpenedModal | ClosedModal,
+  getIngredientsRequestStatus: 'idle' | 'pending' | 'succeeded' | 'failed',
 }
 
 const initialState: IngredientsState = {
   all: [],
   selected: [],
   previewed: null,
-  ingredientsLoading: 'idle',
-  orderLoading: 'idle',
-  order: null,
-  modal: { isOpen: false },
+  getIngredientsRequestStatus: 'idle',
 };
 
 const ingredientsSlice = createSlice({
   name: 'ingredients',
   initialState,
   reducers: {
-    ingredientsLoading(state) {
-      state.ingredientsLoading = 'pending';
-    },
-    ingredientsLoadingSuccess(state, action: PayloadAction<IIngredient[]>) {
-      state.ingredientsLoading = 'succeeded';
-      state.all = action.payload;
-    },
-    ingredientsLoadingFail(state) {
-      state.ingredientsLoading = 'failed';
-    },
-    orderLoading(state) {
-      state.orderLoading = 'pending';
-    },
-    orderLoadingSuccess(state, action: PayloadAction<IOrder>) {
-      state.orderLoading = 'succeeded';
-      state.order = action.payload;
-      state.modal = { isOpen: true, contentType: 'order' };
-    },
-    orderLoadingFail(state) {
-      state.orderLoading = 'failed';
-    },
     previewIngredient(state, action: PayloadAction<IIngredient>) {
       state.previewed = action.payload;
-      state.modal = { isOpen: true, contentType: 'ingredient' };
     },
-    addIngredient(state, action: PayloadAction<IIngredient>) {
-      let result: IIngredient[] = [...state.selected];
-      if (action.payload.type === IngredientType.BUN) {
-        result = result.filter(ingredient => ingredient.type !== IngredientType.BUN)
-        result.unshift(action.payload);
-        result.push(action.payload);
-      } else {
-        result[0]?.type === IngredientType.BUN ? result.splice(1, 0, action.payload) : result.unshift(action.payload);
-      }
-      state.selected = result.map((ingredient, index) => ({ ...ingredient, index }));
+    hidePreviewedIngredient(state) {
+      state.previewed = null;
     },
-    removeIngredient(state, action: PayloadAction<ISelectedIngredient>) {
-      const result =  [...state.selected];
-      result.splice(action.payload.index, 1);
-      state.selected = result.map((ingredient, index) => ({ ...ingredient, index }));
+    addBuns: {
+      reducer: (state, action: PayloadAction<ISelectedIngredient[]>) => {
+        state.selected = [
+          action.payload[0],
+          ...state.selected.filter((ingredient) => ingredient.type !== IngredientType.BUN),
+          action.payload[1],
+        ];
+      },
+      prepare: (ingredient: IIngredient) => ({payload: [{...ingredient, uuid: uuid4()}, {...ingredient, uuid: uuid4()}]}),
+    },
+    addIngredient: {
+      reducer: (state, action: PayloadAction<ISelectedIngredient>) => {
+        const isBunAdded = state.selected.some(ingredient => ingredient.type === IngredientType.BUN);
+        isBunAdded ? state.selected.splice(-1, 0, action.payload) : state.selected.push(action.payload);
+      },
+      prepare: (ingredient: IIngredient) => ({payload: {...ingredient, uuid: uuid4()}}),
+    },
+    removeIngredient(state, action: PayloadAction<number>) {
+      state.selected.splice(action.payload, 1)
     },
     moveIngredient(state, action: PayloadAction<{ dragIndex: number, hoverIndex: number }>) {
-      const result = [...state.selected];
-      const [draggedIngredient] = result.splice(action.payload.dragIndex, 1);
-      result.splice(action.payload.hoverIndex, 0, draggedIngredient);
-      state.selected = result.map((ingredient, index) => ({ ...ingredient, index }));
+      const {dragIndex, hoverIndex} = action.payload;
+      const dragIngredient = state.selected[dragIndex];
+      state.selected.splice(dragIndex, 1);
+      state.selected.splice(hoverIndex, 0, dragIngredient);
     },
-    closeModal(state) {
-      state.modal = { isOpen: false };
-    },
+    stopIngredientsLoading(state) {
+      state.getIngredientsRequestStatus = 'idle';
+    }
   },
+  extraReducers: (builder) => {
+    builder.addCase(getIngredients.pending, (state) => {
+      state.getIngredientsRequestStatus = 'pending';
+    });
+    builder.addCase(getIngredients.fulfilled, (state, action) => {
+      state.getIngredientsRequestStatus = 'succeeded';
+      state.all = action.payload;
+    });
+    builder.addCase(getIngredients.rejected, (state) => {
+      state.getIngredientsRequestStatus = 'failed';
+    });
+    builder.addCase(makeOrder.fulfilled, (state) => {
+      state.selected = [];
+    });
+  }
 });
 
+export const getIngredients = createAsyncThunk(
+  'ingredients/getIngredients',
+  async (_, thunkAPI) => {
+    try {
+      return await ingredientsApi.getIngredients();
+    } catch (error) {
+      console.error(error);
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 export const {
-  ingredientsLoading,
-  ingredientsLoadingSuccess,
-  ingredientsLoadingFail,
-  orderLoading,
-  orderLoadingSuccess,
-  orderLoadingFail,
   addIngredient,
+  addBuns,
   previewIngredient,
+  hidePreviewedIngredient,
   removeIngredient,
   moveIngredient,
-  closeModal,
+  stopIngredientsLoading,
 } = ingredientsSlice.actions;
 
 export default ingredientsSlice.reducer;

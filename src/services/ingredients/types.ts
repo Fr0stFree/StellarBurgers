@@ -1,4 +1,4 @@
-import { IngredientType } from "../constants";
+import {IngredientType} from "../constants.ts";
 
 export interface IIngredient {
   _id: string;
@@ -16,12 +16,5 @@ export interface IIngredient {
 }
 
 export interface ISelectedIngredient extends IIngredient {
-  index: number;
-}
-
-export interface IOrder {
-  name: string;
-  order: {
-    number: number;
-  };
+  uuid: string;
 }
