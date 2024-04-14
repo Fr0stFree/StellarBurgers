@@ -1,6 +1,7 @@
 import React, {FC} from 'react';
 import {CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import {useDrag} from "react-dnd";
+import {motion} from "framer-motion";
 
 import {IIngredient} from "../../../../services/ingredients/types.ts";
 import {useAppDispatch, useAppSelector} from "../../../../hooks";
@@ -11,12 +12,6 @@ import styles from './styles.module.css';
 type BurgerIngredientProps = {
   ingredient: IIngredient;
 };
-
-const draggingStyles = {
-  boxShadow: '0 0 15px -3px #8585AD',
-  borderRadius: '18px',
-  transition: 'box-shadow .4s',
-}
 
 const BurgerIngredient: FC<BurgerIngredientProps> = ({ingredient}) => {
   const dispatch = useAppDispatch();
@@ -33,7 +28,12 @@ const BurgerIngredient: FC<BurgerIngredientProps> = ({ingredient}) => {
   const amount = useAppSelector(state => state.ingredients.selected.reduce((acc, item) => item._id === ingredient._id ? acc + 1 : acc, 0));
   return (
     <>
-      <div className={styles.ingredient} onClick={handleClick} ref={dragRef} style={isDragging ? draggingStyles : {}}>
+      <motion.div className={styles.ingredient}
+                  onClick={handleClick}
+                  ref={dragRef}
+                  whileHover={{opacity: 1, scale: 1.01}}
+                  transition={{duration: .2}}
+      >
         {amount ? <span className={`${styles.amount} text text_type_digits-small`}>{amount}</span> : null}
         <img src={ingredient.image} alt={ingredient.name} className="mb-1"/>
         <p className={`${styles.description} mb-1`}>
@@ -41,7 +41,7 @@ const BurgerIngredient: FC<BurgerIngredientProps> = ({ingredient}) => {
           <CurrencyIcon type="primary"/>
         </p>
         <p className="text text_type_main-small mb-6">{ingredient.name}</p>
-      </div>
+      </motion.div>
     </>
   );
 }

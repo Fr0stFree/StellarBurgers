@@ -4,18 +4,12 @@ import AppHeader from '../app-header/app-header.tsx';
 import BurgerConstructor from '../burger-constructor/burger-constructor.tsx';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients.tsx';
 import styles from './styles.module.css';
-import {useAppDispatch, useAppSelector} from "../../hooks";
-import {stopIngredientsLoading} from "../../services/ingredients/slices";
-import Tooltip from "../tooltip/tooltip.tsx";
+import {useAppDispatch} from "../../hooks";
 import {getIngredients} from "../../services/ingredients/thunks.ts";
 
 const App: FC = () => {
   const dispatch = useAppDispatch();
   useEffect(() => void dispatch(getIngredients()), [dispatch]);
-
-  const handleCloseTooltip = () => dispatch(stopIngredientsLoading());
-
-  const requestStatus = useAppSelector(state => state.ingredients.getIngredientsRequestStatus);
 
   return (
     <>
@@ -26,8 +20,6 @@ const App: FC = () => {
           <BurgerConstructor/>
         </main>
       </div>
-      {requestStatus === 'pending' && <Tooltip text="Загрузка ингредиентов" onClose={handleCloseTooltip} showLoading />}
-      {requestStatus === 'failed' && <Tooltip text="Ошибка загрузки ингредиентов" onClose={handleCloseTooltip} />}
     </>
   );
 }

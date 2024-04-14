@@ -13,3 +13,10 @@
   max-width: 50vw;
   min-width: 35vw;
 }
+
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 50vh;
+}

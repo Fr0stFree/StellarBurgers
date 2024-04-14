@@ -1,6 +1,8 @@
 import React, {FC} from "react";
+import {motion} from "framer-motion";
 
 import styles from './styles.module.css';
+
 
 type ModalOverlayProps = {
   children: React.ReactNode;
@@ -9,9 +11,15 @@ type ModalOverlayProps = {
 
 const ModalOverlay: FC<ModalOverlayProps> = ({children, onClick}) => {
   return (
-    <div className={styles.overlay} onClick={onClick}>
+    <motion.div className={styles.overlay}
+                onClick={onClick}
+                initial={{backgroundColor: 'rgba(0, 0, 0, 0)'}}
+                animate={{backgroundColor: 'rgba(0, 0, 0, 0.8)'}}
+                exit={{backgroundColor: 'rgba(0, 0, 0, 0)'}}
+                transition={{duration: 0.3}}
+    >
       {children}
-    </div>
+    </motion.div>
   )
 }
 

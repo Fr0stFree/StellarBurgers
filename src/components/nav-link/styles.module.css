@@ -5,10 +5,5 @@
   column-gap: 8px;
   text-decoration: none;
   color: #F2F2F3;
-  transition: opacity .7s;
   cursor: pointer;
-}
-
-.link:hover {
-  opacity: 0.6;
 }

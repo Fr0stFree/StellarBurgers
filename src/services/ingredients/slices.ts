@@ -50,13 +50,10 @@ const ingredientsSlice = createSlice({
     removeIngredient(state, action: PayloadAction<number>) {
       state.selected.splice(action.payload, 1)
     },
-    moveIngredient(state, action: PayloadAction<{ dragIndex: number, hoverIndex: number }>) {
-      const {dragIndex, hoverIndex} = action.payload;
-      const dragIngredient = state.selected[dragIndex];
-      state.selected.splice(dragIndex, 1);
-      state.selected.splice(hoverIndex, 0, dragIngredient);
+    reorderIngredients(state, action: PayloadAction<ISelectedIngredient[]>) {
+      state.selected = action.payload;
     },
-    stopIngredientsLoading(state) {
+    hideIngredientsLoadingError(state) {
       state.getIngredientsRequestStatus = 'idle';
     }
   },
@@ -83,8 +80,8 @@ export const {
   previewIngredient,
   hidePreviewedIngredient,
   removeIngredient,
-  moveIngredient,
-  stopIngredientsLoading,
+  reorderIngredients,
+  hideIngredientsLoadingError,
 } = ingredientsSlice.actions;
 
 export default ingredientsSlice.reducer;

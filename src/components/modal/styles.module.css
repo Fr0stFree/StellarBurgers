@@ -28,10 +28,4 @@
   cursor: pointer;
   background-color: transparent;
   border: none;
-  opacity: 1;
-  transition: opacity .4s;
-}
-
-.close_button:hover {
-  opacity: .6;
 }

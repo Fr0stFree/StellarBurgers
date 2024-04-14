@@ -1,8 +1,10 @@
 import React, {FC, useEffect} from 'react';
 import {CloseIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {createPortal} from "react-dom";
-import ModalOverlay from "./components/modal-overlay/modal-overlay";
+import {AnimatePresence} from "framer-motion";
+import {motion} from "framer-motion";
 
+import ModalOverlay from "./components/modal-overlay/modal-overlay";
 import styles from './styles.module.css';
 
 type ModalProps = {
@@ -19,12 +21,18 @@ const Modal: FC<ModalProps> = ({children, onClose}) => {
 
   return createPortal(
     <ModalOverlay onClick={onClose}>
-      <div className={styles.modal} onClick={e => e.stopPropagation()}>
-        <button className={styles.close_button} onClick={onClose}>
+      <motion.div className={styles.modal}
+                  onClick={e => e.stopPropagation()}
+                  initial={{opacity: 0}}
+                  animate={{opacity: 1}}
+                  exit={{opacity: 0}}
+                  transition={{duration: 0.3, ease: 'easeOut'}}
+      >
+        <motion.button className={styles.close_button} onClick={onClose} whileHover={{opacity: .7}}>
           <CloseIcon type="primary"/>
-        </button>
+        </motion.button>
         {children}
-      </div>
+      </motion.div>
     </ModalOverlay>,
     document.getElementById('modal-root')!,
   );

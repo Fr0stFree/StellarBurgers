@@ -5,6 +5,7 @@ export const getIngredients = createAsyncThunk(
   'ingredients/getIngredients',
   async (_, thunkAPI) => {
     try {
+      await new Promise(resolve => setTimeout(resolve, 500));
       return await backendApi.getIngredients();
     } catch (error) {
       console.error(error);

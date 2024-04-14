@@ -3,14 +3,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  cursor: pointer;
-  opacity: .75;
-  transition: opacity 0.4s;
+  cursor: grab;
   position: relative;
-}
-
-.ingredient:hover {
-  opacity: 1;
+  opacity: .8;
 }
 
 .description {
