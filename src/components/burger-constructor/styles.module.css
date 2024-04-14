@@ -8,29 +8,13 @@
   max-height: 58vh;
 }
 
-.item {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  column-gap: 8px;
-}
-
 .order {
   display: flex;
   align-items: center;
   justify-content: flex-end;
 }
 
-.constructor_element_wrapper {
-  cursor: pointer;
-  opacity: 1;
-  transition: opacity 0.4s;
-}
-
-.constructor_element_wrapper:hover {
-  opacity: 0.8;
-}
-
-.constructor_element_drag {
-  cursor: grab;
+.content {
+  max-width: 50vw;
+  min-width: 35vw;
 }

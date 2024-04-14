@@ -1,8 +1,8 @@
-import React, { FC } from 'react';
-import { Logo, ProfileIcon, ListIcon, BurgerIcon } from '@ya.praktikum/react-developer-burger-ui-components'
+import React, {FC} from 'react';
+import {BurgerIcon, ListIcon, Logo, ProfileIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 
 import styles from './styles.module.css';
-import NavLink from "../nav-link";
+import NavLink from "../nav-link/nav-link.tsx";
 
 const AppHeader: FC = () => {
   return (
