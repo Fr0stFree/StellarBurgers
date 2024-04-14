@@ -1,6 +1,6 @@
-import {DEFAULT_REQUEST_TIMEOUT} from "./constants.ts";
+import {DEFAULT_REQUEST_TIMEOUT} from "../constants.ts";
 
-class BaseAPI {
+class BaseApi {
   protected readonly baseUrl: string;
 
   constructor(baseUrl: string) {
@@ -25,13 +25,13 @@ class BaseAPI {
     return obj;
   }
 
-  protected async makeRequest(url: string, options: RequestInit) {
+  protected async makeRequest(relativeUrl: string, options: RequestInit) {
     options.signal = options.signal || AbortSignal.timeout(DEFAULT_REQUEST_TIMEOUT);
-    const response = await fetch(url, options);
+    const response = await fetch(`${this.baseUrl}/${relativeUrl}`, options);
     this.checkResponse(response);
     const data = await response.json();
     return this.checkSuccess(data);
   }
 }
 
-export default BaseAPI;
+export default BaseApi;

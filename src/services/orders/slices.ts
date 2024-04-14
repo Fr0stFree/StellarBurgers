@@ -1,7 +1,7 @@
-import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
+import {createSlice} from '@reduxjs/toolkit';
 
 import {IOrder} from "./types";
-import ordersAPI from "./api.ts";
+import {makeOrder} from "./thunks.ts";
 
 interface OrdersState {
   makeOrderRequestStatus: 'idle' | 'pending' | 'succeeded' | 'failed',
@@ -34,19 +34,6 @@ const ordersSlice = createSlice({
     });
   }
 });
-
-
-export const makeOrder = createAsyncThunk(
-  'orders/makeOrder',
-  async (ingredientIds: string[], thunkAPI) => {
-    try {
-      return await ordersAPI.sendOrder(ingredientIds);
-    } catch (error) {
-      console.error(error);
-      return thunkAPI.rejectWithValue(error)
-    }
-  }
-);
 
 export default ordersSlice.reducer;
 

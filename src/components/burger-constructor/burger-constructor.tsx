@@ -5,13 +5,14 @@ import {useDrop} from "react-dnd";
 import {type IIngredient} from "../../services/ingredients/types.ts";
 import {useAppDispatch, useAppSelector} from "../../hooks";
 import {addBuns, addIngredient} from "../../services/ingredients/slices.ts";
-import {hideOrder, makeOrder} from "../../services/orders/slices";
+import {hideOrder} from "../../services/orders/slices";
 import {DraggableType, IngredientType} from "../../services/constants";
 import ConstructorIngredient from "./components/constuctor-element/constructor-element.tsx";
 import Modal from "../modal/modal.tsx";
 import OrderDetails from "../order-details/order-details.tsx";
 import styles from './styles.module.css';
 import Tooltip from "../tooltip/tooltip.tsx";
+import {makeOrder} from "../../services/orders/thunks.ts";
 
 const hoveredStyles = {
   boxShadow: '0 0 15px 5px #8585AD',

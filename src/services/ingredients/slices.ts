@@ -1,10 +1,10 @@
-import {createAsyncThunk, createSlice, type PayloadAction} from '@reduxjs/toolkit';
+import {createSlice, type PayloadAction} from '@reduxjs/toolkit';
 import {v4 as uuid4} from 'uuid';
 
 import {type IIngredient, ISelectedIngredient} from "./types.ts";
 import {IngredientType} from "../constants.ts";
-import ingredientsApi from "./api.ts";
-import {makeOrder} from "../orders/slices.ts";
+import {makeOrder} from "../orders/thunks.ts";
+import {getIngredients} from "./thunks.ts";
 
 interface IngredientsState {
   all: IIngredient[],
@@ -76,18 +76,6 @@ const ingredientsSlice = createSlice({
     });
   }
 });
-
-export const getIngredients = createAsyncThunk(
-  'ingredients/getIngredients',
-  async (_, thunkAPI) => {
-    try {
-      return await ingredientsApi.getIngredients();
-    } catch (error) {
-      console.error(error);
-      return thunkAPI.rejectWithValue(error);
-    }
-  }
-);
 
 export const {
   addIngredient,

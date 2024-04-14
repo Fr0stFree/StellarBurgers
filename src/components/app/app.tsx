@@ -5,8 +5,9 @@ import BurgerConstructor from '../burger-constructor/burger-constructor.tsx';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients.tsx';
 import styles from './styles.module.css';
 import {useAppDispatch, useAppSelector} from "../../hooks";
-import {getIngredients, stopIngredientsLoading} from "../../services/ingredients/slices";
+import {stopIngredientsLoading} from "../../services/ingredients/slices";
 import Tooltip from "../tooltip/tooltip.tsx";
+import {getIngredients} from "../../services/ingredients/thunks.ts";
 
 const App: FC = () => {
   const dispatch = useAppDispatch();
@@ -25,8 +26,8 @@ const App: FC = () => {
           <BurgerConstructor/>
         </main>
       </div>
-      {requestStatus === 'pending' && <Tooltip text="Загрузка ингредиентов" onClose={handleCloseTooltip} showLoading/>}
-      {requestStatus === 'failed' && <Tooltip text="Ошибка загрузки ингредиентов" onClose={handleCloseTooltip}/>}
+      {requestStatus === 'pending' && <Tooltip text="Загрузка ингредиентов" onClose={handleCloseTooltip} showLoading />}
+      {requestStatus === 'failed' && <Tooltip text="Ошибка загрузки ингредиентов" onClose={handleCloseTooltip} />}
     </>
   );
 }
