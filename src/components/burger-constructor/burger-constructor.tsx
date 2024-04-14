@@ -38,6 +38,13 @@ const BurgerConstructor: FC = () => {
   const orderPrice = useMemo(() => ingredients.reduce((accumulator, ingredient) => accumulator + ingredient.price, 0), [ingredients]);
   const isOrderValid = useMemo(() => ingredients.some(ingredient => ingredient.type === IngredientType.BUN), [ingredients]);
   const handleReorder = (items: ISelectedIngredient[]) => dispatch(reorderIngredients(items));
+  const handleInvalidOrder = (items: ISelectedIngredient[]) => {
+    const buns = items.filter(ingredient => ingredient.type === IngredientType.BUN);
+    if (!buns.length) return;
+    if (items[0].type === IngredientType.BUN && items[1].type === IngredientType.BUN) return;
+    const correctOrder = [buns[0], ...items.filter(ingredient => ingredient.type !== IngredientType.BUN), buns[1]];
+    return dispatch(reorderIngredients(correctOrder));
+  }
   return (
     <>
       <motion.section className={`${styles.content} mt-25 mr-4 ml-4`}
@@ -46,22 +53,16 @@ const BurgerConstructor: FC = () => {
                       animate={{boxShadow: isNewIngredientHovered ? '0 0 35px 5px #8585AD' : '0 0 0 0 rgba(0, 0, 0, 0)'}}
                       transition={{duration: 0.05}}
       >
-        <AnimatePresence>
-          <Reorder.Group onReorder={handleReorder} values={ingredients} axis="y" className={`${styles.list} mb-10`}>
-          {ingredients.map((ingredient, index) => (
-            <Reorder.Item key={ingredient.uuid}
-                          className={styles.item}
-                          value={ingredient}
-                          dragListener={ingredient.type !== IngredientType.BUN}
-            >
-              <ConstructorIngredient ingredient={ingredient}
-                                     index={index}
-                                     position={index === 0 ? 'top' : index === ingredients.length - 1 ? 'bottom' : undefined}
-              />
-            </Reorder.Item>
-          ))}
-          </Reorder.Group>
-        </AnimatePresence>
+        <Reorder.Group onReorder={handleReorder} values={ingredients} axis="y" className={`${styles.list} mb-10`}>
+        {ingredients.map((ingredient, index) => (
+          <ConstructorIngredient ingredient={ingredient}
+                                 key={ingredient.uuid}
+                                 index={index}
+                                 onReorderEnd={() => handleInvalidOrder(ingredients)}
+                                 position={index === 0 ? 'top' : index === ingredients.length - 1 ? 'bottom' : undefined}
+          />
+        ))}
+        </Reorder.Group>
         <div className={styles.order}>
           <p className="mr-10">
             <span className="text text_type_digits-medium">{orderPrice}</span>

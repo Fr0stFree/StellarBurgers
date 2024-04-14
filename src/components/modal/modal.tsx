@@ -1,7 +1,6 @@
 import React, {FC, useEffect} from 'react';
 import {CloseIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {createPortal} from "react-dom";
-import {AnimatePresence} from "framer-motion";
 import {motion} from "framer-motion";
 
 import ModalOverlay from "./components/modal-overlay/modal-overlay";
