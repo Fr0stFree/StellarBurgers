@@ -1,18 +1,18 @@
 import React, {FC, useMemo} from 'react';
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components'
 import {useInView} from "react-intersection-observer";
+import {TailSpin} from "react-loader-spinner";
+import {AnimatePresence} from "framer-motion";
 
-import BurgerIngredientsPartition from "./components/burger-ingredients-partition/burger-ingredients-partition.tsx";
 import styles from './styles.module.css';
+import {hideIngredientsLoadingError, hidePreviewedIngredient} from "../../services/ingredients/slices.ts";
 import {useAppDispatch, useAppSelector} from "../../hooks";
 import {IngredientType} from "../../services/constants";
 import {type IIngredient} from "../../services/ingredients/types.ts";
+import BurgerIngredientsPartition from "./components/burger-ingredients-partition/burger-ingredients-partition.tsx";
 import Modal from "../modal/modal.tsx";
 import IngredientDetails from "../ingredient-details/ingredient-details.tsx";
-import {hideIngredientsLoadingError, hidePreviewedIngredient} from "../../services/ingredients/slices.ts";
 import Tooltip from "../tooltip/tooltip.tsx";
-import {TailSpin} from "react-loader-spinner";
-import {AnimatePresence} from "framer-motion";
 
 type FilteredIngredients = {
   [IngredientType.BUN]: IIngredient[];
@@ -36,7 +36,7 @@ const BurgerIngredients: FC = () => {
     }, {[IngredientType.MAIN]: [], [IngredientType.SAUCE]: [], [IngredientType.BUN]: []})
   ), [ingredients]);
 
-  const handleTabClick = (tabName: IngredientType, entry: IntersectionObserverEntry) => {
+  const handleTabClick = (tabName: IngredientType, entry?: IntersectionObserverEntry) => {
     setCurrentTab(tabName);
     entry?.target.scrollIntoView({behavior: 'smooth', block: 'start'});
   };

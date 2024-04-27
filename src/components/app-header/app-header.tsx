@@ -2,7 +2,7 @@ import React, {FC} from 'react';
 import {BurgerIcon, ListIcon, Logo, ProfileIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 
 import styles from './styles.module.css';
-import NavLink from "../nav-link/nav-link.tsx";
+import HeaderLink from "./components/header-link/header-link.tsx";
 
 const AppHeader: FC = () => {
   return (
@@ -10,16 +10,16 @@ const AppHeader: FC = () => {
       <nav className={styles.nav}>
         <ul className={`${styles.nav_list} mt-4 mb-4`}>
           <li className="mr-5 ml-5">
-            <NavLink text={"Конструктор"}><BurgerIcon type="primary"/></NavLink>
+            <HeaderLink to="/" text="Конструктор" icon={BurgerIcon} />
           </li>
           <li className="mr-5 ml-5">
-            <NavLink text={"Лента заказов"}><ListIcon type="secondary"/></NavLink>
+            <HeaderLink to="/orders" text="Лента заказов" icon={ListIcon} />
           </li>
           <li className={styles.logo}>
-            <Logo/>
+            <Logo />
           </li>
           <li className={`${styles.nav_item_pushed} mr-5`}>
-            <NavLink text={"Профиль"}><ProfileIcon type="secondary"/></NavLink>
+            <HeaderLink to="/profile" text="Профиль" icon={ProfileIcon} />
           </li>
         </ul>
       </nav>
