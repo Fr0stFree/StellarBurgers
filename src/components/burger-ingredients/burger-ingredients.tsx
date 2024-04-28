@@ -43,6 +43,33 @@ const BurgerIngredients: FC = () => {
   const handleCloseModal = () => dispatch(hidePreviewedIngredient());
   const handleCloseTooltip = () => dispatch(hideIngredientsLoadingError());
 
+  let content = null;
+  switch (requestStatus) {
+    case 'failed':
+      content = <Modal onClose={handleCloseTooltip}><Tooltip text="Мужчина, вы что не видите, у нас обед."/></Modal>;
+      break;
+    case 'pending':
+      content = <div className={styles.loader}><TailSpin color="#4169E1" height={100} width={100}/></div>;
+      break;
+    case 'succeeded':
+      content = (
+        <div className={styles.ingredients}>
+          <li ref={bunsRef}>
+            <BurgerIngredientsPartition title="Булки" ingredients={filteredIngredients[IngredientType.BUN]}/>
+          </li>
+          <li ref={saucesRef}>
+            <BurgerIngredientsPartition title="Соусы" ingredients={filteredIngredients[IngredientType.SAUCE]}/>
+          </li>
+          <li ref={mainsRef}>
+            <BurgerIngredientsPartition title="Начинки" ingredients={filteredIngredients[IngredientType.MAIN]}/>
+          </li>
+        </div>
+      );
+      break;
+    case 'idle':
+      break;
+  }
+
   return (
     <>
       <article className={`${styles.content} pt-10`}>
@@ -73,23 +100,7 @@ const BurgerIngredients: FC = () => {
           </ul>
         </section>
         <section>
-        {requestStatus === 'pending' ? (
-          <div className={styles.loader}><TailSpin color="#4169E1" height={100} width={100}/></div>
-        ) : requestStatus === 'failed' ? (
-            <Modal onClose={handleCloseTooltip}><Tooltip text="Мужчина, вы что не видите, у нас обед."/></Modal>
-        ) : requestStatus === 'succeeded' ? (
-          <div className={styles.ingredients}>
-            <li ref={bunsRef}>
-              <BurgerIngredientsPartition title="Булки" ingredients={filteredIngredients[IngredientType.BUN]}/>
-            </li>
-            <li ref={saucesRef}>
-              <BurgerIngredientsPartition title="Соусы" ingredients={filteredIngredients[IngredientType.SAUCE]}/>
-            </li>
-            <li ref={mainsRef}>
-              <BurgerIngredientsPartition title="Начинки" ingredients={filteredIngredients[IngredientType.MAIN]}/>
-            </li>
-          </div>
-        ) : null}
+          {content}
         </section>
       </article>
       <AnimatePresence>
