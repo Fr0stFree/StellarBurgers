@@ -1,24 +1,23 @@
 import React from 'react';
+import {DndProvider} from "react-dnd";
+import {HTML5Backend} from "react-dnd-html5-backend";
+import {Provider as ReduxProvider} from "react-redux";
 import ReactDOM from 'react-dom/client';
 
-import App from './components/app/app.tsx';
 import './index.css';
-import {Route, Routes} from "react-router-dom";
-import BurgersMenuPage from "./pages/burgers-menu-page/burgers-menu-page.tsx";
-import NotFoundPage from "./pages/not-found-page/not-found-page.tsx";
-import CombinedProviders from "./hocs/CombinedProviders.tsx";
+import App from './components/app/app.tsx';
+import store from "./services/store.ts";
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
 root.render(
-  <CombinedProviders>
-    <Routes>
-      <Route path="/" element={<App/>}>
-        <Route index element={<BurgersMenuPage/>}/>
-        <Route path="*" element={<NotFoundPage/>}/>
-      </Route>
-    </Routes>
-  </CombinedProviders>
+  <React.StrictMode>
+    <ReduxProvider store={store}>
+      <DndProvider backend={HTML5Backend}>
+        <App />
+      </DndProvider>
+    </ReduxProvider>
+  </React.StrictMode>
 );

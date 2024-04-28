@@ -1,20 +1,26 @@
 import React, {FC, useEffect} from 'react';
+import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 
-import AppHeader from '../app-header/app-header.tsx';
 import styles from './styles.module.css';
+import AppHeader from '../app-header/app-header.tsx';
+import {BurgersMenuPage, NotFoundPage} from '../../pages';
 import {useAppDispatch} from "../../hooks";
 import {getIngredients} from "../../services/ingredients/thunks.ts";
-import {Outlet} from "react-router-dom";
 
 const App: FC = () => {
   const dispatch = useAppDispatch();
   useEffect(() => void dispatch(getIngredients()), [dispatch]);
 
   return (
-    <div className={`${styles.content} mt-10 mr-10 ml-10`}>
-      <AppHeader/>
-      <Outlet />
-    </div>
+    <Router>
+      <div className={`${styles.app} mt-10 mr-10 ml-10`}>
+        <AppHeader/>
+        <Routes>
+          <Route path="/" element={<BurgersMenuPage/>}/>
+          <Route path="*" element={<NotFoundPage/>}/>
+        </Routes>
+      </div>
+    </Router>
   )
 }
 

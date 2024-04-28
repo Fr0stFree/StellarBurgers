@@ -15,7 +15,7 @@ type BurgerIngredientProps = {
 
 const BurgerIngredient: FC<BurgerIngredientProps> = ({ingredient}) => {
   const dispatch = useAppDispatch();
-  const [{isDragging}, dragRef] = useDrag(() => ({
+  const [, dragRef] = useDrag(() => ({
     type: DraggableType.NEW_INGREDIENT,
     item: ingredient,
     collect: (monitor) => ({
@@ -34,7 +34,7 @@ const BurgerIngredient: FC<BurgerIngredientProps> = ({ingredient}) => {
                   whileHover={{opacity: 1, scale: 1.01}}
                   transition={{duration: .2}}
       >
-        {amount ? <span className={`${styles.amount} text text_type_digits-small`}>{amount}</span> : null}
+        {amount > 0 && <span className={`${styles.amount} text text_type_digits-small`}>{amount}</span>}
         <img src={ingredient.image} alt={ingredient.name} className="mb-1"/>
         <p className={`${styles.description} mb-1`}>
           <span className="text text_type_digits-default mr-1">{ingredient.price}</span>
