@@ -6,4 +6,10 @@
   text-decoration: none;
   color: #F2F2F3;
   cursor: pointer;
+  opacity: 1;
+  transition: opacity .4s;
+}
+
+.link:hover {
+  opacity: .7;
 }

@@ -1,4 +1,4 @@
-import React, {FC, useMemo} from 'react';
+import React, {FC, useCallback, useMemo} from 'react';
 import {Button, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 import {useDrop} from "react-dnd";
 import {motion} from "framer-motion";
@@ -38,13 +38,29 @@ const BurgerConstructor: FC = () => {
   const orderPrice = useMemo(() => ingredients.reduce((accumulator, ingredient) => accumulator + ingredient.price, 0), [ingredients]);
   const isOrderValid = useMemo(() => ingredients.some(ingredient => ingredient.type === IngredientType.BUN), [ingredients]);
   const handleReorder = (items: ISelectedIngredient[]) => dispatch(reorderIngredients(items));
-  const handleInvalidOrder = (items: ISelectedIngredient[]) => {
+  const handleInvalidOrder = useCallback((items: ISelectedIngredient[]) => {
     const buns = items.filter(ingredient => ingredient.type === IngredientType.BUN);
     if (!buns.length) return;
     if (items[0].type === IngredientType.BUN && items[1].type === IngredientType.BUN) return;
     const correctOrder = [buns[0], ...items.filter(ingredient => ingredient.type !== IngredientType.BUN), buns[1]];
     return dispatch(reorderIngredients(correctOrder));
+  }, [dispatch]);
+
+  let modalContent = null;
+  switch (requestStatus) {
+    case 'pending':
+      modalContent = <Modal onClose={handleCloseTooltip}><Tooltip showLoading text="Отправка заказа"/></Modal>;
+      break;
+    case 'failed':
+      modalContent = <Modal onClose={handleCloseTooltip}><Tooltip text="Ошибка отправки заказа"/></Modal>;
+      break;
+    case 'succeeded':
+      modalContent = <Modal onClose={handleCloseOrderModal}><OrderDetails order={order!}/></Modal>;
+      break;
+    case 'idle':
+      break
   }
+
   return (
     <>
       <motion.section className={`${styles.content} mt-25 mr-4 ml-4`}
@@ -78,13 +94,7 @@ const BurgerConstructor: FC = () => {
         </div>
       </motion.section>
       <AnimatePresence>
-        {requestStatus === 'pending' ? (
-          <Modal onClose={handleCloseTooltip}><Tooltip showLoading text="Отправка заказа"/></Modal>
-        ) : requestStatus === 'failed' ? (
-          <Modal onClose={handleCloseTooltip}><Tooltip text="Ошибка отправки заказа"/></Modal>
-        ) : requestStatus === 'succeeded' ? (
-          <Modal onClose={handleCloseOrderModal}><OrderDetails order={order!}/></Modal>
-        ) : null}
+        {modalContent}
       </AnimatePresence>
     </>
   );

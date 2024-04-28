@@ -1,18 +1,18 @@
 import React, {FC, useMemo} from 'react';
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components'
 import {useInView} from "react-intersection-observer";
+import {TailSpin} from "react-loader-spinner";
+import {AnimatePresence} from "framer-motion";
 
-import BurgerIngredientsPartition from "./components/burger-ingredients-partition/burger-ingredients-partition.tsx";
 import styles from './styles.module.css';
+import {hideIngredientsLoadingError, hidePreviewedIngredient} from "../../services/ingredients/slices.ts";
 import {useAppDispatch, useAppSelector} from "../../hooks";
 import {IngredientType} from "../../services/constants";
 import {type IIngredient} from "../../services/ingredients/types.ts";
+import BurgerIngredientsPartition from "./components/burger-ingredients-partition/burger-ingredients-partition.tsx";
 import Modal from "../modal/modal.tsx";
 import IngredientDetails from "../ingredient-details/ingredient-details.tsx";
-import {hideIngredientsLoadingError, hidePreviewedIngredient} from "../../services/ingredients/slices.ts";
 import Tooltip from "../tooltip/tooltip.tsx";
-import {TailSpin} from "react-loader-spinner";
-import {AnimatePresence} from "framer-motion";
 
 type FilteredIngredients = {
   [IngredientType.BUN]: IIngredient[];
@@ -36,12 +36,39 @@ const BurgerIngredients: FC = () => {
     }, {[IngredientType.MAIN]: [], [IngredientType.SAUCE]: [], [IngredientType.BUN]: []})
   ), [ingredients]);
 
-  const handleTabClick = (tabName: IngredientType, entry: IntersectionObserverEntry) => {
+  const handleTabClick = (tabName: IngredientType, entry?: IntersectionObserverEntry) => {
     setCurrentTab(tabName);
     entry?.target.scrollIntoView({behavior: 'smooth', block: 'start'});
   };
   const handleCloseModal = () => dispatch(hidePreviewedIngredient());
   const handleCloseTooltip = () => dispatch(hideIngredientsLoadingError());
+
+  let content = null;
+  switch (requestStatus) {
+    case 'failed':
+      content = <Modal onClose={handleCloseTooltip}><Tooltip text="Мужчина, вы что не видите, у нас обед."/></Modal>;
+      break;
+    case 'pending':
+      content = <div className={styles.loader}><TailSpin color="#4169E1" height={100} width={100}/></div>;
+      break;
+    case 'succeeded':
+      content = (
+        <div className={styles.ingredients}>
+          <li ref={bunsRef}>
+            <BurgerIngredientsPartition title="Булки" ingredients={filteredIngredients[IngredientType.BUN]}/>
+          </li>
+          <li ref={saucesRef}>
+            <BurgerIngredientsPartition title="Соусы" ingredients={filteredIngredients[IngredientType.SAUCE]}/>
+          </li>
+          <li ref={mainsRef}>
+            <BurgerIngredientsPartition title="Начинки" ingredients={filteredIngredients[IngredientType.MAIN]}/>
+          </li>
+        </div>
+      );
+      break;
+    case 'idle':
+      break;
+  }
 
   return (
     <>
@@ -73,23 +100,7 @@ const BurgerIngredients: FC = () => {
           </ul>
         </section>
         <section>
-        {requestStatus === 'pending' ? (
-          <div className={styles.loader}><TailSpin color="#4169E1" height={100} width={100}/></div>
-        ) : requestStatus === 'failed' ? (
-            <Modal onClose={handleCloseTooltip}><Tooltip text="Мужчина, вы что не видите, у нас обед."/></Modal>
-        ) : requestStatus === 'succeeded' ? (
-          <div className={styles.ingredients}>
-            <li ref={bunsRef}>
-              <BurgerIngredientsPartition title="Булки" ingredients={filteredIngredients[IngredientType.BUN]}/>
-            </li>
-            <li ref={saucesRef}>
-              <BurgerIngredientsPartition title="Соусы" ingredients={filteredIngredients[IngredientType.SAUCE]}/>
-            </li>
-            <li ref={mainsRef}>
-              <BurgerIngredientsPartition title="Начинки" ingredients={filteredIngredients[IngredientType.MAIN]}/>
-            </li>
-          </div>
-        ) : null}
+          {content}
         </section>
       </article>
       <AnimatePresence>
