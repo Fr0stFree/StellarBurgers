@@ -1,4 +1,4 @@
-.container {
+.content {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -13,5 +13,5 @@
 }
 
 .link:hover {
-  opacity: .7;
+  opacity: .6;
 }

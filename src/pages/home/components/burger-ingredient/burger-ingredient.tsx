@@ -3,11 +3,12 @@ import {CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import {useDrag} from "react-dnd";
 import {motion} from "framer-motion";
 
-import {IIngredient} from "../../../../services/ingredients/types.ts";
-import {useAppDispatch, useAppSelector} from "../../../../hooks";
-import {previewIngredient} from "../../../../services/ingredients/slices.ts";
-import {DraggableType} from "../../../../services/constants";
 import styles from './styles.module.css';
+
+import {IIngredient} from "../../../../services/ingredients/types.ts";
+import {useAppDispatch, useAppSelector} from "../../../../hooks.ts";
+import {previewIngredient} from "../../../../services/ingredients/slices.ts";
+import {DraggableType} from "../../../../services/constants.ts";
 
 type BurgerIngredientProps = {
   ingredient: IIngredient;

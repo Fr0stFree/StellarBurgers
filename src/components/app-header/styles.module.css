@@ -1,6 +1,7 @@
 .header {
   width: 100%;
   background-color: var(--background-secondary);
+  height: 64px;
 }
 
 .nav {

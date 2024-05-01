@@ -1,7 +1,8 @@
 import {FC} from "react";
 
-import {type IIngredient} from "../../services/ingredients/types.ts";
 import styles from "./styles.module.css";
+
+import {type IIngredient} from "../../services/ingredients/types.ts";
 
 type IngredientDetailsProps = {
   ingredient: IIngredient;

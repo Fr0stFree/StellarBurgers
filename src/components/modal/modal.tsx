@@ -3,8 +3,9 @@ import {CloseIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {createPortal} from "react-dom";
 import {motion} from "framer-motion";
 
-import ModalOverlay from "./components/modal-overlay/modal-overlay";
 import styles from './styles.module.css';
+
+import ModalOverlay from "./components/modal-overlay/modal-overlay";
 
 type ModalProps = {
   children: React.ReactNode;

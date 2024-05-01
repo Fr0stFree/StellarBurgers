@@ -1,20 +1,20 @@
 import React, {FC, useCallback, useMemo} from 'react';
 import {Button, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 import {useDrop} from "react-dnd";
-import {motion} from "framer-motion";
+import {motion, AnimatePresence, Reorder} from "framer-motion";
 
-import {type IIngredient, ISelectedIngredient} from "../../services/ingredients/types.ts";
-import {useAppDispatch, useAppSelector} from "../../hooks";
-import {addBuns, addIngredient, reorderIngredients} from "../../services/ingredients/slices.ts";
-import {hideOrder} from "../../services/orders/slices";
-import {DraggableType, IngredientType} from "../../services/constants";
-import ConstructorIngredient from "./components/constuctor-element/constructor-element.tsx";
-import Modal from "../modal/modal.tsx";
-import OrderDetails from "../order-details/order-details.tsx";
 import styles from './styles.module.css';
-import Tooltip from "../tooltip/tooltip.tsx";
-import {makeOrder} from "../../services/orders/thunks.ts";
-import {AnimatePresence, Reorder} from "framer-motion";
+
+import {type IIngredient, ISelectedIngredient} from "../../../../services/ingredients/types.ts";
+import {useAppDispatch, useAppSelector} from "../../../../hooks.ts";
+import {addBuns, addIngredient, reorderIngredients} from "../../../../services/ingredients/slices.ts";
+import {hideOrder} from "../../../../services/orders/slices.ts";
+import {DraggableType, IngredientType} from "../../../../services/constants.ts";
+import ConstructorIngredient from "../constuctor-element/constructor-element.tsx";
+import Modal from "../../../../components/modal/modal.tsx";
+import OrderDetails from "../../../../components/order-details/order-details.tsx";
+import Tooltip from "../../../../components/tooltip/tooltip.tsx";
+import {makeOrder} from "../../../../services/orders/thunks.ts";
 
 const BurgerConstructor: FC = () => {
   const dispatch = useAppDispatch();
@@ -63,13 +63,13 @@ const BurgerConstructor: FC = () => {
 
   return (
     <>
-      <motion.section className={`${styles.content} mt-25 mr-4 ml-4`}
+      <motion.section className={`${styles.burger_constructor} pt-25 mr-4 ml-4`}
                       ref={newIngredientDropzone}
                       style={{borderRadius: '25px'}}
                       animate={{boxShadow: isNewIngredientHovered ? '0 0 35px 5px #8585AD' : '0 0 0 0 rgba(0, 0, 0, 0)'}}
                       transition={{duration: 0.05}}
       >
-        <Reorder.Group onReorder={handleReorder} values={ingredients} axis="y" className={`${styles.list} mb-10`}>
+        <Reorder.Group onReorder={handleReorder} values={ingredients} axis="y" className={`${styles.ingredients_list} mb-10`}>
         {ingredients.map((ingredient, index) => (
           <ConstructorIngredient ingredient={ingredient}
                                  key={ingredient.uuid}

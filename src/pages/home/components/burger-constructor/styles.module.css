@@ -1,0 +1,25 @@
+.burger_constructor {
+  height: 100%;
+  max-width: 50vw;
+  min-width: 35vw;
+  display: -webkit-box;
+  display: -moz-box;
+  -webkit-box-orient: vertical;
+  -moz-box-orient: vertical;
+}
+
+.ingredients_list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+  overflow-y: auto;
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+}
+
+.order {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}

@@ -1,8 +1,9 @@
 import {FC} from "react";
 
 import styles from './styles.module.css';
+
 import orderDoneImage from '../../images/order-done.svg';
-import {IOrder} from "../../services/orders/types.ts";
+import {type IOrder} from "../../services/orders/types.ts";
 
 type OrderDetailsProps = {
   order: IOrder;

@@ -5,14 +5,15 @@ import {TailSpin} from "react-loader-spinner";
 import {AnimatePresence} from "framer-motion";
 
 import styles from './styles.module.css';
-import {hideIngredientsLoadingError, hidePreviewedIngredient} from "../../services/ingredients/slices.ts";
-import {useAppDispatch, useAppSelector} from "../../hooks";
-import {IngredientType} from "../../services/constants";
-import {type IIngredient} from "../../services/ingredients/types.ts";
-import BurgerIngredientsPartition from "./components/burger-ingredients-partition/burger-ingredients-partition.tsx";
-import Modal from "../modal/modal.tsx";
-import IngredientDetails from "../ingredient-details/ingredient-details.tsx";
-import Tooltip from "../tooltip/tooltip.tsx";
+
+import {hideIngredientsLoadingError, hidePreviewedIngredient} from "../../../../services/ingredients/slices.ts";
+import {useAppDispatch, useAppSelector} from "../../../../hooks.ts";
+import {IngredientType} from "../../../../services/constants.ts";
+import {type IIngredient} from "../../../../services/ingredients/types.ts";
+import BurgerIngredientsPartition from "../burger-ingredients-partition/burger-ingredients-partition.tsx";
+import Modal from "../../../../components/modal/modal.tsx";
+import IngredientDetails from "../../../../components/ingredient-details/ingredient-details.tsx";
+import Tooltip from "../../../../components/tooltip/tooltip.tsx";
 
 type FilteredIngredients = {
   [IngredientType.BUN]: IIngredient[];
@@ -53,7 +54,7 @@ const BurgerIngredients: FC = () => {
       break;
     case 'succeeded':
       content = (
-        <div className={styles.ingredients}>
+        <>
           <li ref={bunsRef}>
             <BurgerIngredientsPartition title="Булки" ingredients={filteredIngredients[IngredientType.BUN]}/>
           </li>
@@ -63,7 +64,7 @@ const BurgerIngredients: FC = () => {
           <li ref={mainsRef}>
             <BurgerIngredientsPartition title="Начинки" ingredients={filteredIngredients[IngredientType.MAIN]}/>
           </li>
-        </div>
+        </>
       );
       break;
     case 'idle':
@@ -72,7 +73,7 @@ const BurgerIngredients: FC = () => {
 
   return (
     <>
-      <article className={`${styles.content} pt-10`}>
+      <article className={`${styles.burger_ingredients} pt-10`}>
         <section className="mb-10">
           <h1 className="text text_type_main-large mb-5">Соберите бургер</h1>
           <ul className={styles.ingredients_tab}>
@@ -99,7 +100,7 @@ const BurgerIngredients: FC = () => {
             </li>
           </ul>
         </section>
-        <section>
+        <section className={styles.ingredients_list}>
           {content}
         </section>
       </article>

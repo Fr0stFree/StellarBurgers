@@ -2,6 +2,7 @@ import React, {FC} from 'react';
 import {BurgerIcon, ListIcon, Logo, ProfileIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 
 import styles from './styles.module.css';
+
 import HeaderLink from "./components/header-link/header-link.tsx";
 
 const AppHeader: FC = () => {

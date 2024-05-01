@@ -25,10 +25,12 @@ const ingredientsSlice = createSlice({
   initialState,
   reducers: {
     previewIngredient(state, action: PayloadAction<IIngredient>) {
+      window.history.pushState(null, '', new URL(window.location.origin + '/ingredients/' + action.payload._id));
       state.previewed = action.payload;
     },
     hidePreviewedIngredient(state) {
       state.previewed = null;
+      window.history.pushState(null, '', new URL(window.location.origin));
     },
     addBuns: {
       reducer: (state, action: PayloadAction<ISelectedIngredient[]>) => {
