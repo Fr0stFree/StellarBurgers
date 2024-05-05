@@ -47,7 +47,7 @@ const BurgerIngredients: FC = () => {
   let content = null;
   switch (requestStatus) {
     case 'failed':
-      content = <Modal onClose={handleCloseTooltip}><Tooltip text="Мужчина, вы что не видите, у нас обед."/></Modal>;
+      content = <Modal onClose={handleCloseTooltip}><Tooltip text="Не удалось загрузить ингредиенты"/></Modal>;
       break;
     case 'pending':
       content = <div className={styles.loader}><TailSpin color="#4169E1" height={100} width={100}/></div>;

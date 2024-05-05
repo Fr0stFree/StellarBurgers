@@ -24,8 +24,8 @@ const LoginPage: FC = () => {
   const onSubmit: SubmitHandler<FormInputs> = async (data) => {
     try {
       await dispatch(loginUser(data)).unwrap();
-    } catch (errorMessage: any) {
-      setError('root', {message: errorMessage});
+    } catch (error: any) {
+      setError('root', {message: error.message});
     }
   };
   const handleCloseTooltip = () => dispatch(resetRequestStatus('login'));

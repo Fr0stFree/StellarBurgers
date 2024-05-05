@@ -3,11 +3,12 @@ import {Button, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-comp
 import {useDrop} from "react-dnd";
 import {AnimatePresence, motion, Reorder} from "framer-motion";
 import {Tooltip as Popup} from 'react-tooltip'
+import {useNavigate} from "react-router-dom";
 
 import styles from './styles.module.css';
 
 import {type IIngredient, ISelectedIngredient} from "../../../../services/ingredients/types.ts";
-import {useAppDispatch, useAppSelector} from "../../../../hooks.ts";
+import {useAppDispatch, useAppLocation, useAppSelector} from "../../../../hooks.ts";
 import {addBuns, addIngredient, reorderIngredients} from "../../../../services/ingredients/slices.ts";
 import {hideOrder} from "../../../../services/orders/slices.ts";
 import {DraggableType, IngredientType} from "../../../../services/ingredients/const.ts";
@@ -20,13 +21,14 @@ import {isIngredientsOrderCorrect} from "./utils.ts";
 
 const BurgerConstructor: FC = () => {
   const dispatch = useAppDispatch();
+  const location = useAppLocation();
+  const navigate = useNavigate();
   const [orderError, setOrderError] = useState<string | null>(null);
-  const {ingredients, orderName, orderNumber, requestStatus, isAuthorized} = useAppSelector(state => ({
+  const {ingredients, order, requestStatus, isAuthenticated} = useAppSelector(state => ({
     ingredients: state.ingredients.selected,
-    orderName: state.orders.order?.name, // TODO: redux yells at me as crazy if I query for an order object directly
-    orderNumber: state.orders.order?.order.number,
+    order: state.orders.order,
     requestStatus: state.orders.makeOrderRequestStatus,
-    isAuthorized: !!state.auth.user,
+    isAuthenticated: !!state.auth.user,
   }));
   const [{isNewIngredientHovered}, newIngredientDropzone] = useDrop(() => ({
     accept: DraggableType.NEW_INGREDIENT,
@@ -36,7 +38,12 @@ const BurgerConstructor: FC = () => {
     }),
   }));
 
-  const handlePlaceOrderClick = () => dispatch(makeOrder(ingredients.map(ingredient => ingredient._id)));
+  const handlePlaceOrderClick = () => {
+    if (!isAuthenticated) {
+      return navigate('/login', {state: {from: location.pathname}});
+    }
+    dispatch(makeOrder(ingredients.map(ingredient => ingredient._id)));
+  }
   const handleCloseOrderModal = () => dispatch(hideOrder());
   const handleCloseTooltip = () => dispatch(hideOrder());
   const handleIngredientsReorder = (items: ISelectedIngredient[]) => dispatch(reorderIngredients(items));
@@ -46,14 +53,11 @@ const BurgerConstructor: FC = () => {
   }, [dispatch]);
 
   useMemo(() => {
-    if (!isAuthorized) {
-      return setOrderError('Авторизуйтесь, чтобы оформить заказ');
-    }
     if (!ingredients.some(ingredient => ingredient.type === IngredientType.BUN)) {
       return setOrderError('Вы не можете оформить заказ без булки');
     }
     return setOrderError(null);
-  }, [ingredients, isAuthorized]);
+  }, [ingredients]);
 
   const orderPrice = useMemo(() => (
     ingredients.reduce((accumulator, ingredient) => accumulator + ingredient.price, 0)
@@ -70,8 +74,7 @@ const BurgerConstructor: FC = () => {
       modalContent = <Modal onClose={handleCloseTooltip}><Tooltip text="Ошибка отправки заказа"/></Modal>;
       break;
     case 'succeeded':
-      const order = {name: orderName!, order: {number: orderNumber!}};
-      modalContent = <Modal onClose={handleCloseOrderModal}><OrderDetails order={order}/></Modal>;
+      modalContent = <Modal onClose={handleCloseOrderModal}><OrderDetails order={order!}/></Modal>;
       break;
   }
   return (

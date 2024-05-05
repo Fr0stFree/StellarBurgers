@@ -8,6 +8,7 @@ import {
   forgotPassword,
   resetPassword, logoutUser, startSession, updateUser
 } from "./thunks.ts";
+import {dropRefreshToken} from "./persistence.ts";
 
 interface authState {
   user: IUser | null;
@@ -19,6 +20,7 @@ interface authState {
   logoutRequestStatus: RequestStatus;
   forgotPasswordRequestStatus: RequestStatus;
   resetPasswordRequestStatus: RequestStatus;
+  startSessionRequestStatus: RequestStatus;
 }
 
 const initialState: authState = {
@@ -31,6 +33,7 @@ const initialState: authState = {
   logoutRequestStatus: 'idle',
   forgotPasswordRequestStatus: 'idle',
   resetPasswordRequestStatus: 'idle',
+  startSessionRequestStatus: 'idle',
 };
 
 const authSlice = createSlice({
@@ -38,7 +41,7 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     resetRequestStatus(state, action: {
-      payload: 'register' | 'login' | 'logout' | 'forgotPassword' | 'resetPassword'| 'updateUser'
+      payload: 'register' | 'login' | 'logout' | 'forgotPassword' | 'resetPassword'| 'updateUser' | 'startSession';
     }) {
       state[`${action.payload}RequestStatus`] = 'idle';
     },
@@ -46,17 +49,18 @@ const authSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(startSession.pending, (state) => {
-        state.loginRequestStatus = 'pending';
+        state.startSessionRequestStatus = 'pending';
       })
       .addCase(startSession.fulfilled, (state, action) => {
-        state.loginRequestStatus = 'succeeded';
+        state.startSessionRequestStatus = 'succeeded';
         const { user, accessToken, refreshToken } = action.payload;
         state.user = user;
         state.accessToken = accessToken;
         state.refreshToken = refreshToken;
       })
       .addCase(startSession.rejected, (state) => {
-        state.loginRequestStatus = 'failed';
+        state.startSessionRequestStatus = 'failed';
+        dropRefreshToken(); // TODO: is it okay to put this here?
       })
       .addCase(registerUser.pending, (state) => {
         state.registerRequestStatus = 'pending';

@@ -34,8 +34,8 @@ const ProfileInfoPage: FC = () => {
   const onSubmit: SubmitHandler<FormInputs> = async (data) => {
     try {
       await dispatch(updateUser(data)).unwrap()
-    } catch (errorMessage: any) {
-      setError('root', {message: errorMessage});
+    } catch (error: any) {
+      setError('root', {message: error.message});
     } finally {
       [setNameChangeMode, setLoginChangeMode, setPasswordChangeMode].forEach(setter => setter(false));
     }

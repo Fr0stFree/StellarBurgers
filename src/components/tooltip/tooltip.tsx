@@ -10,11 +10,9 @@ type TooltipProps = {
 
 const Tooltip: FC<TooltipProps> = ({text = 'Загрузка', showLoading = false}) => {
   return (
-    <div>
-      <p className={`${styles.paragraph} text text_type_main-medium`}>
-        <span className={`${styles.text} mr-4`}>{text}</span>
-        {showLoading && <ThreeDots color="var(--text-main)" height={50} width={50} />}
-      </p>
+    <div className={`${styles.container} text text_type_main-medium`}>
+      <span className={`${styles.text} mr-4`}>{text}</span>
+      {showLoading && <ThreeDots color="var(--text-main)" height={50} width={50} />}
     </div>
   );
 }

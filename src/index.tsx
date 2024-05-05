@@ -3,6 +3,7 @@ import {DndProvider} from "react-dnd";
 import {HTML5Backend} from "react-dnd-html5-backend";
 import {Provider as ReduxProvider} from "react-redux";
 import ReactDOM from 'react-dom/client';
+import {BrowserRouter} from "react-router-dom";
 
 import './index.css';
 import 'react-tooltip/dist/react-tooltip.css';
@@ -17,7 +18,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <ReduxProvider store={store}>
     <DndProvider backend={HTML5Backend}>
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </DndProvider>
   </ReduxProvider>
 );
