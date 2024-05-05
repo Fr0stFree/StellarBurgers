@@ -1,6 +1,5 @@
 html {
   height: 100%;
-  margin: 0;
 }
 
 body {
@@ -12,6 +11,10 @@ body {
 
   --background-main: #131316;
   --background-secondary: #1C1C21;
+  --background-light: #2F2F37;
+  --text-main: #8585AD;
+  --text-secondary: #F2F2F3;
+  --link-active: #4C4CFF;
 
   height: 100%;
 }
@@ -23,7 +26,6 @@ body {
   list-style-type: none;
   text-decoration: none;
   outline: none;
-  border: 1px solid wheat;
 }
 
 code {

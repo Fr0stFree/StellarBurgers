@@ -1,9 +1,16 @@
 import React, {FC} from "react";
-import { useForm, SubmitHandler } from "react-hook-form"
-
-import styles from "./styles.module.css";
+import {SubmitHandler, useForm} from "react-hook-form"
+import {Link} from "react-router-dom";
 import {Button} from "@ya.praktikum/react-developer-burger-ui-components";
-import {EMAIL_PATTERN, MAX_NAME_LENGTH, MIN_NAME_LENGTH, MIN_PASSWORD_LENGTH} from "../../services/constants.ts";
+
+import formStyles from "../../components/form/styles.module.css";
+
+import {EMAIL_PATTERN, MAX_NAME_LENGTH, MIN_NAME_LENGTH, MIN_PASSWORD_LENGTH} from "../../services/auth/const.ts";
+import {useAppDispatch, useAppSelector} from "../../hooks.ts";
+import {registerUser} from "../../services/auth/thunks.ts";
+import Modal from "../../components/modal/modal.tsx";
+import Tooltip from "../../components/tooltip/tooltip.tsx";
+import {resetRequestStatus} from "../../services/auth/slices.ts";
 
 type FormInputs = {
   name: string;
@@ -12,17 +19,43 @@ type FormInputs = {
 }
 
 const RegisterPage: FC = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm<FormInputs>({mode: 'onBlur'});
+  const dispatch = useAppDispatch();
+  const { registerRequestStatus: requestStatus } = useAppSelector(state => state.auth);
+  const { register, handleSubmit, formState: { errors }, setError } = useForm<FormInputs>({mode: 'onBlur'});
   const onSubmit: SubmitHandler<FormInputs> = async (data) => {
-    console.log('data', data);
-  }
+    try {
+      await dispatch(registerUser(data)).unwrap();
+    } catch (errorMessage: any) {
+      setError('root', {message: errorMessage});
+    }
+  };
+  const handleCloseTooltip = () => dispatch(resetRequestStatus('register'));
 
+  let additionalContent;
+  switch (requestStatus) {
+    case 'idle':
+      break;
+    case 'pending':
+      additionalContent = (
+        <Modal onClose={handleCloseTooltip}><Tooltip text="Регистрируемся" showLoading /></Modal>
+      );
+      break;
+    case 'failed':
+      additionalContent = (
+        <Modal onClose={handleCloseTooltip}><Tooltip text={errors.root?.message || 'Ошибка регистрации'} /></Modal>
+      );
+      break;
+    case 'succeeded':
+      // No need to handle this case. A user will be redirected to profile page as soon as login is successful
+      break;
+  }
   return (
-    <main className={styles.content}>
-      <section className={styles.container}>
-        <h1 className={`text text_type_main-medium ${styles.title} mb-6`}>Регистрация</h1>
-        <form className={styles.registration_form} onSubmit={handleSubmit(onSubmit)}>
-          <input className={styles.form_field}
+    <main className={formStyles.content}>
+      {additionalContent}
+      <section className={formStyles.container}>
+        <h1 className={`text text_type_main-medium ${formStyles.title} mb-6`}>Регистрация</h1>
+        <form className={`${formStyles.form} mb-20`} onSubmit={handleSubmit(onSubmit)}>
+          <input className={formStyles.form_field}
                  type="text"
                  placeholder="Имя"
                  {...register("name", {
@@ -31,11 +64,11 @@ const RegisterPage: FC = () => {
                    maxLength: {value: MAX_NAME_LENGTH, message: `Максимальная длина имени - ${MAX_NAME_LENGTH} символов`},
                  })}
           />
-          <span className={`text text_type_main-small text_color_error ${styles.form_error} mb-3`}
+          <span className={`text text_type_main-small text_color_error ${formStyles.form_error} mb-3`}
                 style={{visibility: errors.name ? 'visible' : 'hidden'}}
           >{errors.name?.message}
           </span>
-          <input className={styles.form_field}
+          <input className={formStyles.form_field}
                  type="text"
                  placeholder="E-mail"
                  {...register("email", {
@@ -43,11 +76,11 @@ const RegisterPage: FC = () => {
                    pattern: {value: EMAIL_PATTERN, message: 'Некорректный email'},
                  })}
           />
-          <span className={`text text_type_main-small text_color_error ${styles.form_error} mb-3`}
+          <span className={`text text_type_main-small text_color_error ${formStyles.form_error} mb-3`}
                 style={{visibility: errors.email ? 'visible' : 'hidden'}}
           >{errors.email?.message}
           </span>
-          <input className={styles.form_field}
+          <input className={formStyles.form_field}
                  type="password"
                  placeholder="Пароль"
                  {...register("password", {
@@ -55,7 +88,7 @@ const RegisterPage: FC = () => {
                    minLength: {value: MIN_PASSWORD_LENGTH, message: `Минимальная длина пароля - ${MIN_PASSWORD_LENGTH} символов`},
                  })}
           />
-          <span className={`text text_type_main-small text_color_error ${styles.form_error} mb-3`}
+          <span className={`text text_type_main-small text_color_error ${formStyles.form_error} mb-3`}
                 style={{visibility: errors.password ? 'visible' : 'hidden'}}
           >{errors.password?.message}
           </span>
@@ -65,6 +98,10 @@ const RegisterPage: FC = () => {
           >Зарегистрироваться
           </Button>
         </form>
+        <p className={formStyles.help_paragraph}>
+          <span className='text text_type_main-small text_color_inactive'>Уже зарегистрированы?</span>
+          <Link to='/login' className={formStyles.link}> Войти</Link>
+        </p>
       </section>
     </main>
   )

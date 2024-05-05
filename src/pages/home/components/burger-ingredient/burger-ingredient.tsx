@@ -8,7 +8,7 @@ import styles from './styles.module.css';
 import {IIngredient} from "../../../../services/ingredients/types.ts";
 import {useAppDispatch, useAppSelector} from "../../../../hooks.ts";
 import {previewIngredient} from "../../../../services/ingredients/slices.ts";
-import {DraggableType} from "../../../../services/constants.ts";
+import {DraggableType} from "../../../../services/ingredients/const.ts";
 
 type BurgerIngredientProps = {
   ingredient: IIngredient;

@@ -1,16 +1,17 @@
 import {createSlice, type PayloadAction} from '@reduxjs/toolkit';
 import {v4 as uuid4} from 'uuid';
 
-import {type IIngredient, ISelectedIngredient} from "./types.ts";
-import {IngredientType} from "../constants.ts";
+import {type IIngredient, type ISelectedIngredient} from "./types.ts";
+import {IngredientType} from "./const.ts";
 import {makeOrder} from "../orders/thunks.ts";
 import {getIngredients} from "./thunks.ts";
+import {RequestStatus} from "../types.ts";
 
 interface IngredientsState {
-  all: IIngredient[],
-  selected: ISelectedIngredient[],
-  previewed: IIngredient | null,
-  getIngredientsRequestStatus: 'idle' | 'pending' | 'succeeded' | 'failed',
+  all: IIngredient[];
+  selected: ISelectedIngredient[];
+  previewed: IIngredient | null;
+  getIngredientsRequestStatus: RequestStatus;
 }
 
 const initialState: IngredientsState = {

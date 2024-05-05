@@ -6,6 +6,8 @@ import NotFoundPage from "./not-found/not-found.tsx";
 import ProfilePage from "./profile/profile.tsx";
 import RegisterPage from "./register/register.tsx";
 import ResetPasswordPage from "./reset-password/reset-password.tsx";
+import OrdersHistoryPage from "./orders-history/orders-history.tsx";
+import ProfileInfoPage from "./profile/components/profile-info/profile-info.tsx";
 
 export {
   HomePage,
@@ -16,4 +18,6 @@ export {
   ProfilePage,
   RegisterPage,
   ResetPasswordPage,
+  OrdersHistoryPage,
+  ProfileInfoPage,
 };

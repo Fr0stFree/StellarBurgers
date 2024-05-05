@@ -1,8 +1,10 @@
+export interface IUser {
+  email: string;
+  name: string;
+}
+
 export interface IClient {
-  user: {
-    email: string;
-    name: string;
-  };
+  user: IUser;
   accessToken: string;
   refreshToken: string;
 }

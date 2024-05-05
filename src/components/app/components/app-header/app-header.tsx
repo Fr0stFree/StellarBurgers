@@ -3,7 +3,7 @@ import {BurgerIcon, ListIcon, Logo, ProfileIcon} from '@ya.praktikum/react-devel
 
 import styles from './styles.module.css';
 
-import HeaderLink from "./components/header-link/header-link.tsx";
+import HeaderLink from "../header-link/header-link.tsx";
 
 const AppHeader: FC = () => {
   return (

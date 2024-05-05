@@ -8,7 +8,7 @@ import styles from './styles.module.css';
 
 import {hideIngredientsLoadingError, hidePreviewedIngredient} from "../../../../services/ingredients/slices.ts";
 import {useAppDispatch, useAppSelector} from "../../../../hooks.ts";
-import {IngredientType} from "../../../../services/constants.ts";
+import {IngredientType} from "../../../../services/ingredients/const.ts";
 import {type IIngredient} from "../../../../services/ingredients/types.ts";
 import BurgerIngredientsPartition from "../burger-ingredients-partition/burger-ingredients-partition.tsx";
 import Modal from "../../../../components/modal/modal.tsx";

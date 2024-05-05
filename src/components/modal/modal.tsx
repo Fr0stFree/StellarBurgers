@@ -21,7 +21,7 @@ const Modal: FC<ModalProps> = ({children, onClose}) => {
 
   return createPortal(
     <ModalOverlay onClick={onClose}>
-      <motion.div className={styles.modal}
+      <motion.div className={`${styles.modal} pr-4 pl-4 pb-6`}
                   onClick={e => e.stopPropagation()}
                   initial={{opacity: 0}}
                   animate={{opacity: 1}}

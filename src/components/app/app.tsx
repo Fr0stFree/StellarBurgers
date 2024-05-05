@@ -3,23 +3,27 @@ import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 
 import styles from './styles.module.css';
 
-import AppHeader from '../app-header/app-header.tsx';
+import AppHeader from './components/app-header/app-header.tsx';
 import {
-  HomePage,
-  NotFoundPage,
-  ProfilePage,
   ForgotPasswordPage,
+  HomePage,
   IngredientDetailsPage,
   LoginPage,
+  NotFoundPage,
+  OrdersHistoryPage,
+  ProfileInfoPage,
+  ProfilePage,
   RegisterPage,
   ResetPasswordPage,
 } from '../../pages';
-import {useAppDispatch} from "../../hooks";
-import {getIngredients} from "../../services/ingredients/thunks.ts";
+import {useAppDispatch, useAppSelector} from "../../hooks.ts";
+import ProtectedRoute from "../../hocs/protected-route.tsx";
+import {startSession} from "../../services/auth/thunks.ts";
 
 const App: FC = () => {
   const dispatch = useAppDispatch();
-  useEffect(() => void dispatch(getIngredients()), [dispatch]);
+  const isAuthorized = useAppSelector(state => state.auth.user !== null);
+  useEffect(() => void dispatch(startSession()), []);
 
   return (
     <Router>
@@ -27,12 +31,35 @@ const App: FC = () => {
         <AppHeader/>
         <Routes>
           <Route path="/" element={<HomePage/>}/>
-          <Route path="/login" element={<LoginPage/>}/>
-          <Route path="/register" element={<RegisterPage/>}/>
-          <Route path="/forgot-password" element={<ForgotPasswordPage/>}/>
-          <Route path="/reset-password" element={<ResetPasswordPage/>}/>
-          <Route path="/profile" element={<ProfilePage/>}/>
-          <Route path="/ingredients/:id" element={<IngredientDetailsPage/>}/>
+          <Route path="login" element={
+            <ProtectedRoute redirectTo="/profile" predicate={() => !isAuthorized}>
+              <LoginPage/>
+            </ProtectedRoute>
+          }/>
+          <Route path="register" element={
+            <ProtectedRoute redirectTo="/profile" predicate={() => !isAuthorized}>
+              <RegisterPage/>
+            </ProtectedRoute>
+          }/>
+          <Route path="forgot-password" element={
+            <ProtectedRoute redirectTo="/profile" predicate={() => !isAuthorized}>
+              <ForgotPasswordPage/>
+            </ProtectedRoute>
+          }/>
+          <Route path="reset-password" element={
+            <ProtectedRoute redirectTo="/profile" predicate={() => !isAuthorized}>
+              <ResetPasswordPage/>
+            </ProtectedRoute>
+          }/>
+          <Route path="profile" element={
+            <ProtectedRoute redirectTo="/login" predicate={() => isAuthorized}>
+              <ProfilePage/>
+            </ProtectedRoute>
+          }>
+            <Route index element={<ProfileInfoPage />}/>
+            <Route path="orders" element={<OrdersHistoryPage />}/>
+          </Route>
+          <Route path="ingredients/:id" element={<IngredientDetailsPage/>}/>
           <Route path="*" element={<NotFoundPage/>}/>
         </Routes>
       </div>

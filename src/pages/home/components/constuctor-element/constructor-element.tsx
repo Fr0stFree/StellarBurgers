@@ -7,7 +7,7 @@ import styles from "./styles.module.css";
 import {type ISelectedIngredient} from "../../../../services/ingredients/types.ts";
 import {removeIngredient} from "../../../../services/ingredients/slices.ts";
 import {useAppDispatch} from "../../../../hooks.ts";
-import {IngredientType} from "../../../../services/constants.ts";
+import {IngredientType} from "../../../../services/ingredients/const.ts";
 
 type ConstructorIngredientProps = {
   ingredient: ISelectedIngredient;

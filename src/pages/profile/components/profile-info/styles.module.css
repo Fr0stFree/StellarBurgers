@@ -1,0 +1,29 @@
+.form_field_wrapper {
+  width: 100%;
+  position: relative;
+}
+
+.field_label {
+  position: absolute;
+  top: 8px;
+  left: 24px;
+}
+
+.field_change_button {
+  border: none;
+  background-color: transparent;
+  position: absolute;
+  right: 5%;
+  top: 20%;
+  cursor: pointer;
+  opacity: 1;
+  transition: opacity .3s;
+}
+
+.field_change_button:hover {
+  opacity: .7;
+}
+
+.root_error_wrapper {
+  min-height: 1.5rem;
+}

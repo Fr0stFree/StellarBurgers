@@ -4,17 +4,18 @@
   align-items: center;
   justify-content: center;
   height: 100%;
+  width: min(50%, 480px);
 }
 
 .container {
-  width: 480px;
+  width: 100%;
 }
 
 .title {
   text-align: center;
 }
 
-.registration_form {
+.form {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -25,9 +26,10 @@
   height: 64px;
   border-radius: 40px;
   padding-left: 24px;
+  padding-top: 12px;
   width: 100%;
-  background-color: #2F2F37;
-  color: #8585AD;
+  background-color: var(--background-light);
+  color: var(--text-main);
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
   border: none;
 }
@@ -35,8 +37,26 @@
 .form_error {
   border: none;
   min-height: 20px;
+  text-align: center;
+  display: block;
 }
 
 .text_field::placeholder {
-  color: #8585AD;
+  color: var(--text-main);
+}
+
+.help_paragraph {
+  text-align: center;
+}
+
+.link {
+  color: var(--link-active);
+  text-decoration: none;
+  opacity: 1;
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+
+.link:hover {
+  opacity: .8;
 }
