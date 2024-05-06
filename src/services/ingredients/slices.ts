@@ -10,14 +10,12 @@ import {RequestStatus} from "../types.ts";
 interface IngredientsState {
   all: IIngredient[];
   selected: ISelectedIngredient[];
-  previewed: IIngredient | null;
   getIngredientsRequestStatus: RequestStatus;
 }
 
 const initialState: IngredientsState = {
   all: [],
   selected: [],
-  previewed: null,
   getIngredientsRequestStatus: 'idle',
 };
 
@@ -25,12 +23,6 @@ const ingredientsSlice = createSlice({
   name: 'ingredients',
   initialState,
   reducers: {
-    previewIngredient(state, action: PayloadAction<IIngredient>) {
-      state.previewed = action.payload;
-    },
-    hidePreviewedIngredient(state) {
-      state.previewed = null;
-    },
     addBuns: {
       reducer: (state, action: PayloadAction<ISelectedIngredient[]>) => {
         state.selected = [
@@ -78,8 +70,6 @@ const ingredientsSlice = createSlice({
 export const {
   addIngredient,
   addBuns,
-  previewIngredient,
-  hidePreviewedIngredient,
   removeIngredient,
   reorderIngredients,
   hideIngredientsLoadingError,

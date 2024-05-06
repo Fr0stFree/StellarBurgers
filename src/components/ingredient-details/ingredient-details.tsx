@@ -1,14 +1,19 @@
-import {FC} from "react";
+import React, {FC} from "react";
 
 import styles from "./styles.module.css";
 
-import {type IIngredient} from "../../services/ingredients/types.ts";
+import {useParams} from "react-router-dom";
+import {useAppSelector} from "../../hooks.ts";
+import {TailSpin} from "react-loader-spinner";
 
-type IngredientDetailsProps = {
-  ingredient: IIngredient;
-}
+const IngredientDetails: FC = () => {
+  const { id } = useParams();
+  const { all: ingredients } = useAppSelector(state => state.ingredients);
 
-const IngredientDetails: FC<IngredientDetailsProps> = ({ingredient}) => {
+  const ingredient = ingredients.find(ingredient => ingredient._id === id);
+  if (!ingredient) {
+    return <div className={styles.loader}><TailSpin color="#4169E1" height={100} width={100}/></div>;
+  }
   return (
     <section className={`${styles.container} pt-10 pb-15`}>
       <h1 className={`${styles.title} text text_type_main-large ml-10`}>Детали ингредиента</h1>

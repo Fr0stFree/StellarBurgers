@@ -1,8 +1,9 @@
 import React, {FC, useEffect} from 'react';
-import {Route, Routes} from "react-router-dom";
+import {RotatingLines} from "react-loader-spinner";
+import {AnimatePresence, motion} from "framer-motion";
+import {Route, Routes, useNavigate} from "react-router-dom";
 
 import styles from './styles.module.css';
-
 import AppHeader from './components/app-header/app-header.tsx';
 import {
   ForgotPasswordPage,
@@ -19,51 +20,43 @@ import {
 import {useAppDispatch, useAppLocation, useAppSelector} from "../../hooks.ts";
 import ProtectedRoute from "../../hocs/protected-route.tsx";
 import {startSession} from "../../services/auth/thunks.ts";
-import {resetRequestStatus} from "../../services/auth/slices.ts";
 import Modal from "../modal/modal.tsx";
-import Tooltip from "../tooltip/tooltip.tsx";
+import IngredientDetails from "../ingredient-details/ingredient-details.tsx";
 
 const App: FC = () => {
   const dispatch = useAppDispatch();
-  const [ loginError, setLoginError ] = React.useState<string | null>(null);
+  const location = useAppLocation();
+  const navigate = useNavigate();
   const { startSessionRequestStatus: requestStatus } = useAppSelector(state => state.auth);
   useEffect(() => {
     try {
       dispatch(startSession()).unwrap();
     } catch (error: any) {
-      setLoginError(error.message);
+      console.error(error.message);
     }
   }, [dispatch]);
 
-  const handleCloseTooltip = () => {
-    dispatch(resetRequestStatus('startSession'));
-    setLoginError(null);
-  }
-
   let additionalContent;
   switch (requestStatus) {
-    case 'idle' || 'succeeded':
+    case 'idle' || 'succeeded' || 'failed':
       break;
     case 'pending':
       additionalContent = (
-        <Modal onClose={handleCloseTooltip}><Tooltip text="Входим в систему" showLoading /></Modal>
-      );
-      break;
-    case 'failed':
-      additionalContent = (
-        <Modal onClose={handleCloseTooltip}><Tooltip text={loginError || 'Не удалось войти'} /></Modal>
+        <motion.div className={styles.session_loader} animate={{opacity: 1}} exit={{opacity: 0}} transition={{duration: .8}}>
+          <span className="text text_color_inactive text_type_main-small mr-2">Входим в систему</span>
+          <RotatingLines strokeColor="#8585AD" width="15" />
+        </motion.div>
       );
       break;
   }
-  const location = useAppLocation();
-
+  const background = location.state?.background;
   return (
     <>
-      {additionalContent}
       <div className={`${styles.app} pt-10 mr-10 ml-10`}>
         <AppHeader/>
-        <Routes location={location.state?.background || location}>
-          <Route path="/" element={<HomePage/>}/>
+        <Routes location={background || location}>
+          <Route path="/" element={<HomePage/>} />
+          <Route path="ingredients/:id" element={<IngredientDetailsPage/>} />
           <Route path="login" element={
             <ProtectedRoute allowFor="anonymous">
               <LoginPage/>
@@ -92,10 +85,19 @@ const App: FC = () => {
             <Route index element={<ProfileInfoPage />}/>
             <Route path="orders" element={<OrdersHistoryPage />}/>
           </Route>
-          <Route path="ingredients/:id" element={<IngredientDetailsPage/>}/>
           <Route path="*" element={<NotFoundPage/>}/>
         </Routes>
+        {background && (
+          <Routes>
+            <Route path="/ingredients/:id" element={
+              <Modal onClose={() => navigate("/")}><IngredientDetails/></Modal>
+            }/>
+          </Routes>
+        )}
       </div>
+      <AnimatePresence initial={false}>
+        {additionalContent}
+      </AnimatePresence>
     </>
   )
 }

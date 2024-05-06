@@ -1,4 +1,4 @@
-import {createAsyncThunk} from "@reduxjs/toolkit";
+import {createAsyncThunk, SerializedError} from "@reduxjs/toolkit";
 
 import backendApi from "../api/api.ts";
 import {dropRefreshToken, loadRefreshToken, saveRefreshToken} from "./persistence.ts";
@@ -9,7 +9,7 @@ export const startSession = createAsyncThunk(
   async (_, thunkAPI) => {
     const refreshToken = loadRefreshToken();
     if (!refreshToken) {
-      return thunkAPI.fulfillWithValue({ user: null, accessToken: null, refreshToken: null })
+      return thunkAPI.fulfillWithValue({ user: null, accessToken: null, refreshToken: null });
     }
     const { accessToken, refreshToken: newRefreshToken } = await backendApi.updateAccessToken(refreshToken);
     const user = await backendApi.getUser(accessToken);
@@ -42,7 +42,10 @@ export const updateUser = createAsyncThunk(
     const state = thunkAPI.getState() as RootState;
     const { accessToken } = state.auth;
     if (!accessToken) {
-      return thunkAPI.rejectWithValue('No access token found');
+      return thunkAPI.rejectWithValue({
+        'message': 'No access token found',
+        'name': 'UnauthorizedError'
+      } as SerializedError);
     }
     return await backendApi.updateUser(payload, accessToken);
   }
