@@ -1,0 +1,8 @@
+.content {
+  height: 100%;
+  width: 100%;
+  max-width: 1240px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 60px;
+}

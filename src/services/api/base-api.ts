@@ -1,4 +1,4 @@
-import {DEFAULT_REQUEST_TIMEOUT} from "../constants.ts";
+import {DEFAULT_REQUEST_TIMEOUT} from "./constants.ts";
 
 class BaseApi {
   protected readonly baseUrl: string;
@@ -7,19 +7,14 @@ class BaseApi {
     this.baseUrl = baseUrl;
   }
 
-  protected checkResponse: (response: Response) => void = (response) => {
-    if (!response.ok) {
-      throw new Error(`Ошибка: ${response.status}`);
-    }
-  }
-
-  protected checkSuccess: (obj: any) => any = (obj) => {
-    const errorMessage = 'Ошибка валидации ответа:';
+  private checkSuccess(obj: any): any {
+    let errorMessage = 'Ошибка:';
     if (!obj.hasOwnProperty('success')) {
       throw new Error(errorMessage + ' отсутствует поле success');
     }
     if (!obj.success) {
-      throw new Error(errorMessage + ' сервер не подтвердил успешность операции');
+      obj.hasOwnProperty('message') ? errorMessage += ` ${obj.message}` : errorMessage += ' неизвестная ошибка';
+      throw new Error(errorMessage);
     }
     delete obj.success;
     return obj;
@@ -28,9 +23,49 @@ class BaseApi {
   protected async makeRequest(relativeUrl: string, options: RequestInit) {
     options.signal = options.signal || AbortSignal.timeout(DEFAULT_REQUEST_TIMEOUT);
     const response = await fetch(`${this.baseUrl}/${relativeUrl}`, options);
-    this.checkResponse(response);
     const data = await response.json();
     return this.checkSuccess(data);
+  }
+
+  protected async get(relativeUrl: string, extra: {accessToken?: string} = {}): Promise<any> {
+    const options = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+    if (extra.accessToken) {
+      options.headers['Authorization'] = extra.accessToken;
+    }
+    return this.makeRequest(relativeUrl, options);
+  }
+
+  protected async post(relativeUrl: string, body: any, extra: {accessToken?: string} = {}): Promise<any> {
+    const options: RequestInit = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body)
+    }
+    if (extra.accessToken) {
+      options.headers['Authorization'] = extra.accessToken;
+    }
+    return this.makeRequest(relativeUrl, options);
+  }
+
+  protected async patch(relativeUrl: string, body: any, extra: {accessToken?: string} = {}): Promise<any> {
+    const options: RequestInit = {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body)
+    }
+    if (extra.accessToken) {
+      options.headers['Authorization'] = extra.accessToken;
+    }
+    return this.makeRequest(relativeUrl, options);
   }
 }
 

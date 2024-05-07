@@ -1,0 +1,17 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.link {
+  cursor: pointer;
+  opacity: 1;
+  transition: opacity .4s;
+}
+
+.link:hover {
+  opacity: .6;
+}

@@ -2,10 +2,11 @@ import {createSlice} from '@reduxjs/toolkit';
 
 import {IOrder} from "./types";
 import {makeOrder} from "./thunks.ts";
+import {RequestStatus} from "../types.ts";
 
 interface OrdersState {
-  makeOrderRequestStatus: 'idle' | 'pending' | 'succeeded' | 'failed',
-  order: IOrder | null,
+  makeOrderRequestStatus: RequestStatus;
+  order: IOrder | null;
 }
 
 const initialState: OrdersState = {

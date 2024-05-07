@@ -1,0 +1,15 @@
+.link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  column-gap: 8px;
+  text-decoration: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  opacity: 1;
+  transition: opacity .4s;
+}
+
+.link:hover {
+  opacity: .7;
+}

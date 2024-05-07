@@ -17,6 +17,10 @@
   width: 720px;
   border-radius: 40px;
   min-height: 50vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .close_button {

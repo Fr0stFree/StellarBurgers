@@ -1,0 +1,27 @@
+.burger_ingredients {
+  height: 100%;
+  max-width: 50vw;
+  min-width: 35vw;
+  display: -webkit-box;
+  display: -moz-box;
+  -webkit-box-orient: vertical;
+  -moz-box-orient: vertical;
+}
+
+.ingredients_list {
+  overflow-y: auto;
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+}
+
+.ingredients_tab {
+  display: flex;
+  list-style: none;
+}
+
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 50vh;
+}

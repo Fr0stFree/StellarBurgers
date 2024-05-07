@@ -1,0 +1,62 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: min(50%, 480px);
+}
+
+.container {
+  width: 100%;
+}
+
+.title {
+  text-align: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.form_field {
+  height: 64px;
+  border-radius: 40px;
+  padding-left: 24px;
+  padding-top: 12px;
+  width: 100%;
+  background-color: var(--background-light);
+  color: var(--text-main);
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+  border: none;
+}
+
+.form_error {
+  border: none;
+  min-height: 20px;
+  text-align: center;
+  display: block;
+}
+
+.text_field::placeholder {
+  color: var(--text-main);
+}
+
+.help_paragraph {
+  text-align: center;
+}
+
+.link {
+  color: var(--link-active);
+  text-decoration: none;
+  opacity: 1;
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+
+.link:hover {
+  opacity: .8;
+}

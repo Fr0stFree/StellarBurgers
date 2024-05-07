@@ -3,8 +3,9 @@ import {CloseIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {createPortal} from "react-dom";
 import {motion} from "framer-motion";
 
-import ModalOverlay from "./components/modal-overlay/modal-overlay";
 import styles from './styles.module.css';
+
+import ModalOverlay from "./components/modal-overlay/modal-overlay";
 
 type ModalProps = {
   children: React.ReactNode;
@@ -20,7 +21,7 @@ const Modal: FC<ModalProps> = ({children, onClose}) => {
 
   return createPortal(
     <ModalOverlay onClick={onClose}>
-      <motion.div className={styles.modal}
+      <motion.div className={`${styles.modal} pr-4 pl-4 pb-6`}
                   onClick={e => e.stopPropagation()}
                   initial={{opacity: 0}}
                   animate={{opacity: 1}}
