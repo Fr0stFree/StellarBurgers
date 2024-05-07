@@ -29,13 +29,7 @@ const App: FC = () => {
   const location = useAppLocation();
   const navigate = useNavigate();
   const { startSessionRequestStatus: requestStatus } = useAppSelector(state => state.auth);
-  useEffect(() => {
-    try {
-      dispatch(startSession()).unwrap();
-    } catch (error: any) {
-      console.error(error.message);
-    }
-  }, [dispatch]);
+  useEffect(() => void dispatch(startSession()), [dispatch]);
 
   let additionalContent;
   switch (requestStatus) {
