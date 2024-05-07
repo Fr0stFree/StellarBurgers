@@ -73,7 +73,7 @@ const App: FC = () => {
             </ProtectedRoute>
           }/>
           <Route path="profile" element={
-            <ProtectedRoute allowFor="anonymous">
+            <ProtectedRoute allowFor="authenticated">
               <ProfilePage/>
             </ProtectedRoute>
           }>
