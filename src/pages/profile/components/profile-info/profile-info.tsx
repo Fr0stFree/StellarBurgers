@@ -165,7 +165,7 @@ const ProfileInfoPage: FC = () => {
             </span>
           </div>
         </div>
-        {!!(isNameInChangeMode || isLoginInChangeMode || isPasswordInChangeMode) && (
+        {(isNameInChangeMode || isLoginInChangeMode || isPasswordInChangeMode) && (
           <div style={{display: 'flex', justifyContent: 'space-between'}}>
             <Button type="primary"
                     size="medium"

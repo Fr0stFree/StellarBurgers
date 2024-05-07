@@ -4,6 +4,7 @@ import {AnimatePresence, motion} from "framer-motion";
 import {Route, Routes, useNavigate} from "react-router-dom";
 
 import styles from './styles.module.css';
+
 import AppHeader from './components/app-header/app-header.tsx';
 import {
   ForgotPasswordPage,
@@ -78,7 +79,7 @@ const App: FC = () => {
             </ProtectedRoute>
           }/>
           <Route path="profile" element={
-            <ProtectedRoute allowFor="authenticated">
+            <ProtectedRoute allowFor="anonymous">
               <ProfilePage/>
             </ProtectedRoute>
           }>
