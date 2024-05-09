@@ -36,7 +36,9 @@ const ConstructorIngredient: FC<IConstructorIngredientProps> = ({ingredient, pos
         <DragIcon type="primary"/>
       </div>
       <ConstructorElement price={ingredient.price}
-                          text={position === 'top' ? `${ingredient.name} (верх)`: position === 'bottom' ? `${ingredient.name} (низ)` : ingredient.name}
+                          text={position === 'top' ? `${ingredient.name} (верх)`
+                                                   : position === 'bottom' ? `${ingredient.name} (низ)`
+                                                   : ingredient.name}
                           thumbnail={ingredient.image}
                           type={position}
                           isLocked={ingredient.type === IngredientType.BUN}

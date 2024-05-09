@@ -37,12 +37,16 @@ const RegisterPage: FC = () => {
       break;
     case 'pending':
       additionalContent = (
-        <Modal onClose={handleCloseTooltip}><Tooltip text="Регистрируемся" showLoading /></Modal>
+        <Modal onClose={handleCloseTooltip}>
+          <Tooltip text="Регистрируемся" showLoading />
+        </Modal>
       );
       break;
     case 'failed':
       additionalContent = (
-        <Modal onClose={handleCloseTooltip}><Tooltip text={errors.root?.message || 'Ошибка регистрации'} /></Modal>
+        <Modal onClose={handleCloseTooltip}>
+          <Tooltip text={errors.root?.message || 'Ошибка регистрации'} />
+        </Modal>
       );
       break;
     case 'succeeded':
@@ -60,8 +64,14 @@ const RegisterPage: FC = () => {
                  placeholder="Имя"
                  {...register("name", {
                    required: 'Введите имя',
-                   minLength: {value: MIN_NAME_LENGTH, message: `Минимальная длина имени - ${MIN_NAME_LENGTH} символов`},
-                   maxLength: {value: MAX_NAME_LENGTH, message: `Максимальная длина имени - ${MAX_NAME_LENGTH} символов`},
+                   minLength: {
+                     value: MIN_NAME_LENGTH,
+                     message: `Минимальная длина имени - ${MIN_NAME_LENGTH} символов`
+                   },
+                   maxLength: {
+                     value: MAX_NAME_LENGTH,
+                     message: `Максимальная длина имени - ${MAX_NAME_LENGTH} символов`
+                   },
                  })}
           />
           <span className={`text text_type_main-small text_color_error ${formStyles.form_error} mb-3`}
@@ -85,7 +95,10 @@ const RegisterPage: FC = () => {
                  placeholder="Пароль"
                  {...register("password", {
                    required: 'Введите пароль',
-                   minLength: {value: MIN_PASSWORD_LENGTH, message: `Минимальная длина пароля - ${MIN_PASSWORD_LENGTH} символов`},
+                   minLength: {
+                     value: MIN_PASSWORD_LENGTH,
+                     message: `Минимальная длина пароля - ${MIN_PASSWORD_LENGTH} символов`
+                   },
                  })}
           />
           <span className={`text text_type_main-small text_color_error ${formStyles.form_error} mb-3`}

@@ -35,12 +35,16 @@ const ForgotPasswordPage: FC = () => {
       break;
     case 'pending':
       additionalContent = (
-        <Modal onClose={handleCloseTooltip}><Tooltip text="Пожалуйста, подождите" showLoading /></Modal>
+        <Modal onClose={handleCloseTooltip}>
+          <Tooltip text="Пожалуйста, подождите" showLoading />
+        </Modal>
       );
       break;
     case 'failed':
       additionalContent = (
-        <Modal onClose={handleCloseTooltip}><Tooltip text={errors.root?.message || 'Что-то пошло не так...'} /></Modal>
+        <Modal onClose={handleCloseTooltip}>
+          <Tooltip text={errors.root?.message || 'Что-то пошло не так...'} />
+        </Modal>
       );
       break;
     case 'succeeded':

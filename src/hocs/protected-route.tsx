@@ -3,12 +3,12 @@ import React, {FC} from "react";
 
 import {useAppLocation, useAppSelector} from "../hooks.ts";
 
-type ProtectedRouteProps = {
+interface IProtectedRouteProps {
   allowFor: 'anonymous' | 'authenticated';
   children: React.ReactNode;
 }
 
-const ProtectedRoute: FC<ProtectedRouteProps> = ({ allowFor, children }) => {
+const ProtectedRoute: FC<IProtectedRouteProps> = ({ allowFor, children }) => {
   const location = useAppLocation();
   const isAuthenticated = useAppSelector(state => !!state.auth.user);
 

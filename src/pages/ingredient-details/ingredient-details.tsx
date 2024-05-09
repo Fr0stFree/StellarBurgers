@@ -21,7 +21,11 @@ const IngredientDetailsPage: FC = () => {
       content = <NotFoundPage />;
       break;
     case 'pending':
-      content = <div className={styles.loader}><TailSpin color="#4169E1" height={150} width={150}/></div>;
+      content = (
+        <div className={styles.loader}>
+          <TailSpin color="#4169E1" height={150} width={150}/>
+        </div>
+      );
       break;
     case 'succeeded':
       content = <IngredientDetails />;

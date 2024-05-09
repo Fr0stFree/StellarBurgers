@@ -44,23 +44,31 @@ const BurgerIngredients: FC = () => {
   let content = null;
   switch (requestStatus) {
     case 'failed':
-      content = <Modal onClose={handleCloseTooltip}><Tooltip text="Не удалось загрузить ингредиенты"/></Modal>;
+      content = (
+        <Modal onClose={handleCloseTooltip}>
+          <Tooltip text="Не удалось загрузить ингредиенты"/>
+        </Modal>
+      );
       break;
     case 'pending':
-      content = <div className={styles.loader}><TailSpin color="#4169E1" height={100} width={100}/></div>;
+      content = (
+        <div className={styles.loader}>
+          <TailSpin color="#4169E1" height={100} width={100}/>
+        </div>
+      );
       break;
     case 'succeeded':
       content = (
         <>
-          <li ref={bunsRef}>
+          <div ref={bunsRef}>
             <BurgerIngredientsPartition title="Булки" ingredients={filteredIngredients[IngredientType.BUN]}/>
-          </li>
-          <li ref={saucesRef}>
+          </div>
+          <div ref={saucesRef}>
             <BurgerIngredientsPartition title="Соусы" ingredients={filteredIngredients[IngredientType.SAUCE]}/>
-          </li>
-          <li ref={mainsRef}>
+          </div>
+          <div ref={mainsRef}>
             <BurgerIngredientsPartition title="Начинки" ingredients={filteredIngredients[IngredientType.MAIN]}/>
-          </li>
+          </div>
         </>
       );
       break;
@@ -69,7 +77,7 @@ const BurgerIngredients: FC = () => {
   }
   return (
     <article className={`${styles.burger_ingredients} pt-10`}>
-      <section className="mb-10">
+      <nav className="mb-10">
         <h1 className="text text_type_main-large mb-5">Соберите бургер</h1>
         <ul className={styles.ingredients_tab}>
           <li>
@@ -94,7 +102,7 @@ const BurgerIngredients: FC = () => {
             </Tab>
           </li>
         </ul>
-      </section>
+      </nav>
       <section className={styles.ingredients_list}>
         {content}
       </section>

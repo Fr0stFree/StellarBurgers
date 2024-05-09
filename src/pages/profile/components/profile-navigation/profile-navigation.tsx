@@ -10,7 +10,7 @@ const ProfileNavigation: FC = () => {
   const handleLogout = () => logoutRef.current?.handleLogout();
 
   return (
-    <section className={styles.navigation_bar}>
+    <nav className={styles.navigation_bar}>
       <p className={styles.link_container}>
         <NavLink to="/profile" end className={({ isActive }) => (
           `${styles.link} text text_type_main-medium ${isActive ? 'text_color_primary' : 'text_color_inactive'}`
@@ -34,7 +34,7 @@ const ProfileNavigation: FC = () => {
       <p className="mt-20 text text_type_main-small text_color_inactive">
         В этом разделе вы можете изменить свои персональные данные
       </p>
-    </section>
+    </nav>
   )
 }
 

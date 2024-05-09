@@ -36,12 +36,16 @@ const LoginPage: FC = () => {
       break;
     case 'pending':
       additionalContent = (
-        <Modal onClose={handleCloseTooltip}><Tooltip text="Пожалуйста, подождите" showLoading /></Modal>
+        <Modal onClose={handleCloseTooltip}>
+          <Tooltip text="Пожалуйста, подождите" showLoading />
+        </Modal>
       );
       break;
     case 'failed':
       additionalContent = (
-        <Modal onClose={handleCloseTooltip}><Tooltip text={errors.root?.message || 'Ошибка входа'} /></Modal>
+        <Modal onClose={handleCloseTooltip}>
+          <Tooltip text={errors.root?.message || 'Ошибка входа'} />
+        </Modal>
       );
       break;
     case 'succeeded':
