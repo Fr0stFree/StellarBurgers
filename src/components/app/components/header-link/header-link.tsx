@@ -4,12 +4,12 @@ import {NavLink, type NavLinkProps} from "react-router-dom";
 import styles from "./styles.module.css";
 import {TIconProps} from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons/utils";
 
-type HeaderLinkProps = {
+interface IHeaderLinkProps extends NavLinkProps {
   text: string;
   icon: FC<TIconProps>;
-} & NavLinkProps;
+}
 
-const HeaderLink: FC<HeaderLinkProps> = ({text, icon: Icon, ...props}) => {
+const HeaderLink: FC<IHeaderLinkProps> = ({text, icon: Icon, ...props}) => {
   return (
     <NavLink {...props} className={styles.link}>
       {({ isActive }) => (

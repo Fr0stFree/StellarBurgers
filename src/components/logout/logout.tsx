@@ -6,9 +6,11 @@ import {resetRequestStatus} from "../../services/auth/slices.ts";
 import Modal from "../modal/modal.tsx";
 import Tooltip from "../tooltip/tooltip.tsx";
 
-type LogoutProps = React.RefAttributes<{handleLogout: () => void}> & {}
+export interface ILogoutRefAttrs {
+  handleLogout: () => void;
+}
 
-const Logout: FC<LogoutProps> = forwardRef((_, ref) => {
+const Logout: FC<React.RefAttributes<Readonly<ILogoutRefAttrs>>> = forwardRef((_, ref) => {
   const dispatch = useAppDispatch();
   useImperativeHandle(ref, () => ({ handleLogout }));
   const {logoutRequestStatus: requestStatus} = useAppSelector(state => state.auth);

@@ -3,12 +3,12 @@ import {ThreeDots} from "react-loader-spinner";
 
 import styles from './styles.module.css';
 
-type TooltipProps = {
+interface ITooltipProps {
   text?: string;
   showLoading?: boolean;
 }
 
-const Tooltip: FC<TooltipProps> = ({text = 'Загрузка', showLoading = false}) => {
+const Tooltip: FC<ITooltipProps> = ({text = 'Загрузка', showLoading = false}) => {
   return (
     <div className={`${styles.container} text text_type_main-medium`}>
       <span className={`${styles.text} mr-4`}>{text}</span>

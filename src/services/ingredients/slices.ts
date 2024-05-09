@@ -2,10 +2,10 @@ import {createSlice, type PayloadAction} from '@reduxjs/toolkit';
 import {v4 as uuid4} from 'uuid';
 
 import {type IIngredient, type ISelectedIngredient} from "./types.ts";
+import {type TRequestStatus} from "../common/types.ts";
 import {IngredientType} from "./const.ts";
 import {makeOrderThunk} from "../orders/thunks.ts";
 import {getIngredientsThunk} from "./thunks.ts";
-import {TRequestStatus} from "../types.ts";
 
 interface IngredientsState {
   all: IIngredient[];

@@ -7,7 +7,7 @@ import {useNavigate} from "react-router-dom";
 
 import styles from './styles.module.css';
 
-import {type IIngredient, ISelectedIngredient} from "../../../../services/ingredients/types.ts";
+import {type IIngredient, type ISelectedIngredient} from "../../../../services/ingredients/types.ts";
 import {useAppDispatch, useAppLocation, useAppSelector} from "../../../../hooks.ts";
 import {addBuns, addIngredient, reorderIngredients} from "../../../../services/ingredients/slices.ts";
 import {hideOrder} from "../../../../services/orders/slices.ts";

@@ -1,8 +1,8 @@
 import {createSlice} from '@reduxjs/toolkit';
 
-import {IOrder} from "./types";
+import {type IOrder} from "./types";
+import {type TRequestStatus} from "../common/types.ts";
 import {makeOrderThunk} from "./thunks.ts";
-import {TRequestStatus} from "../types.ts";
 
 interface OrdersState {
   makeOrderRequestStatus: TRequestStatus;

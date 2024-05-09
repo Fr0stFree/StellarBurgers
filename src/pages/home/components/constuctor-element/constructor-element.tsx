@@ -9,14 +9,14 @@ import {removeIngredient} from "../../../../services/ingredients/slices.ts";
 import {useAppDispatch} from "../../../../hooks.ts";
 import {IngredientType} from "../../../../services/ingredients/const.ts";
 
-type ConstructorIngredientProps = {
+interface IConstructorIngredientProps {
   ingredient: ISelectedIngredient;
   position?: 'bottom' | 'top';
   index: number;
   onReorderEnd?: () => void;
 }
 
-const ConstructorIngredient: FC<ConstructorIngredientProps> = ({ingredient, position, index, onReorderEnd}) => {
+const ConstructorIngredient: FC<IConstructorIngredientProps> = ({ingredient, position, index, onReorderEnd}) => {
   const dispatch = useAppDispatch();
   const handleRemoveIngredient = () => dispatch(removeIngredient(index));
   const controls = useDragControls();

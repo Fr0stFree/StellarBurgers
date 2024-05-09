@@ -18,21 +18,21 @@ import {resetRequestStatus} from "../../../../services/auth/slices.ts";
 import Modal from "../../../../components/modal/modal.tsx";
 import Tooltip from "../../../../components/tooltip/tooltip.tsx";
 
-type FormInputs = {
+interface IFormInputs {
   name?: string;
   email?: string;
   password?: string;
 }
 
 const ProfileInfoPage: FC = () => {
-  const { user, updateUserRequestStatus: requestStatus } = useAppSelector(state => state.auth);
   const dispatch = useAppDispatch();
+  const { user, updateUserRequestStatus: requestStatus } = useAppSelector(state => state.auth);
   const [ isNameInChangeMode, setNameChangeMode ] = React.useState<boolean>(false);
   const [ isLoginInChangeMode, setLoginChangeMode ] = React.useState<boolean>(false);
   const [ isPasswordInChangeMode, setPasswordChangeMode ] = React.useState<boolean>(false);
-  const { register, handleSubmit, formState: { errors }, reset, setError } = useForm<FormInputs>({mode: 'onChange'});
+  const { register, handleSubmit, formState: { errors }, reset, setError } = useForm<IFormInputs>({mode: 'onChange'});
 
-  const onSubmit: SubmitHandler<FormInputs> = async (data) => {
+  const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
     try {
       await dispatch(updateUserThunk(data)).unwrap()
     } catch (error: any) {

@@ -12,7 +12,7 @@ import Modal from "../../components/modal/modal.tsx";
 import Tooltip from "../../components/tooltip/tooltip.tsx";
 import {resetRequestStatus} from "../../services/auth/slices.ts";
 
-type FormInputs = {
+interface IFormInputs {
   email: string;
   password: string;
 }
@@ -20,8 +20,8 @@ type FormInputs = {
 const LoginPage: FC = () => {
   const dispatch = useAppDispatch();
   const { loginRequestStatus: requestStatus } = useAppSelector(state => state.auth);
-  const { register, handleSubmit, formState: { errors }, setError } = useForm<FormInputs>({mode: 'onBlur'});
-  const onSubmit: SubmitHandler<FormInputs> = async (data) => {
+  const { register, handleSubmit, formState: { errors }, setError } = useForm<IFormInputs>({mode: 'onBlur'});
+  const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
     try {
       await dispatch(loginUserThunk(data)).unwrap();
     } catch (error: any) {

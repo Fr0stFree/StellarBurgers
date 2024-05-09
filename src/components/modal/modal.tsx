@@ -7,12 +7,12 @@ import styles from './styles.module.css';
 
 import ModalOverlay from "./components/modal-overlay/modal-overlay";
 
-type ModalProps = {
+interface IModalProps {
   children: React.ReactNode;
   onClose: () => void;
-};
+}
 
-const Modal: FC<ModalProps> = ({children, onClose}) => {
+const Modal: FC<IModalProps> = ({children, onClose}) => {
   useEffect(() => {
     const closeModalByEscape = (event: KeyboardEvent) => event.key === 'Escape' && onClose();
     document.addEventListener('keydown', closeModalByEscape);
