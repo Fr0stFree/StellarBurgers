@@ -1,8 +1,8 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 
-import backendApi from "../api/api.ts";
+import { getIngredients } from "./api";
 
-export const getIngredients = createAsyncThunk(
+export const getIngredientsThunk = createAsyncThunk(
   'ingredients/getIngredients',
-  async () => await backendApi.getIngredients(),
+  async () => await getIngredients(),
 );

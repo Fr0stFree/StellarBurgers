@@ -1,12 +1,12 @@
 import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux'
-import type {AppDispatch, RootState} from './services/store'
-import { useLocation, Location } from 'react-router-dom';
+import {Location, useLocation} from 'react-router-dom';
 
-interface LocationState {
-  from: Location;
-  background: Location;
-}
+import store from "./services/store.ts";
 
-export const useAppDispatch: () => AppDispatch = useDispatch;
-export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
-export const useAppLocation: () => Location<LocationState> = useLocation;
+export type TRootState = ReturnType<typeof store.getState>
+export type TAppDispatch = typeof store.dispatch
+export type TLocationState = { from: Location; background: Location }
+
+export const useAppDispatch: () => TAppDispatch = useDispatch;
+export const useAppSelector: TypedUseSelectorHook<TRootState> = useSelector;
+export const useAppLocation: () => Location<TLocationState> = useLocation;

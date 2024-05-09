@@ -1,7 +1,7 @@
 import React, {FC, forwardRef, useImperativeHandle} from "react";
 
 import {useAppDispatch, useAppSelector} from "../../hooks.ts";
-import {logoutUser} from "../../services/auth/thunks.ts";
+import {logoutUserThunk} from "../../services/auth/thunks.ts";
 import {resetRequestStatus} from "../../services/auth/slices.ts";
 import Modal from "../modal/modal.tsx";
 import Tooltip from "../tooltip/tooltip.tsx";
@@ -13,7 +13,7 @@ const Logout: FC<LogoutProps> = forwardRef((_, ref) => {
   useImperativeHandle(ref, () => ({ handleLogout }));
   const {logoutRequestStatus: requestStatus} = useAppSelector(state => state.auth);
 
-  const handleLogout = () => dispatch(logoutUser())
+  const handleLogout = () => dispatch(logoutUserThunk())
   const handleCloseTooltip = () => dispatch(resetRequestStatus('logout'));
 
   let content;

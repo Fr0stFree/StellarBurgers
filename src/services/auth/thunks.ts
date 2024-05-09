@@ -1,45 +1,55 @@
 import {createAsyncThunk, SerializedError} from "@reduxjs/toolkit";
 
-import backendApi from "../api/api.ts";
-import {dropRefreshToken, loadRefreshToken, saveRefreshToken} from "./persistence.ts";
-import {RootState} from "../store.ts";
+import {
+  getUser,
+  updateUser,
+  loginUser,
+  logoutUser,
+  registerUser,
+  requestPasswordReset,
+  resetPassword,
+  updateAccessToken,
+} from "./api.ts";
+import {refreshTokenPersistence} from "./persistence.ts";
+import {type TRootState} from "../../hooks.ts";
+import {type IUserWithPassword} from "./types.ts";
 
-export const startSession = createAsyncThunk(
+export const startSessionThunk = createAsyncThunk(
   'auth/startSession',
   async (_, thunkAPI) => {
-    const refreshToken = loadRefreshToken();
+    const refreshToken = refreshTokenPersistence.load();
     if (!refreshToken) {
       return thunkAPI.fulfillWithValue({ user: null, accessToken: null, refreshToken: null });
     }
-    const { accessToken, refreshToken: newRefreshToken } = await backendApi.updateAccessToken(refreshToken);
-    const user = await backendApi.getUser(accessToken);
-    saveRefreshToken(newRefreshToken);
+    const { accessToken, refreshToken: newRefreshToken } = await updateAccessToken(refreshToken);
+    const user = await getUser(accessToken);
+    refreshTokenPersistence.save(newRefreshToken);
     return { user, accessToken, refreshToken: newRefreshToken };
   }
 );
 
-export const registerUser = createAsyncThunk(
+export const registerUserThunk = createAsyncThunk(
   'auth/register',
-  async (payload: {email: string, password: string, name: string}) => {
-    const client = await backendApi.register(payload);
-    saveRefreshToken(client.refreshToken);
+  async (payload: IUserWithPassword) => {
+    const client = await registerUser(payload);
+    refreshTokenPersistence.save(client.refreshToken);
     return client;
   }
 );
 
-export const loginUser = createAsyncThunk(
+export const loginUserThunk = createAsyncThunk(
   'auth/login',
-  async (payload: {email: string, password: string}) => {
-    const client = await backendApi.login(payload);
-    saveRefreshToken(client.refreshToken);
+  async (payload: Omit<IUserWithPassword, 'name'>) => {
+    const client = await loginUser(payload);
+    refreshTokenPersistence.save(client.refreshToken);
     return client;
   }
 );
 
-export const updateUser = createAsyncThunk(
+export const updateUserThunk = createAsyncThunk(
   'auth/updateUser',
-  async (payload: {email?: string, name?: string, password?: string}, thunkAPI) => {
-    const state = thunkAPI.getState() as RootState;
+  async (payload: Partial<IUserWithPassword>, thunkAPI) => {
+    const state = thunkAPI.getState() as TRootState;
     const { accessToken } = state.auth;
     if (!accessToken) {
       return thunkAPI.rejectWithValue({
@@ -47,29 +57,29 @@ export const updateUser = createAsyncThunk(
         'name': 'UnauthorizedError'
       } as SerializedError);
     }
-    return await backendApi.updateUser(payload, accessToken);
+    return await updateUser(payload, accessToken);
   }
 );
 
-export const forgotPassword = createAsyncThunk(
+export const forgotPasswordThunk = createAsyncThunk(
   'auth/forgotPassword',
-  async (payload: {email: string}) => await backendApi.requestPasswordReset(payload.email)
+  async (payload: {email: string}) => await requestPasswordReset(payload.email)
 );
 
-export const resetPassword = createAsyncThunk(
+export const resetPasswordThunk = createAsyncThunk(
   'auth/resetPassword',
-  async (payload: {password: string, confirmationCode: string}) => await backendApi.resetPassword(payload)
+  async (payload: {password: string, confirmationCode: string}) => await resetPassword(payload)
 );
 
-export const logoutUser = createAsyncThunk(
+export const logoutUserThunk = createAsyncThunk(
   'auth/logout',
   async (_, thunkAPI) => {
-    const state = thunkAPI.getState() as RootState;
+    const state = thunkAPI.getState() as TRootState;
     const { refreshToken } = state.auth;
     if (!refreshToken) {
       return thunkAPI.rejectWithValue('No refresh token found');
     }
-    await backendApi.logout(refreshToken);
-    dropRefreshToken();
+    await logoutUser(refreshToken);
+    refreshTokenPersistence.drop();
   }
 );

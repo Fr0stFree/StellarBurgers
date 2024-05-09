@@ -1,11 +1,11 @@
 import {createSlice} from '@reduxjs/toolkit';
 
 import {IOrder} from "./types";
-import {makeOrder} from "./thunks.ts";
-import {RequestStatus} from "../types.ts";
+import {makeOrderThunk} from "./thunks.ts";
+import {TRequestStatus} from "../types.ts";
 
 interface OrdersState {
-  makeOrderRequestStatus: RequestStatus;
+  makeOrderRequestStatus: TRequestStatus;
   order: IOrder | null;
 }
 
@@ -23,14 +23,14 @@ const ordersSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(makeOrder.pending, (state) => {
+    builder.addCase(makeOrderThunk.pending, (state) => {
       state.makeOrderRequestStatus = 'pending';
     });
-    builder.addCase(makeOrder.fulfilled, (state, action) => {
+    builder.addCase(makeOrderThunk.fulfilled, (state, action) => {
       state.makeOrderRequestStatus = 'succeeded';
       state.order = action.payload;
     });
-    builder.addCase(makeOrder.rejected, (state) => {
+    builder.addCase(makeOrderThunk.rejected, (state) => {
       state.makeOrderRequestStatus = 'failed';
     });
   }

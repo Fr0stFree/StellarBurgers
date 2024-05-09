@@ -1,6 +1,7 @@
 import React, {FC} from "react";
 import {Button, EditIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {SubmitHandler, useForm} from "react-hook-form";
+import {AnimatePresence, motion} from "framer-motion";
 
 import formStyles from "../../../../components/form/styles.module.css";
 import styles from "./styles.module.css";
@@ -12,7 +13,7 @@ import {
   MIN_PASSWORD_LENGTH,
 } from "../../../../services/auth/const.ts";
 import {useAppDispatch, useAppSelector} from "../../../../hooks.ts";
-import {updateUser} from "../../../../services/auth/thunks.ts";
+import {updateUserThunk} from "../../../../services/auth/thunks.ts";
 import {resetRequestStatus} from "../../../../services/auth/slices.ts";
 import Modal from "../../../../components/modal/modal.tsx";
 import Tooltip from "../../../../components/tooltip/tooltip.tsx";
@@ -33,7 +34,7 @@ const ProfileInfoPage: FC = () => {
 
   const onSubmit: SubmitHandler<FormInputs> = async (data) => {
     try {
-      await dispatch(updateUser(data)).unwrap()
+      await dispatch(updateUserThunk(data)).unwrap()
     } catch (error: any) {
       setError('root', {message: error.message});
     } finally {
@@ -165,8 +166,13 @@ const ProfileInfoPage: FC = () => {
             </span>
           </div>
         </div>
+        <AnimatePresence>
         {(isNameInChangeMode || isLoginInChangeMode || isPasswordInChangeMode) && (
-          <div style={{display: 'flex', justifyContent: 'space-between'}}>
+          <motion.div style={{display: 'flex', justifyContent: 'space-between'}}
+                      initial={{opacity: 0}}
+                      animate={{opacity: 1, transition: {duration: .2}}}
+                      exit={{opacity: 0}}
+            >
             <Button type="primary"
                     size="medium"
                     htmlType="submit"
@@ -178,8 +184,9 @@ const ProfileInfoPage: FC = () => {
                     onClick={handleReset}
             >Отменить
             </Button>
-          </div>
+          </motion.div>
         )}
+        </AnimatePresence>
       </form>
     </section>
 )

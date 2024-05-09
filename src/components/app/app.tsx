@@ -20,7 +20,7 @@ import {
 } from '../../pages';
 import {useAppDispatch, useAppLocation, useAppSelector} from "../../hooks.ts";
 import ProtectedRoute from "../../hocs/protected-route.tsx";
-import {startSession} from "../../services/auth/thunks.ts";
+import {startSessionThunk} from "../../services/auth/thunks.ts";
 import Modal from "../modal/modal.tsx";
 import IngredientDetails from "../ingredient-details/ingredient-details.tsx";
 
@@ -29,7 +29,7 @@ const App: FC = () => {
   const location = useAppLocation();
   const navigate = useNavigate();
   const { startSessionRequestStatus: requestStatus } = useAppSelector(state => state.auth);
-  useEffect(() => void dispatch(startSession()), [dispatch]);
+  useEffect(() => void dispatch(startSessionThunk()), [dispatch]);
 
   let additionalContent;
   switch (requestStatus) {

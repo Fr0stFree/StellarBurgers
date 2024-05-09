@@ -1,6 +1,6 @@
 export interface IOrder {
-  name: string;
-  order: {
-    number: number;
+  readonly name: string;
+  readonly order: {
+    readonly number: number;
   };
 }

@@ -16,7 +16,7 @@ import ConstructorIngredient from "../constuctor-element/constructor-element.tsx
 import Modal from "../../../../components/modal/modal.tsx";
 import OrderDetails from "../../../../components/order-details/order-details.tsx";
 import Tooltip from "../../../../components/tooltip/tooltip.tsx";
-import {makeOrder} from "../../../../services/orders/thunks.ts";
+import {makeOrderThunk} from "../../../../services/orders/thunks.ts";
 import {isIngredientsOrderCorrect} from "./utils.ts";
 
 const BurgerConstructor: FC = () => {
@@ -42,7 +42,7 @@ const BurgerConstructor: FC = () => {
     if (!isAuthenticated) {
       return navigate('/login', {state: {from: location.pathname}});
     }
-    dispatch(makeOrder(ingredients.map(ingredient => ingredient._id)));
+    dispatch(makeOrderThunk(ingredients.map(ingredient => ingredient._id)));
   }
   const handleCloseOrderModal = () => dispatch(hideOrder());
   const handleCloseTooltip = () => dispatch(hideOrder());
