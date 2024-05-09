@@ -16,7 +16,7 @@ interface IBurgerIngredientProps {
 
 const BurgerIngredient: FC<IBurgerIngredientProps> = ({ingredient}) => {
   const location = useAppLocation();
-  const { selected: ingredients} = useAppSelector(state => state.ingredients);
+  const { selected: ingredients } = useAppSelector(state => state.ingredients);
   const [_, dragRef] = useDrag(() => ({
     type: DraggableType.NEW_INGREDIENT,
     item: ingredient,
@@ -25,7 +25,7 @@ const BurgerIngredient: FC<IBurgerIngredientProps> = ({ingredient}) => {
     }),
   }));
 
-  const totalPrice = useMemo(() => (
+  const selectedAmount = useMemo(() => (
     ingredients.reduce((acc, item) => item._id === ingredient._id ? acc + 1 : acc, 0)
   ), [ingredients])
   return (
@@ -34,7 +34,7 @@ const BurgerIngredient: FC<IBurgerIngredientProps> = ({ingredient}) => {
                 whileHover={{opacity: 1, scale: 1.01}}
                 transition={{duration: .2}}
     >
-      {totalPrice > 0 && <span className={`${styles.amount} text text_type_digits-small`}>{totalPrice}</span>}
+      {selectedAmount > 0 && <span className={`${styles.amount} text text_type_digits-small`}>{selectedAmount}</span>}
       <Link to={`/ingredients/${ingredient._id}`} state={{background: location}}>
         <img src={ingredient.image} alt={ingredient.name} className="mb-1" />
       </Link>

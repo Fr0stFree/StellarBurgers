@@ -59,7 +59,7 @@ const BurgerConstructor: FC = () => {
     return setOrderError(null);
   }, [ingredients]);
 
-  const orderPrice = useMemo(() => (
+  const totalPrice = useMemo(() => (
     ingredients.reduce((accumulator, ingredient) => accumulator + ingredient.price, 0)
   ), [ingredients]);
 
@@ -102,7 +102,7 @@ const BurgerConstructor: FC = () => {
         {!!ingredients.length &&
           <div className={styles.order}>
             <p className="mr-10">
-              <span className="text text_type_digits-medium">{orderPrice}</span>
+              <span className="text text_type_digits-medium">{totalPrice}</span>
               <CurrencyIcon type="primary"/>
             </p>
             <div data-tooltip-id="order-error" data-tooltip-content={orderError} data-tooltip-place="top">

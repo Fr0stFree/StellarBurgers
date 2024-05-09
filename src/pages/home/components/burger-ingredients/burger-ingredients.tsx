@@ -67,7 +67,6 @@ const BurgerIngredients: FC = () => {
     case 'idle':
       break;
   }
-
   return (
     <article className={`${styles.burger_ingredients} pt-10`}>
       <section className="mb-10">

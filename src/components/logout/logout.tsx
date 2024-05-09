@@ -12,7 +12,7 @@ export interface ILogoutRefAttrs {
 
 const Logout: FC<React.RefAttributes<Readonly<ILogoutRefAttrs>>> = forwardRef((_, ref) => {
   const dispatch = useAppDispatch();
-  useImperativeHandle(ref, () => ({ handleLogout }));
+  useImperativeHandle(ref, () => ({handleLogout }));
   const {logoutRequestStatus: requestStatus} = useAppSelector(state => state.auth);
 
   const handleLogout = () => dispatch(logoutUserThunk())
@@ -25,12 +25,16 @@ const Logout: FC<React.RefAttributes<Readonly<ILogoutRefAttrs>>> = forwardRef((_
       break;
     case 'pending':
       content = (
-        <Modal onClose={handleCloseTooltip}><Tooltip text="Пожалуйста, подождите" showLoading /></Modal>
+        <Modal onClose={handleCloseTooltip}>
+          <Tooltip text="Пожалуйста, подождите" showLoading />
+        </Modal>
       );
       break;
     case 'failed':
       content = (
-        <Modal onClose={handleCloseTooltip}><Tooltip text='Не удалось выйти, попробуйте позже' /></Modal>
+        <Modal onClose={handleCloseTooltip}>
+          <Tooltip text='Не удалось выйти, попробуйте позже' />
+        </Modal>
       );
       break;
   }

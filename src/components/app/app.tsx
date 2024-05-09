@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, useEffect} from 'react';
 import {Route, Routes, useNavigate} from "react-router-dom";
 
 import styles from './styles.module.css';
@@ -16,20 +16,25 @@ import {
   RegisterPage,
   ResetPasswordPage,
 } from '../../pages';
-import {useAppLocation} from "../../hooks.ts";
+import {useAppDispatch, useAppLocation} from "../../hooks.ts";
 import ProtectedRoute from "../../hocs/protected-route.tsx";
 import Modal from "../modal/modal.tsx";
 import IngredientDetails from "../ingredient-details/ingredient-details.tsx";
-import StartupLogin from "../startup-login/startup-login.tsx";
+import StartupLoginLoader from "../startup-login-loader/startup-login-loader.tsx";
+import {getIngredientsThunk} from "../../services/ingredients/thunks.ts";
+import {startSessionThunk} from "../../services/auth/thunks.ts";
 
 const App: FC = () => {
   const location = useAppLocation();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  useEffect(() => void dispatch(getIngredientsThunk()), [dispatch]);
+  useEffect(() => void dispatch(startSessionThunk()), [dispatch]);
 
   const background = location.state?.background;
   return (
     <>
-      <StartupLogin />
+      <StartupLoginLoader />
       <div className={`${styles.app} pt-10 mr-10 ml-10`}>
         <AppHeader/>
         <Routes location={background || location}>

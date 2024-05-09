@@ -1,16 +1,13 @@
-import React, {FC, useEffect} from "react";
+import React, {FC} from "react";
 import {RotatingLines} from "react-loader-spinner";
 import {motion, AnimatePresence} from "framer-motion";
 
 import styles from "./styles.module.css";
 
-import {useAppDispatch, useAppSelector} from "../../hooks.ts";
-import {startSessionThunk} from "../../services/auth/thunks.ts";
+import {useAppSelector} from "../../hooks.ts";
 
-const StartupLogin: FC = () => {
-  const dispatch = useAppDispatch();
+const StartupLoginLoader: FC = () => {
   const { startSessionRequestStatus: requestStatus } = useAppSelector(state => state.auth);
-  useEffect(() => void dispatch(startSessionThunk()), [dispatch]);
 
   let content;
   switch (requestStatus) {
@@ -33,4 +30,4 @@ const StartupLogin: FC = () => {
   );
 }
 
-export default StartupLogin;
+export default StartupLoginLoader;
