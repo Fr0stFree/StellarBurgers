@@ -3,12 +3,12 @@ import {motion} from "framer-motion";
 
 import styles from './styles.module.css';
 
-type ModalOverlayProps = {
+interface IModalOverlayProps {
   children: React.ReactNode;
   onClick: () => void;
 }
 
-const ModalOverlay: FC<ModalOverlayProps> = ({children, onClick}) => {
+const ModalOverlay: FC<Readonly<IModalOverlayProps>> = ({children, onClick}) => {
   return (
     <motion.div className={styles.overlay}
                 onClick={onClick}

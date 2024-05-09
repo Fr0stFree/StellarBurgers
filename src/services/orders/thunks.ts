@@ -1,7 +1,8 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
-import backendApi from "../api/api.ts";
 
-export const makeOrder = createAsyncThunk(
+import {sendOrder} from "./api.ts";
+
+export const makeOrderThunk = createAsyncThunk(
   'orders/makeOrder',
-  async (ingredientIds: string[]) => await backendApi.sendOrder(ingredientIds),
+  async (ingredientIds: string[]) => await sendOrder(ingredientIds),
 );

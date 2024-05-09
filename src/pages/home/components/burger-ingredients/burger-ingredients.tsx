@@ -13,7 +13,7 @@ import BurgerIngredientsPartition from "../burger-ingredients-partition/burger-i
 import Modal from "../../../../components/modal/modal.tsx";
 import Tooltip from "../../../../components/tooltip/tooltip.tsx";
 
-type FilteredIngredients = {
+type TGroupedIngredients = {
   [IngredientType.BUN]: IIngredient[];
   [IngredientType.SAUCE]: IIngredient[];
   [IngredientType.MAIN]: IIngredient[];
@@ -29,7 +29,7 @@ const BurgerIngredients: FC = () => {
   const [mainsRef, , mainsEntry] = useInView({onChange: (inView) => inView && setCurrentTab(IngredientType.MAIN)});
 
   const filteredIngredients = useMemo(() => (
-    ingredients.reduce((accumulator: FilteredIngredients, ingredient: IIngredient) => {
+    ingredients.reduce((accumulator: TGroupedIngredients, ingredient: IIngredient) => {
       accumulator[ingredient.type].push(ingredient);
       return accumulator;
     }, {[IngredientType.MAIN]: [], [IngredientType.SAUCE]: [], [IngredientType.BUN]: []})

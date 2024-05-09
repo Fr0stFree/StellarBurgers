@@ -1,26 +1,29 @@
 import {createSlice} from '@reduxjs/toolkit';
 
-import {type RequestStatus} from "../types.ts";
+import {type TRequestStatus} from "../common/types.ts";
 import {type IUser} from "./types.ts";
 import {
-  loginUser,
-  registerUser,
-  forgotPassword,
-  resetPassword, logoutUser, startSession, updateUser
+  startSessionThunk,
+  updateUserThunk,
+  loginUserThunk,
+  logoutUserThunk,
+  registerUserThunk,
+  forgotPasswordThunk,
+  resetPasswordThunk,
 } from "./thunks.ts";
-import {dropRefreshToken} from "./persistence.ts";
+import {refreshTokenPersistence} from "./persistence.ts";
 
 interface authState {
   user: IUser | null;
   accessToken: string | null;
   refreshToken: string | null;
-  loginRequestStatus: RequestStatus;
-  registerRequestStatus: RequestStatus;
-  updateUserRequestStatus: RequestStatus;
-  logoutRequestStatus: RequestStatus;
-  forgotPasswordRequestStatus: RequestStatus;
-  resetPasswordRequestStatus: RequestStatus;
-  startSessionRequestStatus: RequestStatus;
+  loginRequestStatus: TRequestStatus;
+  registerRequestStatus: TRequestStatus;
+  updateUserRequestStatus: TRequestStatus;
+  logoutRequestStatus: TRequestStatus;
+  forgotPasswordRequestStatus: TRequestStatus;
+  resetPasswordRequestStatus: TRequestStatus;
+  startSessionRequestStatus: TRequestStatus;
 }
 
 const initialState: authState = {
@@ -48,84 +51,84 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(startSession.pending, (state) => {
+      .addCase(startSessionThunk.pending, (state) => {
         state.startSessionRequestStatus = 'pending';
       })
-      .addCase(startSession.fulfilled, (state, action) => {
+      .addCase(startSessionThunk.fulfilled, (state, action) => {
         state.startSessionRequestStatus = 'succeeded';
         const { user, accessToken, refreshToken } = action.payload;
         state.user = user;
         state.accessToken = accessToken;
         state.refreshToken = refreshToken;
       })
-      .addCase(startSession.rejected, (state) => {
+      .addCase(startSessionThunk.rejected, (state) => {
         state.startSessionRequestStatus = 'failed';
-        dropRefreshToken(); // TODO: is it okay to put this here?
+        refreshTokenPersistence.drop(); // TODO: is it okay to put this here? Looks like a side effect
       })
-      .addCase(registerUser.pending, (state) => {
+      .addCase(registerUserThunk.pending, (state) => {
         state.registerRequestStatus = 'pending';
       })
-      .addCase(registerUser.fulfilled, (state, action) => {
+      .addCase(registerUserThunk.fulfilled, (state, action) => {
         state.registerRequestStatus = 'succeeded';
         const { user, accessToken, refreshToken } = action.payload;
         state.user = user;
         state.accessToken = accessToken;
         state.refreshToken = refreshToken;
       })
-      .addCase(registerUser.rejected, (state) => {
+      .addCase(registerUserThunk.rejected, (state) => {
         state.registerRequestStatus = 'failed';
       })
-      .addCase(loginUser.pending, (state) => {
+      .addCase(loginUserThunk.pending, (state) => {
         state.loginRequestStatus = 'pending';
       })
-      .addCase(loginUser.fulfilled, (state, action) => {
+      .addCase(loginUserThunk.fulfilled, (state, action) => {
         state.loginRequestStatus = 'succeeded';
         const { user, accessToken, refreshToken } = action.payload;
         state.user = user;
         state.accessToken = accessToken;
         state.refreshToken = refreshToken;
       })
-      .addCase(loginUser.rejected, (state) => {
+      .addCase(loginUserThunk.rejected, (state) => {
         state.loginRequestStatus = 'failed';
       })
-      .addCase(updateUser.pending, (state) => {
+      .addCase(updateUserThunk.pending, (state) => {
         state.updateUserRequestStatus = 'pending';
       })
-      .addCase(updateUser.fulfilled, (state, action) => {
+      .addCase(updateUserThunk.fulfilled, (state, action) => {
         state.updateUserRequestStatus = 'succeeded';
         state.user = action.payload;
       })
-      .addCase(updateUser.rejected, (state) => {
+      .addCase(updateUserThunk.rejected, (state) => {
         state.updateUserRequestStatus = 'failed';
       })
-      .addCase(forgotPassword.pending, (state) => {
+      .addCase(forgotPasswordThunk.pending, (state) => {
         state.forgotPasswordRequestStatus = 'pending';
       })
-      .addCase(forgotPassword.fulfilled, (state) => {
+      .addCase(forgotPasswordThunk.fulfilled, (state) => {
         state.forgotPasswordRequestStatus = 'succeeded';
       })
-      .addCase(forgotPassword.rejected, (state) => {
+      .addCase(forgotPasswordThunk.rejected, (state) => {
         state.forgotPasswordRequestStatus = 'failed';
       })
-      .addCase(resetPassword.pending, (state) => {
+      .addCase(resetPasswordThunk.pending, (state) => {
         state.resetPasswordRequestStatus = 'pending';
       })
-      .addCase(resetPassword.fulfilled, (state) => {
+      .addCase(resetPasswordThunk.fulfilled, (state) => {
         state.resetPasswordRequestStatus = 'succeeded';
       })
-      .addCase(resetPassword.rejected, (state) => {
+      .addCase(resetPasswordThunk.rejected, (state) => {
         state.resetPasswordRequestStatus = 'failed';
       })
-      .addCase(logoutUser.pending, (state) => {
+      .addCase(logoutUserThunk.pending, (state) => {
         state.logoutRequestStatus = 'pending';
       })
-      .addCase(logoutUser.fulfilled, (state) => {
+      .addCase(logoutUserThunk.fulfilled, (state) => {
         state.logoutRequestStatus = 'succeeded';
         state.user = null;
         state.accessToken = null;
         state.refreshToken = null;
       })
-      .addCase(logoutUser.rejected, (state) => {
+      .addCase(logoutUserThunk.rejected, (state) => {
         state.logoutRequestStatus = 'failed';
       });
   }

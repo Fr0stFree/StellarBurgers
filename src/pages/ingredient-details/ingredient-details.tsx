@@ -5,14 +5,14 @@ import styles from "./styles.module.css";
 
 import IngredientDetails from "../../components/ingredient-details/ingredient-details.tsx";
 import {useAppDispatch, useAppSelector} from "../../hooks.ts";
-import {getIngredients} from "../../services/ingredients/thunks.ts";
+import {getIngredientsThunk} from "../../services/ingredients/thunks.ts";
 import {NotFoundPage} from "../index.ts";
 
 const IngredientDetailsPage: FC = () => {
   const dispatch = useAppDispatch();
   const { all: ingredients, getIngredientsRequestStatus: requestStatus } = useAppSelector(state => state.ingredients);
   useEffect(() => {
-    !ingredients.length && dispatch(getIngredients());
+    !ingredients.length && dispatch(getIngredientsThunk());
   }, [dispatch, ingredients]);
 
   let content;

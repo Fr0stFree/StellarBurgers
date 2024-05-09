@@ -7,7 +7,7 @@ import {useNavigate} from "react-router-dom";
 
 import styles from './styles.module.css';
 
-import {type IIngredient, ISelectedIngredient} from "../../../../services/ingredients/types.ts";
+import {type IIngredient, type ISelectedIngredient} from "../../../../services/ingredients/types.ts";
 import {useAppDispatch, useAppLocation, useAppSelector} from "../../../../hooks.ts";
 import {addBuns, addIngredient, reorderIngredients} from "../../../../services/ingredients/slices.ts";
 import {hideOrder} from "../../../../services/orders/slices.ts";
@@ -16,7 +16,7 @@ import ConstructorIngredient from "../constuctor-element/constructor-element.tsx
 import Modal from "../../../../components/modal/modal.tsx";
 import OrderDetails from "../../../../components/order-details/order-details.tsx";
 import Tooltip from "../../../../components/tooltip/tooltip.tsx";
-import {makeOrder} from "../../../../services/orders/thunks.ts";
+import {makeOrderThunk} from "../../../../services/orders/thunks.ts";
 import {isIngredientsOrderCorrect} from "./utils.ts";
 
 const BurgerConstructor: FC = () => {
@@ -42,7 +42,7 @@ const BurgerConstructor: FC = () => {
     if (!isAuthenticated) {
       return navigate('/login', {state: {from: location.pathname}});
     }
-    dispatch(makeOrder(ingredients.map(ingredient => ingredient._id)));
+    dispatch(makeOrderThunk(ingredients.map(ingredient => ingredient._id)));
   }
   const handleCloseOrderModal = () => dispatch(hideOrder());
   const handleCloseTooltip = () => dispatch(hideOrder());

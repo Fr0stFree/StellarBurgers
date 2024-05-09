@@ -7,12 +7,12 @@ import formStyles from "../../components/form/styles.module.css";
 
 import {EMAIL_PATTERN, MIN_PASSWORD_LENGTH} from "../../services/auth/const.ts";
 import {useAppDispatch, useAppSelector} from "../../hooks.ts";
-import {loginUser} from "../../services/auth/thunks.ts";
+import {loginUserThunk} from "../../services/auth/thunks.ts";
 import Modal from "../../components/modal/modal.tsx";
 import Tooltip from "../../components/tooltip/tooltip.tsx";
 import {resetRequestStatus} from "../../services/auth/slices.ts";
 
-type FormInputs = {
+interface IFormInputs {
   email: string;
   password: string;
 }
@@ -20,10 +20,10 @@ type FormInputs = {
 const LoginPage: FC = () => {
   const dispatch = useAppDispatch();
   const { loginRequestStatus: requestStatus } = useAppSelector(state => state.auth);
-  const { register, handleSubmit, formState: { errors }, setError } = useForm<FormInputs>({mode: 'onBlur'});
-  const onSubmit: SubmitHandler<FormInputs> = async (data) => {
+  const { register, handleSubmit, formState: { errors }, setError } = useForm<IFormInputs>({mode: 'onBlur'});
+  const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
     try {
-      await dispatch(loginUser(data)).unwrap();
+      await dispatch(loginUserThunk(data)).unwrap();
     } catch (error: any) {
       setError('root', {message: error.message});
     }

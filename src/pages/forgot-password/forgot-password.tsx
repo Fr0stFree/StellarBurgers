@@ -7,22 +7,22 @@ import formStyles from "../../components/form/styles.module.css";
 
 import {EMAIL_PATTERN} from "../../services/auth/const.ts";
 import {useAppDispatch, useAppSelector} from "../../hooks.ts";
-import {forgotPassword} from "../../services/auth/thunks.ts";
+import {forgotPasswordThunk} from "../../services/auth/thunks.ts";
 import Modal from "../../components/modal/modal.tsx";
 import Tooltip from "../../components/tooltip/tooltip.tsx";
 import {resetRequestStatus} from "../../services/auth/slices.ts";
 
-type FormInputs = {
+interface IFormInputs {
   email: string;
 }
 
 const ForgotPasswordPage: FC = () => {
   const dispatch = useAppDispatch();
   const { forgotPasswordRequestStatus: requestStatus } = useAppSelector(state => state.auth);
-  const { register, handleSubmit, formState: { errors }, setError } = useForm<FormInputs>({mode: 'onBlur'});
-  const onSubmit: SubmitHandler<FormInputs> = async (data) => {
+  const { register, handleSubmit, formState: { errors }, setError } = useForm<IFormInputs>({mode: 'onBlur'});
+  const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
     try {
-      await dispatch(forgotPassword(data)).unwrap();
+      await dispatch(forgotPasswordThunk(data)).unwrap();
     } catch (error: any) {
       setError('root', {message: error.message});
     }

@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, useMemo} from 'react';
 import {CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import {useDrag} from "react-dnd";
 import {motion} from "framer-motion";
@@ -6,16 +6,17 @@ import {Link} from "react-router-dom";
 
 import styles from './styles.module.css';
 
-import {IIngredient} from "../../../../services/ingredients/types.ts";
+import {type IIngredient} from "../../../../services/ingredients/types.ts";
 import {useAppLocation, useAppSelector} from "../../../../hooks.ts";
 import {DraggableType} from "../../../../services/ingredients/const.ts";
 
-type BurgerIngredientProps = {
+interface IBurgerIngredientProps {
   ingredient: IIngredient;
-};
+}
 
-const BurgerIngredient: FC<BurgerIngredientProps> = ({ingredient}) => {
+const BurgerIngredient: FC<IBurgerIngredientProps> = ({ingredient}) => {
   const location = useAppLocation();
+  const { selected: ingredients} = useAppSelector(state => state.ingredients);
   const [_, dragRef] = useDrag(() => ({
     type: DraggableType.NEW_INGREDIENT,
     item: ingredient,
@@ -24,14 +25,16 @@ const BurgerIngredient: FC<BurgerIngredientProps> = ({ingredient}) => {
     }),
   }));
 
-  const amount = useAppSelector(state => state.ingredients.selected.reduce((acc, item) => item._id === ingredient._id ? acc + 1 : acc, 0));
+  const totalPrice = useMemo(() => (
+    ingredients.reduce((acc, item) => item._id === ingredient._id ? acc + 1 : acc, 0)
+  ), [ingredients])
   return (
     <motion.div className={styles.ingredient}
                 ref={dragRef}
                 whileHover={{opacity: 1, scale: 1.01}}
                 transition={{duration: .2}}
     >
-      {amount > 0 && <span className={`${styles.amount} text text_type_digits-small`}>{amount}</span>}
+      {totalPrice > 0 && <span className={`${styles.amount} text text_type_digits-small`}>{totalPrice}</span>}
       <Link to={`/ingredients/${ingredient._id}`} state={{background: location}}>
         <img src={ingredient.image} alt={ingredient.name} className="mb-1" />
       </Link>

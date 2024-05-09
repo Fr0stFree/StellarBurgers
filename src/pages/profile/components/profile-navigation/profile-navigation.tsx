@@ -3,10 +3,10 @@ import {Link, NavLink} from "react-router-dom";
 
 import styles from "./styles.module.css";
 
-import Logout from "../../../../components/logout/logout.tsx";
+import Logout, {ILogoutRefAttrs} from "../../../../components/logout/logout.tsx";
 
 const ProfileNavigation: FC = () => {
-  const logoutRef = useRef<{handleLogout: () => void}>(null);
+  const logoutRef = useRef<ILogoutRefAttrs>(null);
   const handleLogout = () => logoutRef.current?.handleLogout();
 
   return (
@@ -34,7 +34,6 @@ const ProfileNavigation: FC = () => {
       <p className="mt-20 text text_type_main-small text_color_inactive">
         В этом разделе вы можете изменить свои персональные данные
       </p>
-
     </section>
   )
 }
