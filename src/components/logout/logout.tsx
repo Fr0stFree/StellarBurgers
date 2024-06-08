@@ -12,7 +12,7 @@ export interface ILogoutRefAttrs {
 
 const Logout: FC<React.RefAttributes<Readonly<ILogoutRefAttrs>>> = forwardRef((_, ref) => {
   const dispatch = useAppDispatch();
-  useImperativeHandle(ref, () => ({handleLogout }));
+  useImperativeHandle(ref, () => ({ handleLogout }));
   const {logoutRequestStatus: requestStatus} = useAppSelector(state => state.auth);
 
   const handleLogout = () => dispatch(logoutUserThunk())
