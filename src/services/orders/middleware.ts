@@ -1,4 +1,4 @@
-import {wsMiddleware} from "../common/wsMiddleware.ts";
+import {genericWSMiddleware} from "../common/middleware.ts";
 import {
   closePublicOrdersChannel,
   openPublicOrdersChannel,
@@ -14,7 +14,6 @@ import {
   privateOrdersChannelMessage,
 } from "./slices.ts";
 import type {TWSActions} from "../common/types.ts";
-import {BACKEND_WS_BASE_URL} from "../common/const.ts";
 
 const publicOrdersActions: TWSActions = {
   wsInit: openPublicOrdersChannel.type,
@@ -35,11 +34,5 @@ const privateOrdersActions: TWSActions = {
   onMessage: privateOrdersChannelMessage.type,
 }
 
-export const publicOrdersMiddleware = wsMiddleware(publicOrdersActions, new URL(`${BACKEND_WS_BASE_URL}/orders/all`));
-export const privateOrdersMiddleware = wsMiddleware(privateOrdersActions, (state) => {
-  const token = state.auth.accessToken;
-  if (!token) return new URL('');
-  const url = new URL(`${BACKEND_WS_BASE_URL}/orders`);
-  url.searchParams.set('token', token);
-  return url;
-});
+export const publicOrdersMiddleware = genericWSMiddleware(publicOrdersActions);
+export const privateOrdersMiddleware = genericWSMiddleware(privateOrdersActions);

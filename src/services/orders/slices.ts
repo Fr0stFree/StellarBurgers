@@ -41,7 +41,7 @@ const ordersSlice = createSlice({
     hideOrder(state) {
       state.makeOrderRequestStatus = 'idle';
     },
-    openPublicOrdersChannel(state, payload: PayloadAction) {
+    openPublicOrdersChannel(state, action: PayloadAction<string>) {
       state.publicOrdersChannelState = 'connecting';
       state.publicOrdersChannelError = null;
     },
@@ -65,7 +65,7 @@ const ordersSlice = createSlice({
     publicOrdersChannelError(state, action: PayloadAction<Event>) {
       state.publicOrdersChannelError = action.payload;
     },
-    openPrivateOrdersChannel(state) {
+    openPrivateOrdersChannel(state, action: PayloadAction<string>) {
       state.privateOrdersChannelState = 'connecting';
       state.privateOrdersChannelError = null;
     },
