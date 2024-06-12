@@ -3,10 +3,10 @@ import {FC} from "react";
 import styles from './styles.module.css';
 
 import orderDoneImage from '../../images/order-done.svg';
-import {type IOrder} from "../../services/orders/types.ts";
+import {type IPreOrder} from "../../services/orders/types.ts";
 
 interface IOrderDetailsProps {
-  order: IOrder;
+  order: IPreOrder;
 }
 
 const OrderDetails: FC<IOrderDetailsProps> = ({order}) => {

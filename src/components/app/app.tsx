@@ -23,6 +23,8 @@ import IngredientDetails from "../ingredient-details/ingredient-details.tsx";
 import StartupLoginLoader from "../startup-login-loader/startup-login-loader.tsx";
 import {getIngredientsThunk} from "../../services/ingredients/thunks.ts";
 import {startSessionThunk} from "../../services/auth/thunks.ts";
+import {openPublicOrdersChannel} from "../../services/orders/slices.ts";
+
 
 const App: FC = () => {
   const location = useAppLocation();
@@ -30,6 +32,7 @@ const App: FC = () => {
   const dispatch = useAppDispatch();
   useEffect(() => void dispatch(getIngredientsThunk()), [dispatch]);
   useEffect(() => void dispatch(startSessionThunk()), [dispatch]);
+  useEffect(() => void dispatch(openPublicOrdersChannel()), [dispatch]);
 
   const background = location.state?.background;
   return (
