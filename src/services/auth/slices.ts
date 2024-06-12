@@ -13,7 +13,7 @@ import {
 } from "./thunks.ts";
 import {refreshTokenPersistence} from "./persistence.ts";
 
-interface authState {
+interface IAuthState {
   user: IUser | null;
   accessToken: string | null;
   refreshToken: string | null;
@@ -26,7 +26,7 @@ interface authState {
   startSessionRequestStatus: TRequestStatus;
 }
 
-const initialState: authState = {
+const initialState: IAuthState = {
   user: null,
   accessToken: null,
   refreshToken: null,

@@ -4,12 +4,12 @@ import {type IOrder} from "./types";
 import {type TRequestStatus} from "../common/types.ts";
 import {makeOrderThunk} from "./thunks.ts";
 
-interface OrdersState {
+interface IOrdersState {
   makeOrderRequestStatus: TRequestStatus;
   order: IOrder | null;
 }
 
-const initialState: OrdersState = {
+const initialState: IOrdersState = {
   makeOrderRequestStatus: 'idle',
   order: null,
 };
