@@ -10,17 +10,18 @@ import {NotFoundPage} from "../index.ts";
 
 const IngredientDetailsPage: FC = () => {
   const dispatch = useAppDispatch();
-  const { all: ingredients, getIngredientsRequestStatus: requestStatus } = useAppSelector(state => state.ingredients);
+  const { getIngredientsRequestStatus: requestStatus } = useAppSelector(state => state.ingredients);
   useEffect(() => {
-    !ingredients.length && dispatch(getIngredientsThunk());
-  }, [dispatch, ingredients]);
+    const promise = dispatch(getIngredientsThunk());
+    return () => promise.abort();
+  }, [dispatch]);
 
   let content;
   switch (requestStatus) {
-    case 'idle' || 'failed':
+    case 'failed':
       content = <NotFoundPage />;
       break;
-    case 'pending':
+    case 'idle' || 'pending':
       content = (
         <div>
           <TailSpin color="#4169E1" height={150} width={150}/>
