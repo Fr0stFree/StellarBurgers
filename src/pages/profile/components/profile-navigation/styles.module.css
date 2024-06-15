@@ -1,7 +1,7 @@
 .navigation_bar {
   display: flex;
   flex-direction: column;
-  max-width: 320px;
+  grid-column: 1 / 2;
 }
 
 .link_container {

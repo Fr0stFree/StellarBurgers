@@ -12,7 +12,7 @@ import {useAppDispatch, useAppLocation, useAppSelector} from "../../../../hooks.
 import {addBuns, addIngredient, reorderIngredients} from "../../../../services/ingredients/slices.ts";
 import {hideOrder} from "../../../../services/orders/slices.ts";
 import {DraggableType, IngredientType} from "../../../../services/ingredients/const.ts";
-import ConstructorIngredient from "../constuctor-element/constructor-element.tsx";
+import BurgerConstructorIngredient from "../burger-constructor-ingredient/burger-constructor-ingredient.tsx";
 import Modal from "../../../../components/modal/modal.tsx";
 import OrderDetails from "../../../../components/order-details/order-details.tsx";
 import Tooltip from "../../../../components/tooltip/tooltip.tsx";
@@ -102,11 +102,11 @@ const BurgerConstructor: FC = () => {
                        className={`${styles.ingredients_list} mb-10`}
         >
         {ingredients.map((ingredient, index) => (
-          <ConstructorIngredient ingredient={ingredient}
-                                 key={ingredient.uuid}
-                                 index={index}
-                                 onReorderEnd={() => handleInvalidIngredientsOrder(ingredients)}
-                                 position={index === 0 ? 'top' : index === ingredients.length - 1 ? 'bottom' : undefined}
+          <BurgerConstructorIngredient ingredient={ingredient}
+                                       key={ingredient.uuid}
+                                       index={index}
+                                       onReorderEnd={() => handleInvalidIngredientsOrder(ingredients)}
+                                       position={index === 0 ? 'top' : index === ingredients.length - 1 ? 'bottom' : undefined}
           />
         ))}
         </Reorder.Group>

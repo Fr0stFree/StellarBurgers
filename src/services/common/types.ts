@@ -14,7 +14,7 @@ export type TResponseBody<
 export type TWSActions = {
   wsInit: string,
   wsClose: string,
-  wsSendMessage: string,
+  wsSendMessage?: string,
   onOpen: string,
   onClose: string,
   onError: string,

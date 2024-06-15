@@ -1,12 +1,14 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
-import {type IPreOrder, ITotalOrders} from "./types";
+import {type IOrder, type IPreOrder, type ITotalOrders} from "./types";
 import {type TRequestStatus, TWSChannelState} from "../common/types.ts";
-import {makeOrderThunk} from "./thunks.ts";
+import {makeOrderThunk, getOrderThunk} from "./thunks.ts";
 
 interface IOrdersState {
   makeOrderRequestStatus: TRequestStatus;
-  order: IPreOrder | null;
+  preorder: IPreOrder | null;
+  getOrderRequestStatus: TRequestStatus;
+  order: IOrder | null;
   publicOrders: ITotalOrders;
   publicOrdersChannelError: Event | null;
   publicOrdersChannelState: TWSChannelState;
@@ -17,7 +19,9 @@ interface IOrdersState {
 
 const initialState: IOrdersState = {
   makeOrderRequestStatus: 'idle',
+  preorder: null,
   order: null,
+  getOrderRequestStatus: 'idle',
   publicOrders: {
     orders: [],
     total: 0,
@@ -93,13 +97,27 @@ const ordersSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(makeOrderThunk.pending, (state) => {
       state.makeOrderRequestStatus = 'pending';
+      state.preorder = null;
     });
     builder.addCase(makeOrderThunk.fulfilled, (state, action) => {
       state.makeOrderRequestStatus = 'succeeded';
-      state.order = action.payload;
+      state.preorder = action.payload;
     });
     builder.addCase(makeOrderThunk.rejected, (state) => {
       state.makeOrderRequestStatus = 'failed';
+      state.preorder = null;
+    });
+    builder.addCase(getOrderThunk.pending, (state) => {
+      state.getOrderRequestStatus = 'pending';
+      state.order = null;
+    });
+    builder.addCase(getOrderThunk.fulfilled, (state, action) => {
+      state.getOrderRequestStatus = 'succeeded';
+      state.order = action.payload;
+    });
+    builder.addCase(getOrderThunk.rejected, (state) => {
+      state.getOrderRequestStatus = 'failed';
+      state.order = null;
     });
   }
 });

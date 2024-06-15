@@ -1,0 +1,38 @@
+.order {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  border-radius: 40px;
+  padding: 24px;
+}
+
+.order_header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.order_ingredients {
+  display: flex;
+  overflow: hidden;
+}
+
+.ingredient_icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+  position: relative;
+  border: 2px solid #801AB2;
+  background: #131316;
+}
+
+.order_content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.order_price {
+  padding-left: 10px;
+  display: flex;
+}

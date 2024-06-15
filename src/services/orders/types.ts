@@ -8,7 +8,7 @@ export interface IPreOrder {
 export interface IOrder {
   readonly _id: string;
   readonly ingredients: string[];
-  readonly status: string;
+  readonly status: 'done' | 'pending' | 'created';
   readonly name: string;
   readonly createdAt: string;
   readonly updatedAt: string;

@@ -16,7 +16,7 @@ interface IConstructorIngredientProps {
   onReorderEnd?: () => void;
 }
 
-const ConstructorIngredient: FC<IConstructorIngredientProps> = ({ingredient, position, index, onReorderEnd}) => {
+const BurgerConstructorIngredient: FC<IConstructorIngredientProps> = ({ingredient, position, index, onReorderEnd}) => {
   const dispatch = useAppDispatch();
   const handleRemoveIngredient = () => dispatch(removeIngredient(index));
   const controls = useDragControls();
@@ -48,4 +48,4 @@ const ConstructorIngredient: FC<IConstructorIngredientProps> = ({ingredient, pos
   )
 }
 
-export default ConstructorIngredient;
+export default BurgerConstructorIngredient;

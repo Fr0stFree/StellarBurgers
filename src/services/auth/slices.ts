@@ -3,7 +3,7 @@ import {createSlice} from '@reduxjs/toolkit';
 import {type TRequestStatus} from "../common/types.ts";
 import {type IUser} from "./types.ts";
 import {
-  startSessionThunk,
+  reviewUserThunk,
   updateUserThunk,
   loginUserThunk,
   logoutUserThunk,
@@ -51,17 +51,17 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(startSessionThunk.pending, (state) => {
+      .addCase(reviewUserThunk.pending, (state) => {
         state.startSessionRequestStatus = 'pending';
       })
-      .addCase(startSessionThunk.fulfilled, (state, action) => {
+      .addCase(reviewUserThunk.fulfilled, (state, action) => {
         state.startSessionRequestStatus = 'succeeded';
         const { user, accessToken, refreshToken } = action.payload;
         state.user = user;
         state.accessToken = accessToken;
         state.refreshToken = refreshToken;
       })
-      .addCase(startSessionThunk.rejected, (state) => {
+      .addCase(reviewUserThunk.rejected, (state) => {
         state.startSessionRequestStatus = 'failed';
         refreshTokenPersistence.drop(); // TODO: is it okay to put this here? Looks like a side effect
       })

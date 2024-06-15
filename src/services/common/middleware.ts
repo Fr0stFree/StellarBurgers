@@ -1,7 +1,7 @@
-import type {Middleware, MiddlewareAPI} from 'redux';
-import {PayloadAction} from "@reduxjs/toolkit";
+import {type Middleware, type MiddlewareAPI} from 'redux';
+import {type PayloadAction} from "@reduxjs/toolkit";
 
-import type {TAppDispatch, TRootState} from '../../hooks.ts';
+import {type TAppDispatch, type TRootState} from '../../hooks.ts';
 import {type TWSActions} from "./types.ts";
 
 export function genericWSMiddleware(actions: TWSActions): Middleware {

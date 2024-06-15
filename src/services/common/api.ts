@@ -5,7 +5,7 @@ import {TResponseBody} from "./types.ts";
 
 export function validateResponse(response: AxiosResponse<TResponseBody>): AxiosResponse<TResponseBody> {
   const { data, status, statusText } = response;
-  if (status > BAD_REQUEST) {
+  if (status >= BAD_REQUEST) {
     throw new Error(`Ошибка ${status}: ${statusText}`);
   }
   const { success, message } = data;
