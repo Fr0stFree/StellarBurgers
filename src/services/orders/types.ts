@@ -13,10 +13,5 @@ export interface IOrder {
   readonly createdAt: string;
   readonly updatedAt: string;
   readonly number: number;
-}
-
-export interface ITotalOrders {
-  orders: IOrder[];
-  total: number;
-  totalToday: number;
+  readonly owner: string;
 }

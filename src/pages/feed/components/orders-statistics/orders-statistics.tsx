@@ -6,7 +6,7 @@ import {useAppSelector} from "../../../../hooks.ts";
 import OrderList from "../order-list/order-list.tsx";
 
 const OrdersStatistics: FC = () => {
-  const {orders, total, totalToday} = useAppSelector(state => state.orders.publicOrders);
+  const {publicOrders: orders, ordersAmountToday, ordersAmountTotal} = useAppSelector(state => state.orders);
   const groupedOrders = Object.groupBy(orders, order => order.status)
 
   return (
@@ -17,11 +17,11 @@ const OrdersStatistics: FC = () => {
       </div>
       <div>
         <p className="text text_type_main-medium">Выполнено за все время:</p>
-        <p className={`${styles.orders_amount} text text_type_digits-large`}>{total}</p>
+        <p className={`${styles.orders_amount} text text_type_digits-large`}>{ordersAmountToday}</p>
       </div>
       <div>
         <p className="text text_type_main-medium">Выполнено за сегодня:</p>
-        <p className={`${styles.orders_amount} text text_type_digits-large`}>{totalToday}</p>
+        <p className={`${styles.orders_amount} text text_type_digits-large`}>{ordersAmountTotal}</p>
       </div>
     </section>
   )

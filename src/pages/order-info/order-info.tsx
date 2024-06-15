@@ -11,18 +11,19 @@ import {getOrderThunk} from "../../services/orders/thunks.ts";
 
 const OrderInfoPage: FC = () => {
   const dispatch = useAppDispatch();
-  const {order, getOrderRequestStatus: requestStatus} = useAppSelector(state => state.orders);
+  const {getOrderRequestStatus: requestStatus} = useAppSelector(state => state.orders);
   const {orderNumber} = useParams();
   useEffect(() => {
-    !order && dispatch(getOrderThunk(orderNumber));
-  }, [dispatch, order, orderNumber]);
+    const promise = dispatch(getOrderThunk(Number(orderNumber)));
+    return () => promise.abort();
+  }, [dispatch, orderNumber]);
 
   let content;
   switch (requestStatus) {
-    case 'idle' || 'failed':
+    case 'failed':
       content = <NotFoundPage/>;
       break;
-    case 'pending':
+    case 'idle' || 'pending':
       content = (
         <div>
           <TailSpin color="#4169E1" height={150} width={150}/>

@@ -11,7 +11,7 @@ import {closePrivateOrdersChannel, openPrivateOrdersChannel} from "../../service
 const OrderHistoryPage: FC = () => {
   const {
     auth: {accessToken},
-    orders: {privateOrders: {orders}, privateOrdersChannelState: channelState}
+    orders: {privateOrders: orders, privateOrdersChannelState: channelState}
   } = useAppSelector(state => state);
   const dispatch = useAppDispatch();
 

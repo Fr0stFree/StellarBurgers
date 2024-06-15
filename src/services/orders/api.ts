@@ -14,7 +14,7 @@ export const sendOrder = async (ingredientIds: string[]): Promise<IPreOrder> => 
 
 export const getOrder = async (orderNumber: number): Promise<IOrder> => {
   const url = `${BACKEND_API_BASE_URL}/orders/${orderNumber}`;
-  const response = await axios.get<TResponseBody<IOrder>>(url);
+  const response = await axios.get<TResponseBody<IOrder[], 'orders'>>(url);
   validateResponse(response);
-  return response.data;
+  return response.data.orders[0];
 }

@@ -17,15 +17,16 @@ import Modal from "../../../../components/modal/modal.tsx";
 import OrderDetails from "../../../../components/order-details/order-details.tsx";
 import Tooltip from "../../../../components/tooltip/tooltip.tsx";
 import {makeOrderThunk} from "../../../../services/orders/thunks.ts";
+import {isIngredientsOrderCorrect} from "../../../../services/ingredients/utils.ts";
 
 const BurgerConstructor: FC = () => {
   const dispatch = useAppDispatch();
   const location = useAppLocation();
   const navigate = useNavigate();
   const [orderError, setOrderError] = useState<string | null>(null);
-  const {ingredients, order, requestStatus, isAuthenticated} = useAppSelector(state => ({
+  const {ingredients, preorder, requestStatus, isAuthenticated} = useAppSelector(state => ({
     ingredients: state.ingredients.selected,
-    order: state.orders.order,
+    preorder: state.orders.preorder,
     requestStatus: state.orders.makeOrderRequestStatus,
     isAuthenticated: !!state.auth.user,
   }));
@@ -83,7 +84,7 @@ const BurgerConstructor: FC = () => {
     case 'succeeded':
       modalContent = (
         <Modal onClose={handleCloseOrderModal}>
-          <OrderDetails order={order!}/>
+          <OrderDetails preorder={preorder!}/>
         </Modal>
       );
       break;
@@ -137,14 +138,3 @@ const BurgerConstructor: FC = () => {
 }
 
 export default BurgerConstructor;
-
-function isIngredientsOrderCorrect(items: ISelectedIngredient[]): [boolean, ISelectedIngredient[]] {
-  const buns = items.filter(ingredient => ingredient.type === IngredientType.BUN);
-  if (!buns.length) {
-    return [true, items]
-  }
-  if (items[0].type === IngredientType.BUN && items[items.length - 1].type === IngredientType.BUN) {
-    return [true, items]
-  }
-  return [false, [buns[0], ...items.filter(ingredient => ingredient.type !== IngredientType.BUN), buns[1]]];
-}

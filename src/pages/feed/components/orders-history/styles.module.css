@@ -9,6 +9,9 @@
 }
 
 .order_list {
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
   overflow-y: auto;
   -webkit-box-flex: 1;
   -moz-box-flex: 1;

@@ -6,7 +6,7 @@ import {useAppSelector} from "../../../../hooks.ts";
 import OrderItem from "../../../../components/order-item/order-item.tsx";
 
 const OrderHistory: FC = () => {
-  const {orders} = useAppSelector(state => state.orders.publicOrders);
+  const orders = useAppSelector(state => state.orders.publicOrders);
   return (
     <section className={styles.order_history}>
       <ul className={styles.order_list}>

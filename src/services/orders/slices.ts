@@ -1,41 +1,36 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
-import {type IOrder, type IPreOrder, type ITotalOrders} from "./types";
+import {type IOrder, type IPreOrder} from "./types";
 import {type TRequestStatus, TWSChannelState} from "../common/types.ts";
 import {makeOrderThunk, getOrderThunk} from "./thunks.ts";
+import {mergeOrders} from "./utils.ts";
 
 interface IOrdersState {
   makeOrderRequestStatus: TRequestStatus;
-  preorder: IPreOrder | null;
   getOrderRequestStatus: TRequestStatus;
-  order: IOrder | null;
-  publicOrders: ITotalOrders;
+  preorder: IPreOrder | null;
+  publicOrders: IOrder[];
+  privateOrders: Omit<IOrder[], 'owner'>;
+  ordersAmountToday: number;
+  ordersAmountTotal: number;
   publicOrdersChannelError: Event | null;
   publicOrdersChannelState: TWSChannelState;
-  privateOrders: ITotalOrders;
   privateOrdersChannelState: TWSChannelState;
   privateOrdersChannelError: Event | null;
 }
 
 const initialState: IOrdersState = {
   makeOrderRequestStatus: 'idle',
-  preorder: null,
-  order: null,
   getOrderRequestStatus: 'idle',
-  publicOrders: {
-    orders: [],
-    total: 0,
-    totalToday: 0,
-  },
+  preorder: null,
+  publicOrders: [],
+  privateOrders: [],
+  ordersAmountToday: 0,
+  ordersAmountTotal: 0,
   publicOrdersChannelError: null,
-  publicOrdersChannelState: 'closed',
-  privateOrders: {
-    orders: [],
-    total: 0,
-    totalToday: 0,
-  },
-  privateOrdersChannelState: 'closed',
   privateOrdersChannelError: null,
+  publicOrdersChannelState: 'closed',
+  privateOrdersChannelState: 'closed',
 };
 
 const ordersSlice = createSlice({
@@ -61,13 +56,13 @@ const ordersSlice = createSlice({
       state.publicOrdersChannelState = 'closed';
       state.publicOrdersChannelError = null;
     },
-    publicOrdersChannelMessage(state, { payload: totalOrders }: PayloadAction<ITotalOrders>) {
-      state.publicOrders.total = totalOrders.total;
-      state.publicOrders.totalToday = totalOrders.totalToday;
-      state.publicOrders.orders = totalOrders.orders;  // TODO: merge with existing orders
+    publicOrdersChannelMessage(state, {payload}: PayloadAction<{orders: IOrder[], totalToday: number, total: number}>) {
+      state.publicOrders = mergeOrders(state.publicOrders, payload.orders);
+      state.ordersAmountToday = payload.totalToday;
+      state.ordersAmountTotal = payload.total;
     },
-    publicOrdersChannelError(state, action: PayloadAction<Event>) {
-      state.publicOrdersChannelError = action.payload;
+    publicOrdersChannelError(state, {payload}: PayloadAction<Event>) {
+      state.publicOrdersChannelError = payload;
     },
     openPrivateOrdersChannel(state, action: PayloadAction<string>) {
       state.privateOrdersChannelState = 'connecting';
@@ -85,10 +80,10 @@ const ordersSlice = createSlice({
       state.privateOrdersChannelState = 'closed';
       state.privateOrdersChannelError = null;
     },
-    privateOrdersChannelMessage(state, { payload: totalOrders }: PayloadAction<ITotalOrders>) {
-      state.privateOrders.total = totalOrders.total;
-      state.privateOrders.totalToday = totalOrders.totalToday;
-      state.privateOrders.orders = totalOrders.orders;  // TODO: merge with existing orders
+    privateOrdersChannelMessage(state, {payload}: PayloadAction<{orders: Omit<IOrder[], 'owner'>, totalToday: number, total: number}>) {
+      state.privateOrders = mergeOrders(state.privateOrders, payload.orders);
+      state.ordersAmountToday = payload.totalToday;
+      state.ordersAmountTotal = payload.total;
     },
     privateOrdersChannelError(state, action: PayloadAction<Event>) {
       state.privateOrdersChannelError = action.payload;
@@ -109,15 +104,13 @@ const ordersSlice = createSlice({
     });
     builder.addCase(getOrderThunk.pending, (state) => {
       state.getOrderRequestStatus = 'pending';
-      state.order = null;
     });
     builder.addCase(getOrderThunk.fulfilled, (state, action) => {
       state.getOrderRequestStatus = 'succeeded';
-      state.order = action.payload;
+      state.publicOrders = mergeOrders(state.publicOrders, [action.payload]);
     });
     builder.addCase(getOrderThunk.rejected, (state) => {
       state.getOrderRequestStatus = 'failed';
-      state.order = null;
     });
   }
 });

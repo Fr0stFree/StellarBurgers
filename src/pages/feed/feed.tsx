@@ -12,7 +12,7 @@ import {closePublicOrdersChannel, openPublicOrdersChannel} from "../../services/
 
 
 const FeedPage: FC = () => {
-  const {publicOrdersChannelState: channelState, publicOrders: {orders}} = useAppSelector(state => state.orders);
+  const {publicOrdersChannelState: channelState, publicOrders: orders} = useAppSelector(state => state.orders);
   const dispatch = useAppDispatch();
   useEffect(() => {
     const publicOrdersChannel = new URL(`${BACKEND_WS_BASE_URL}/orders/all`);
