@@ -79,10 +79,21 @@ const App: FC = () => {
         {background && (
           <Routes>
             <Route path="/ingredients/:id" element={
-              <Modal onClose={() => navigate("/")}><IngredientDetails/></Modal>
+              <Modal onClose={() => navigate("/")}>
+                <IngredientDetails/>
+              </Modal>
             }/>
             <Route path="/feed/:orderNumber" element={
-              <Modal onClose={() => navigate("/feed")}><OrderInfo/></Modal>
+              <Modal onClose={() => navigate("/feed")}>
+                <OrderInfo/>
+              </Modal>
+            }/>
+            <Route path="/profile/orders/:orderNumber" element={
+              <ProtectedRoute allowFor="authenticated">
+                <Modal onClose={() => navigate("/profile/orders")}>
+                  <OrderInfo/>
+                </Modal>
+              </ProtectedRoute>
             }/>
           </Routes>
         )}

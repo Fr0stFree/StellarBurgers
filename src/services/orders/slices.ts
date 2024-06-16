@@ -10,7 +10,7 @@ interface IOrdersState {
   getOrderRequestStatus: TRequestStatus;
   preorder: IPreOrder | null;
   publicOrders: IOrder[];
-  privateOrders: Omit<IOrder[], 'owner'>;
+  privateOrders: IOrder[];
   ordersAmountToday: number;
   ordersAmountTotal: number;
   publicOrdersChannelError: Event | null;
@@ -80,7 +80,7 @@ const ordersSlice = createSlice({
       state.privateOrdersChannelState = 'closed';
       state.privateOrdersChannelError = null;
     },
-    privateOrdersChannelMessage(state, {payload}: PayloadAction<{orders: Omit<IOrder[], 'owner'>, totalToday: number, total: number}>) {
+    privateOrdersChannelMessage(state, {payload}: PayloadAction<{orders: IOrder[], totalToday: number, total: number}>) {
       state.privateOrders = mergeOrders(state.privateOrders, payload.orders);
       state.ordersAmountToday = payload.totalToday;
       state.ordersAmountTotal = payload.total;

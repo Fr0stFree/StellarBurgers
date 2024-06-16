@@ -1,8 +1,19 @@
 .order_history {
   grid-column: 2 / 4;
   margin-top: -80px;
-  overflow-y: scroll;
-  height: calc(100vh - 150px);
+  overflow-y: auto;
+  height: calc(100% + 80px);
+  display: -webkit-box;
+  display: -moz-box;
+}
+
+.order_list {
+  display: flex;
+  flex-direction: column;
+  row-gap: 24px;
+  overflow-y: auto;
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
 }
 
 .loader {

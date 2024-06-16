@@ -1,7 +1,6 @@
 .order {
   display: flex;
   flex-direction: column;
-  gap: 24px;
   border-radius: 40px;
   padding: 24px;
   background: var(--background-secondary);

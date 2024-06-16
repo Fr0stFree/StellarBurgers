@@ -7,7 +7,7 @@ import ProfileNavigation from "./components/profile-navigation/profile-navigatio
 
 const ProfilePage: FC = () => {
   return (
-    <main className={`${styles.content} mt-30`}>
+    <main className={styles.content}>
       <ProfileNavigation />
       <Outlet />
     </main>

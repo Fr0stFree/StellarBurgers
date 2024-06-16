@@ -17,11 +17,11 @@ const OrdersStatistics: FC = () => {
       </div>
       <div>
         <p className="text text_type_main-medium">Выполнено за все время:</p>
-        <p className={`${styles.orders_amount} text text_type_digits-large`}>{ordersAmountToday}</p>
+        <p className={`${styles.orders_amount} text text_type_digits-large`}>{ordersAmountTotal}</p>
       </div>
       <div>
         <p className="text text_type_main-medium">Выполнено за сегодня:</p>
-        <p className={`${styles.orders_amount} text text_type_digits-large`}>{ordersAmountTotal}</p>
+        <p className={`${styles.orders_amount} text text_type_digits-large`}>{ordersAmountToday}</p>
       </div>
     </section>
   )

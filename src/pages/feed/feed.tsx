@@ -36,8 +36,8 @@ const FeedPage: FC = () => {
     );
   }
   return (
-    <main className={`${styles.content} mt-10`}>
-      <h1 className="text text_type_main-large mb-5">Лента заказов</h1>
+    <main className={styles.content}>
+      <h1 className="text text_type_main-large">Лента заказов</h1>
       <article className={styles.feed}>
         {content}
       </article>

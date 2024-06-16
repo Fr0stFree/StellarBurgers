@@ -11,7 +11,7 @@ import {getOrderThunk} from "../../services/orders/thunks.ts";
 
 const OrderInfoPage: FC = () => {
   const dispatch = useAppDispatch();
-  const {getOrderRequestStatus: requestStatus} = useAppSelector(state => state.orders);
+  const requestStatus = useAppSelector(state => state.orders.getOrderRequestStatus);
   const {orderNumber} = useParams();
   useEffect(() => {
     const promise = dispatch(getOrderThunk(Number(orderNumber)));

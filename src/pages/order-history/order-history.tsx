@@ -31,9 +31,9 @@ const OrderHistoryPage: FC = () => {
     )
   } else if (channelState === "open" || (channelState === "connecting" && orders.length)) {
     content = (
-      <ul>
+      <ul className={styles.order_list}>
         {orders.map(order => (
-          <li key={order._id}><OrderItem order={order}/></li>
+          <li key={order._id}><OrderItem order={order} shouldDisplayStatus/></li>
         ))}
       </ul>
     )

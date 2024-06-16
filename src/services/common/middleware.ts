@@ -9,7 +9,7 @@ export function genericWSMiddleware(actions: TWSActions): Middleware {
     let socket: WebSocket;
     let url: string;
     return next => (action: PayloadAction<unknown>) => {
-      const {dispatch, getState} = store;
+      const {dispatch} = store;
       const {type, payload} = action;
       const {wsInit, wsClose, wsSendMessage, onOpen, onClose, onError, onMessage} = actions;
 
@@ -26,8 +26,9 @@ export function genericWSMiddleware(actions: TWSActions): Middleware {
         };
 
         socket.onerror = event => {
-          console.log(`An error occurred: ${event}`)
-          dispatch({type: onError, payload: event});
+          console.log(`An error occurred on ${url}...`)
+          // TODO: Is it something useful I can extract from the event?
+          dispatch({type: onError, payload: "WebsocketError"});
         };
 
         socket.onmessage = event => {
@@ -45,7 +46,7 @@ export function genericWSMiddleware(actions: TWSActions): Middleware {
           socket.send(JSON.stringify(payload));
         }
 
-        if (type === wsClose) {
+        if (type === wsClose && socket.readyState === WebSocket.OPEN) {
           console.log(`Closing connection to ${url}...`)
           socket.close();
         }
