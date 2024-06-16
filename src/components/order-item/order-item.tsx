@@ -1,5 +1,4 @@
 import React, {FC, useMemo} from "react";
-import {v4 as uuid4} from 'uuid';
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link} from "react-router-dom";
 import {motion} from "framer-motion";
@@ -56,7 +55,7 @@ const OrderItem: FC<IOrderItemProps> = ({order, shouldDisplayStatus = false}) =>
             <img className={styles.ingredient_icon}
                  src={ingredient.image_mobile}
                  alt={ingredient.name}
-                 key={uuid4()}
+                 key={index}
                  style={{right: `${index * 16}px`, zIndex: ingredients.length - index}}
             />
           ))}

@@ -9,16 +9,13 @@ import {BACKEND_WS_BASE_URL} from "../../services/common/const.ts";
 import {closePrivateOrdersChannel, openPrivateOrdersChannel} from "../../services/orders/slices.ts";
 
 const OrderHistoryPage: FC = () => {
-  const {
-    auth: {accessToken},
-    orders: {privateOrders: orders, privateOrdersChannelState: channelState}
-  } = useAppSelector(state => state);
+  const accessToken = useAppSelector(state => state.auth.accessToken);
+  const {privateOrders: orders, privateOrdersChannelState: channelState} = useAppSelector(state => state.orders);
   const dispatch = useAppDispatch();
-
   useEffect(() => {
     if (!accessToken) return;
     const privateOrderChannelUrl = new URL(`${BACKEND_WS_BASE_URL}/orders`);
-    privateOrderChannelUrl.searchParams.set('token', accessToken.startsWith('Bearer ') ? accessToken.slice(7) : accessToken)
+    privateOrderChannelUrl.searchParams.set('token', accessToken.replace('Bearer ', ''));
     dispatch(openPrivateOrdersChannel(privateOrderChannelUrl.toString()));
     return () => void dispatch(closePrivateOrdersChannel());
   }, [dispatch, accessToken]);

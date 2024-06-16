@@ -1,13 +1,10 @@
 import {type IOrder} from "./types.ts";
 import {type IIngredient} from "../ingredients/types.ts";
-import {IngredientType} from "../ingredients/const.ts";
 
 export const extractOrderIngredients = (order: IOrder, allIngredients: IIngredient[]): IIngredient[] => {
   return order.ingredients
     .map(ingredientId => allIngredients.find(ingredient => ingredient._id === ingredientId))
-    .filter(ingredient => ingredient !== undefined)
-    .map(ingredient => ingredient!.type === IngredientType.BUN ? [ingredient, ingredient] : ingredient)
-    .flat() as IIngredient[];
+    .filter(ingredient => ingredient !== undefined) as IIngredient[];
 }
 
 export const mergeOrders = (oldOrders: IOrder[], newOrders: IOrder[]): IOrder[] => {

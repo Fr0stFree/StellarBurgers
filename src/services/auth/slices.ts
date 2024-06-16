@@ -9,7 +9,7 @@ import {
   logoutUserThunk,
   registerUserThunk,
   forgotPasswordThunk,
-  resetPasswordThunk,
+  resetPasswordThunk, refreshAccessTokenThunk,
 } from "./thunks.ts";
 import {refreshTokenPersistence} from "./persistence.ts";
 
@@ -130,6 +130,14 @@ const authSlice = createSlice({
       })
       .addCase(logoutUserThunk.rejected, (state) => {
         state.logoutRequestStatus = 'failed';
+      })
+      .addCase(refreshAccessTokenThunk.fulfilled, (state, {payload}) => {
+        state.accessToken = payload.accessToken;
+        state.refreshToken = payload.refreshToken;
+      })
+      .addCase(refreshAccessTokenThunk.rejected, (state) => {
+        state.accessToken = null;
+        state.refreshToken = null;
       });
   }
 });

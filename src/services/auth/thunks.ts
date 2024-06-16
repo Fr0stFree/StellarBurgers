@@ -28,6 +28,20 @@ export const reviewUserThunk = createAsyncThunk(
   }
 );
 
+export const refreshAccessTokenThunk = createAsyncThunk(
+  'auth/refreshToken',
+  async (_, thunkAPI) => {
+    const state = thunkAPI.getState() as TRootState;
+    const {refreshToken: oldRefreshToken} = state.auth;
+    if (!oldRefreshToken) {
+      return thunkAPI.rejectWithValue('No refresh token found');
+    }
+    const {accessToken, refreshToken} = await updateAccessToken(oldRefreshToken);
+    refreshTokenPersistence.save(refreshToken);
+    return {accessToken, refreshToken};
+  }
+);
+
 export const registerUserThunk = createAsyncThunk(
   'auth/register',
   async (payload: IUserWithPassword, thunkAPI) => {

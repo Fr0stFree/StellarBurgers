@@ -24,9 +24,9 @@ const BurgerConstructor: FC = () => {
   const location = useAppLocation();
   const navigate = useNavigate();
   const [orderError, setOrderError] = useState<string | null>(null);
-  const {ingredients, preorder, requestStatus, isAuthenticated} = useAppSelector(state => ({
+  const {ingredients, order, requestStatus, isAuthenticated} = useAppSelector(state => ({
     ingredients: state.ingredients.selected,
-    preorder: state.orders.preorder,
+    order: state.orders.order,
     requestStatus: state.orders.makeOrderRequestStatus,
     isAuthenticated: !!state.auth.user,
   }));
@@ -84,7 +84,7 @@ const BurgerConstructor: FC = () => {
     case 'succeeded':
       modalContent = (
         <Modal onClose={handleCloseOrderModal}>
-          <OrderDetails preorder={preorder!}/>
+          <OrderDetails order={order!}/>
         </Modal>
       );
       break;

@@ -1,13 +1,8 @@
-export interface IPreOrder {
-  readonly name: string;
-  readonly order: {
-    readonly number: number;
-  };
-}
+import {type IIngredient} from "../ingredients/types.ts";
+import {type IUser} from "../auth/types.ts";
 
-export interface IOrder {
+interface BaseOrder {
   readonly _id: string;
-  readonly ingredients: string[];
   readonly status: 'done' | 'pending' | 'created' | 'canceled';
   readonly name: string;
   readonly createdAt: string;
@@ -15,6 +10,22 @@ export interface IOrder {
   readonly number: number;
 }
 
+export interface IOrder extends BaseOrder {
+  readonly ingredients: string[];
+}
+
+export interface IExtendedOrder extends BaseOrder {
+  readonly ingredients: IIngredient[];
+  readonly owner: IUser & {createdAt: string, updatedAt: string}
+  readonly price: number;
+}
+
 export interface IOrderWithOwner extends IOrder {
   readonly owner: string;
+}
+
+export interface IDecodedAccessToken {
+  id: string,
+  iat: number,
+  exp: number,
 }

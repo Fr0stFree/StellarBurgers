@@ -1,15 +1,16 @@
 import axios from "axios";
 
-import {type IOrderWithOwner, type IPreOrder} from "./types.ts";
+import {type IExtendedOrder, type IOrderWithOwner} from "./types.ts";
 import {validateResponse} from "../common/api.ts";
 import {TResponseBody} from "../common/types.ts";
 import {BACKEND_API_BASE_URL} from "../common/const.ts";
 
-export const sendOrder = async (ingredientIds: string[]): Promise<IPreOrder> => {
+export const sendOrder = async (ingredientIds: string[], accessToken: string): Promise<IExtendedOrder> => {
   const url = `${BACKEND_API_BASE_URL}/orders`;
-  const response = await axios.post<TResponseBody<IPreOrder>>(url, {ingredients: ingredientIds});
+  const config = {headers: {Authorization: accessToken}};
+  const response = await axios.post<TResponseBody<IExtendedOrder, 'order'>>(url, {ingredients: ingredientIds}, config);
   validateResponse(response);
-  return response.data;
+  return response.data.order;
 }
 
 export const getOrder = async (orderNumber: number): Promise<IOrderWithOwner> => {

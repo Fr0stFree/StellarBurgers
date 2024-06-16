@@ -4,22 +4,26 @@ import {useParams} from "react-router-dom";
 
 import styles from './styles.module.css';
 
-import {useAppSelector} from "../../hooks.ts";
+import {type TRootState, useAppLocation, useAppSelector} from "../../hooks.ts";
 import {extractOrderIngredients, localizeOrderStatus, localizeOrderTimeSince} from "../../services/orders/utils.ts";
 
 
 const OrderInfo: FC = () => {
   const {orderNumber} = useParams();
+  const location = useAppLocation();
 
-  const orders = useAppSelector(state => state.orders.publicOrders);
+  let lookup: keyof TRootState['orders'];
+  location.pathname.startsWith('/profile/orders') ? lookup = "privateOrders" : lookup = "publicOrders";
+
+  const orders = useAppSelector(state => state.orders[lookup]);
   const allIngredients = useAppSelector(state => state.ingredients.all);
   const order = orders.find(order => order.number === Number(orderNumber));
 
   if (!order) {
     return (
       <section className={styles.container}>
-        <p className="text text_type_main-medium">
-          Заказ <span className="text text_type_digits-default">#{orderNumber}</span> не найден
+        <p className={`text text_type_main-medium ${styles.order_not_found}`}>
+          Заказ <span className="text text_type_digits-medium"> #{orderNumber} </span> не найден
         </p>
       </section>
     );

@@ -3,13 +3,15 @@ import {type PayloadAction} from "@reduxjs/toolkit";
 
 import {type TAppDispatch, type TRootState} from '../../hooks.ts';
 import {type TWSActions} from "./types.ts";
+import {BACKEND_WS_BASE_URL, INVALID_TOKEN_NOTIFICATION} from "./const.ts";
+import {refreshAccessTokenThunk} from "../auth/thunks.ts";
 
 export function genericWSMiddleware(actions: TWSActions): Middleware {
   return ((store: MiddlewareAPI<TAppDispatch, TRootState>) => {
     let socket: WebSocket;
     let url: string;
     return next => (action: PayloadAction<unknown>) => {
-      const {dispatch} = store;
+      const {dispatch, getState} = store;
       const {type, payload} = action;
       const {wsInit, wsClose, wsSendMessage, onOpen, onClose, onError, onMessage} = actions;
 
@@ -33,7 +35,15 @@ export function genericWSMiddleware(actions: TWSActions): Middleware {
 
         socket.onmessage = event => {
           console.log(`New message received from ${url}...`)
-          dispatch({type: onMessage, payload: JSON.parse(event.data)});
+          const message = JSON.parse(event.data);
+          if (message['success']) {
+            dispatch({type: onMessage, payload: message});
+          } else if (message['message'] === INVALID_TOKEN_NOTIFICATION) {
+            console.log('Retrying to connect to websockets...')
+            dispatch(refreshAccessTokenThunk());
+          } else {
+            dispatch({type: onError, payload: message['message']});
+          }
         };
 
         socket.onclose = event => {
