@@ -14,7 +14,11 @@ export const sendOrder = async (ingredientIds: string[]): Promise<IPreOrder> => 
 
 export const getOrder = async (orderNumber: number): Promise<IOrderWithOwner> => {
   const url = `${BACKEND_API_BASE_URL}/orders/${orderNumber}`;
-  const response = await axios.get<TResponseBody<[IOrderWithOwner], 'orders'>>(url);
+  const response = await axios.get<TResponseBody<[IOrderWithOwner] | [], 'orders'>>(url);
   validateResponse(response);
-  return response.data.orders[0];
+  const {orders} = response.data;
+  if (!orders.length) {
+    throw new Error('Заказ не найден');
+  }
+  return orders[0]
 }

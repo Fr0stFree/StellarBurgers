@@ -74,6 +74,11 @@ const App: FC = () => {
             <Route index element={<ProfileInfoPage/>}/>
             <Route path="orders" element={<OrderHistoryPage/>}/>
           </Route>
+          <Route path="profile/orders/:orderNumber" element={
+            <ProtectedRoute allowFor="authenticated">
+              <OrderInfoPage/>
+            </ProtectedRoute>
+          }/>
           <Route path="*" element={<NotFoundPage/>}/>
         </Routes>
         {background && (
@@ -89,11 +94,9 @@ const App: FC = () => {
               </Modal>
             }/>
             <Route path="/profile/orders/:orderNumber" element={
-              <ProtectedRoute allowFor="authenticated">
-                <Modal onClose={() => navigate("/profile/orders")}>
-                  <OrderInfo/>
-                </Modal>
-              </ProtectedRoute>
+              <Modal onClose={() => navigate("/profile/orders")}>
+                <OrderInfo/>
+              </Modal>
             }/>
           </Routes>
         )}
