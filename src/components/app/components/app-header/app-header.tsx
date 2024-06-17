@@ -14,7 +14,7 @@ const AppHeader: FC = () => {
             <HeaderLink to="/" text="Конструктор" icon={BurgerIcon} />
           </li>
           <li className="mr-5 ml-5">
-            <HeaderLink to="/orders" text="Лента заказов" icon={ListIcon} />
+            <HeaderLink to="/feed" text="Лента заказов" icon={ListIcon} />
           </li>
           <li className={styles.logo}>
             <Logo />

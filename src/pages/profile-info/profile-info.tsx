@@ -3,7 +3,7 @@ import {Button, EditIcon} from "@ya.praktikum/react-developer-burger-ui-componen
 import {SubmitHandler, useForm} from "react-hook-form";
 import {AnimatePresence, motion} from "framer-motion";
 
-import formStyles from "../../../../components/form/styles.module.css";
+import formStyles from "../../components/form/styles.module.css";
 import styles from "./styles.module.css";
 
 import {
@@ -11,12 +11,12 @@ import {
   MAX_NAME_LENGTH,
   MIN_NAME_LENGTH,
   MIN_PASSWORD_LENGTH,
-} from "../../../../services/auth/const.ts";
-import {useAppDispatch, useAppSelector} from "../../../../hooks.ts";
-import {updateUserThunk} from "../../../../services/auth/thunks.ts";
-import {resetRequestStatus} from "../../../../services/auth/slices.ts";
-import Modal from "../../../../components/modal/modal.tsx";
-import Tooltip from "../../../../components/tooltip/tooltip.tsx";
+} from "../../services/auth/const.ts";
+import {useAppDispatch, useAppSelector} from "../../hooks.ts";
+import {updateUserThunk} from "../../services/auth/thunks.ts";
+import {resetRequestStatus} from "../../services/auth/slices.ts";
+import Modal from "../../components/modal/modal.tsx";
+import Tooltip from "../../components/tooltip/tooltip.tsx";
 
 interface IFormInputs {
   name?: string;
@@ -66,7 +66,7 @@ const ProfileInfoPage: FC = () => {
       break;
   }
   return (
-    <section className={formStyles.container}>
+    <section className={styles.profile_info}>
       {additionalContent}
       <form className={formStyles.form} onSubmit={handleSubmit(onSubmit)}>
         <div className={`${styles.form_field_wrapper} mb-3`}>

@@ -1,0 +1,20 @@
+.content {
+  max-width: 1240px;
+  width: 100%;
+  height: calc(100% - 64px);
+  padding-top: 40px;
+}
+
+.feed {
+  display: flex;
+  column-gap: 60px;
+  height: calc(100% - 41px);  /* height of the h1 header */
+  padding-top: 20px;
+}
+
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}

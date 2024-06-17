@@ -1,0 +1,22 @@
+.orders_statistics {
+  max-width: 620px;
+  height: 100%;
+  width: 100%;
+  row-gap: 24px;
+  display: -webkit-box;
+  display: -moz-box;
+  -webkit-box-orient: vertical;
+  -moz-box-orient: vertical;
+}
+
+.orders_groups {
+  display: flex;
+  column-gap: 36px;
+  overflow-y: auto;
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+}
+
+.orders_amount {
+  text-shadow: 0 0 8px #3333FF;
+}

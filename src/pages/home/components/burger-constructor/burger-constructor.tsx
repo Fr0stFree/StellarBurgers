@@ -12,11 +12,12 @@ import {useAppDispatch, useAppLocation, useAppSelector} from "../../../../hooks.
 import {addBuns, addIngredient, reorderIngredients} from "../../../../services/ingredients/slices.ts";
 import {hideOrder} from "../../../../services/orders/slices.ts";
 import {DraggableType, IngredientType} from "../../../../services/ingredients/const.ts";
-import ConstructorIngredient from "../constuctor-element/constructor-element.tsx";
+import BurgerConstructorIngredient from "../burger-constructor-ingredient/burger-constructor-ingredient.tsx";
 import Modal from "../../../../components/modal/modal.tsx";
 import OrderDetails from "../../../../components/order-details/order-details.tsx";
 import Tooltip from "../../../../components/tooltip/tooltip.tsx";
 import {makeOrderThunk} from "../../../../services/orders/thunks.ts";
+import {isIngredientsOrderCorrect} from "../../../../services/ingredients/utils.ts";
 
 const BurgerConstructor: FC = () => {
   const dispatch = useAppDispatch();
@@ -102,11 +103,11 @@ const BurgerConstructor: FC = () => {
                        className={`${styles.ingredients_list} mb-10`}
         >
         {ingredients.map((ingredient, index) => (
-          <ConstructorIngredient ingredient={ingredient}
-                                 key={ingredient.uuid}
-                                 index={index}
-                                 onReorderEnd={() => handleInvalidIngredientsOrder(ingredients)}
-                                 position={index === 0 ? 'top' : index === ingredients.length - 1 ? 'bottom' : undefined}
+          <BurgerConstructorIngredient ingredient={ingredient}
+                                       key={ingredient.uuid}
+                                       index={index}
+                                       onReorderEnd={() => handleInvalidIngredientsOrder(ingredients)}
+                                       position={index === 0 ? 'top' : index === ingredients.length - 1 ? 'bottom' : undefined}
           />
         ))}
         </Reorder.Group>
@@ -137,14 +138,3 @@ const BurgerConstructor: FC = () => {
 }
 
 export default BurgerConstructor;
-
-function isIngredientsOrderCorrect(items: ISelectedIngredient[]): [boolean, ISelectedIngredient[]] {
-  const buns = items.filter(ingredient => ingredient.type === IngredientType.BUN);
-  if (!buns.length) {
-    return [true, items]
-  }
-  if (items[0].type === IngredientType.BUN && items[items.length - 1].type === IngredientType.BUN) {
-    return [true, items]
-  }
-  return [false, [buns[0], ...items.filter(ingredient => ingredient.type !== IngredientType.BUN), buns[1]]];
-}

@@ -16,7 +16,7 @@
   background-color: var(--background-secondary);
   width: 720px;
   border-radius: 40px;
-  min-height: 50vh;
+  height: 90%;
   display: flex;
   flex-direction: column;
   align-items: center;

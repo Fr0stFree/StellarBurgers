@@ -12,7 +12,7 @@ const IngredientDetails: FC = () => {
 
   const ingredient = ingredients.find(ingredient => ingredient._id === id);
   if (!ingredient) {
-    return <div className={styles.loader}><TailSpin color="#4169E1" height={100} width={100}/></div>;
+    return <div><TailSpin color="#4169E1" height={100} width={100}/></div>;
   }
   return (
     <section className={`${styles.container} pt-10 pb-15`}>

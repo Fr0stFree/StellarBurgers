@@ -6,3 +6,7 @@
   text-align: center;
   padding: 120px 40px 120px;
 }
+
+.order_number {
+  text-shadow: 0 0 8px #3333FF;
+}

@@ -1,25 +1,27 @@
 import React, {FC, useEffect} from "react";
 import {TailSpin} from "react-loader-spinner";
+import {useParams} from "react-router-dom";
 
 import styles from "./styles.module.css";
 
-import IngredientDetails from "../../components/ingredient-details/ingredient-details.tsx";
 import {useAppDispatch, useAppSelector} from "../../hooks.ts";
-import {getIngredientsThunk} from "../../services/ingredients/thunks.ts";
 import {NotFoundPage} from "../index.ts";
+import OrderInfo from "../../components/order-info/order-info.tsx";
+import {getOrderThunk} from "../../services/orders/thunks.ts";
 
-const IngredientDetailsPage: FC = () => {
+const OrderInfoPage: FC = () => {
   const dispatch = useAppDispatch();
-  const { getIngredientsRequestStatus: requestStatus } = useAppSelector(state => state.ingredients);
+  const requestStatus = useAppSelector(state => state.orders.getOrderRequestStatus);
+  const {orderNumber} = useParams();
   useEffect(() => {
-    const promise = dispatch(getIngredientsThunk());
+    const promise = dispatch(getOrderThunk(Number(orderNumber)));
     return () => promise.abort();
-  }, [dispatch]);
+  }, [dispatch, orderNumber]);
 
   let content;
   switch (requestStatus) {
     case 'failed':
-      content = <NotFoundPage />;
+      content = <NotFoundPage/>;
       break;
     case 'idle' || 'pending':
       content = (
@@ -29,7 +31,7 @@ const IngredientDetailsPage: FC = () => {
       );
       break;
     case 'succeeded':
-      content = <IngredientDetails />;
+      content = <OrderInfo/>;
       break;
   }
   return (
@@ -39,4 +41,4 @@ const IngredientDetailsPage: FC = () => {
   )
 }
 
-export default IngredientDetailsPage;
+export default OrderInfoPage;
