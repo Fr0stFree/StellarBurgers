@@ -1,7 +1,7 @@
 import {createAsyncThunk, SerializedError} from "@reduxjs/toolkit";
 import {jwtDecode} from "jwt-decode";
 
-import {sendOrder, getOrder} from "./api.ts";
+import {getOrder, sendOrder} from "./api.ts";
 import {type TRootState} from "../../hooks.ts";
 import {type IDecodedAccessToken, type IOrderWithOwner} from "./types.ts";
 

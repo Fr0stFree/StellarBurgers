@@ -2,7 +2,7 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
 import {type IExtendedOrder, type IOrder} from "./types";
 import {type TRequestStatus, TWSChannelState} from "../common/types.ts";
-import {makeOrderThunk, getOrderThunk} from "./thunks.ts";
+import {getOrderThunk, makeOrderThunk} from "./thunks.ts";
 import {mergeOrders} from "./utils.ts";
 
 interface IOrdersState {
@@ -40,7 +40,7 @@ const ordersSlice = createSlice({
     hideOrder(state) {
       state.makeOrderRequestStatus = 'idle';
     },
-    openPublicOrdersChannel(state, action: PayloadAction<string>) {
+    openPublicOrdersChannel(state) {
       state.publicOrdersChannelState = 'connecting';
       state.publicOrdersChannelError = null;
     },
@@ -63,7 +63,7 @@ const ordersSlice = createSlice({
     publicOrdersChannelError(state, {payload}: PayloadAction<Event>) {
       state.publicOrdersChannelError = payload;
     },
-    openPrivateOrdersChannel(state, action: PayloadAction<string>) {
+    openPrivateOrdersChannel(state) {
       state.privateOrdersChannelState = 'connecting';
       state.privateOrdersChannelError = null;
     },

@@ -3,13 +3,14 @@ import {createSlice} from '@reduxjs/toolkit';
 import {type TRequestStatus} from "../common/types.ts";
 import {type IUser} from "./types.ts";
 import {
-  reviewUserThunk,
-  updateUserThunk,
+  forgotPasswordThunk,
   loginUserThunk,
   logoutUserThunk,
+  refreshAccessTokenThunk,
   registerUserThunk,
-  forgotPasswordThunk,
-  resetPasswordThunk, refreshAccessTokenThunk,
+  resetPasswordThunk,
+  reviewUserThunk,
+  updateUserThunk,
 } from "./thunks.ts";
 import {refreshTokenPersistence} from "./persistence.ts";
 
@@ -44,7 +45,7 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     resetRequestStatus(state, action: {
-      payload: 'register' | 'login' | 'logout' | 'forgotPassword' | 'resetPassword'| 'updateUser' | 'startSession';
+      payload: 'register' | 'login' | 'logout' | 'forgotPassword' | 'resetPassword' | 'updateUser' | 'startSession';
     }) {
       state[`${action.payload}RequestStatus`] = 'idle';
     },
@@ -56,7 +57,7 @@ const authSlice = createSlice({
       })
       .addCase(reviewUserThunk.fulfilled, (state, action) => {
         state.startSessionRequestStatus = 'succeeded';
-        const { user, accessToken, refreshToken } = action.payload;
+        const {user, accessToken, refreshToken} = action.payload;
         state.user = user;
         state.accessToken = accessToken;
         state.refreshToken = refreshToken;
@@ -70,7 +71,7 @@ const authSlice = createSlice({
       })
       .addCase(registerUserThunk.fulfilled, (state, action) => {
         state.registerRequestStatus = 'succeeded';
-        const { user, accessToken, refreshToken } = action.payload;
+        const {user, accessToken, refreshToken} = action.payload;
         state.user = user;
         state.accessToken = accessToken;
         state.refreshToken = refreshToken;
@@ -83,7 +84,7 @@ const authSlice = createSlice({
       })
       .addCase(loginUserThunk.fulfilled, (state, action) => {
         state.loginRequestStatus = 'succeeded';
-        const { user, accessToken, refreshToken } = action.payload;
+        const {user, accessToken, refreshToken} = action.payload;
         state.user = user;
         state.accessToken = accessToken;
         state.refreshToken = refreshToken;

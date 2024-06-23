@@ -3,7 +3,7 @@ import {type PayloadAction} from "@reduxjs/toolkit";
 
 import {type TAppDispatch, type TRootState} from '../../hooks.ts';
 import {type TWSActions} from "./types.ts";
-import {BACKEND_WS_BASE_URL, INVALID_TOKEN_NOTIFICATION} from "./const.ts";
+import {INVALID_TOKEN_NOTIFICATION} from "./const.ts";
 import {refreshAccessTokenThunk} from "../auth/thunks.ts";
 
 export function genericWSMiddleware(actions: TWSActions): Middleware {
@@ -11,7 +11,7 @@ export function genericWSMiddleware(actions: TWSActions): Middleware {
     let socket: WebSocket;
     let url: string;
     return next => (action: PayloadAction<unknown>) => {
-      const {dispatch, getState} = store;
+      const {dispatch} = store;
       const {type, payload} = action;
       const {wsInit, wsClose, wsSendMessage, onOpen, onClose, onError, onMessage} = actions;
 
@@ -22,12 +22,12 @@ export function genericWSMiddleware(actions: TWSActions): Middleware {
       }
 
       if (socket) {
-        socket.onopen = event => {
+        socket.onopen = _ => {
           console.log(`Successfully connected to ws channel on ${url}`)
-          dispatch({type: onOpen });
+          dispatch({type: onOpen});
         };
 
-        socket.onerror = event => {
+        socket.onerror = _ => {
           console.log(`An error occurred on ${url}...`)
           // TODO: Is it something useful I can extract from the event?
           dispatch({type: onError, payload: "WebsocketError"});
@@ -42,11 +42,12 @@ export function genericWSMiddleware(actions: TWSActions): Middleware {
             console.log('Retrying to connect to websockets...')
             dispatch(refreshAccessTokenThunk());
           } else {
+            console.log(`Error message received from ${url}: ${message['message']}`)
             dispatch({type: onError, payload: message['message']});
           }
         };
 
-        socket.onclose = event => {
+        socket.onclose = _ => {
           console.log(`Connection closed to ${url}...`)
           dispatch({type: onClose});
         };

@@ -1,17 +1,17 @@
 import {genericWSMiddleware} from "../common/middleware.ts";
 import {
-  closePublicOrdersChannel,
-  openPublicOrdersChannel,
-  publicOrdersChannelClosed,
-  publicOrdersChannelError,
-  publicOrdersChannelOpened,
-  publicOrdersChannelMessage,
-  openPrivateOrdersChannel,
   closePrivateOrdersChannel,
-  privateOrdersChannelOpened,
+  closePublicOrdersChannel,
+  openPrivateOrdersChannel,
+  openPublicOrdersChannel,
   privateOrdersChannelClosed,
   privateOrdersChannelError,
   privateOrdersChannelMessage,
+  privateOrdersChannelOpened,
+  publicOrdersChannelClosed,
+  publicOrdersChannelError,
+  publicOrdersChannelMessage,
+  publicOrdersChannelOpened,
 } from "./slices.ts";
 import type {TWSActions} from "../common/types.ts";
 

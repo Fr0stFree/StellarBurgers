@@ -6,12 +6,7 @@ import {AnimatePresence, motion} from "framer-motion";
 import formStyles from "../../components/form/styles.module.css";
 import styles from "./styles.module.css";
 
-import {
-  EMAIL_PATTERN,
-  MAX_NAME_LENGTH,
-  MIN_NAME_LENGTH,
-  MIN_PASSWORD_LENGTH,
-} from "../../services/auth/const.ts";
+import {EMAIL_PATTERN, MAX_NAME_LENGTH, MIN_NAME_LENGTH, MIN_PASSWORD_LENGTH,} from "../../services/auth/const.ts";
 import {useAppDispatch, useAppSelector} from "../../hooks.ts";
 import {updateUserThunk} from "../../services/auth/thunks.ts";
 import {resetRequestStatus} from "../../services/auth/slices.ts";
