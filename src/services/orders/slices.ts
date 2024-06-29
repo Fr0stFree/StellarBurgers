@@ -13,13 +13,13 @@ interface IOrdersState {
   privateOrders: IOrder[];
   ordersAmountToday: number;
   ordersAmountTotal: number;
-  publicOrdersChannelError: Event | null;
+  publicOrdersChannelError: string | null;
   publicOrdersChannelState: TWSChannelState;
   privateOrdersChannelState: TWSChannelState;
-  privateOrdersChannelError: Event | null;
+  privateOrdersChannelError: string | null;
 }
 
-const initialState: IOrdersState = {
+export const initialState: IOrdersState = {
   makeOrderRequestStatus: 'idle',
   getOrderRequestStatus: 'idle',
   order: null,
@@ -33,7 +33,7 @@ const initialState: IOrdersState = {
   privateOrdersChannelState: 'closed',
 };
 
-const ordersSlice = createSlice({
+export const ordersSlice = createSlice({
   name: 'orders',
   initialState,
   reducers: {
@@ -60,7 +60,7 @@ const ordersSlice = createSlice({
       state.ordersAmountToday = payload.totalToday;
       state.ordersAmountTotal = payload.total;
     },
-    publicOrdersChannelError(state, {payload}: PayloadAction<Event>) {
+    publicOrdersChannelError(state, {payload}: PayloadAction<string>) {
       state.publicOrdersChannelError = payload;
     },
     openPrivateOrdersChannel(state) {
@@ -83,7 +83,7 @@ const ordersSlice = createSlice({
       state.ordersAmountToday = payload.totalToday;
       state.ordersAmountTotal = payload.total;
     },
-    privateOrdersChannelError(state, action: PayloadAction<Event>) {
+    privateOrdersChannelError(state, action: PayloadAction<string>) {
       state.privateOrdersChannelError = action.payload;
     },
   },
