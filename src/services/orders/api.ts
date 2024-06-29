@@ -1,9 +1,9 @@
 import axios from "axios";
 
-import {type IExtendedOrder, type IOrderWithOwner} from "./types.ts";
-import {validateResponse} from "../common/api.ts";
-import {TResponseBody} from "../common/types.ts";
-import {BACKEND_API_BASE_URL} from "../common/const.ts";
+import {type IExtendedOrder, type IOrderWithOwner} from "./types";
+import {validateResponse} from "../common/api";
+import {TResponseBody} from "../common/types";
+import {BACKEND_API_BASE_URL} from "../common/const";
 
 export const sendOrder = async (ingredientIds: string[], accessToken: string): Promise<IExtendedOrder> => {
   const url = `${BACKEND_API_BASE_URL}/orders`;

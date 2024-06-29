@@ -1,5 +1,5 @@
-import {type IOrder} from "./types.ts";
-import {type IIngredient} from "../ingredients/types.ts";
+import {type IOrder} from "./types";
+import {type IIngredient} from "../ingredients/types";
 
 export const extractOrderIngredients = (order: IOrder, allIngredients: IIngredient[]): IIngredient[] => {
   return order.ingredients

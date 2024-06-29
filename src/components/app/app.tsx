@@ -3,7 +3,7 @@ import {Route, Routes, useNavigate} from "react-router-dom";
 
 import styles from './styles.module.css';
 
-import AppHeader from './components/app-header/app-header.tsx';
+import AppHeader from './components/app-header/app-header';
 import {
   FeedPage,
   ForgotPasswordPage,
@@ -18,14 +18,14 @@ import {
   RegisterPage,
   ResetPasswordPage,
 } from '../../pages';
-import {useAppDispatch, useAppLocation} from "../../hooks.ts";
-import ProtectedRoute from "../../hocs/protected-route.tsx";
-import Modal from "../modal/modal.tsx";
-import IngredientDetails from "../ingredient-details/ingredient-details.tsx";
-import StartupLoginLoader from "../startup-login-loader/startup-login-loader.tsx";
-import OrderInfo from "../order-info/order-info.tsx";
-import {reviewUserThunk} from "../../services/auth/thunks.ts";
-import {getIngredientsThunk} from "../../services/ingredients/thunks.ts";
+import {useAppDispatch, useAppLocation} from "../../hooks";
+import ProtectedRoute from "../../hocs/protected-route";
+import Modal from "../modal/modal";
+import IngredientDetails from "../ingredient-details/ingredient-details";
+import StartupLoginLoader from "../startup-login-loader/startup-login-loader";
+import OrderInfo from "../order-info/order-info";
+import {reviewUserThunk} from "../../services/auth/thunks";
+import {getIngredientsThunk} from "../../services/ingredients/thunks";
 
 const App: FC = () => {
   const location = useAppLocation();

@@ -3,10 +3,10 @@ import {TailSpin} from "react-loader-spinner";
 
 import styles from "./styles.module.css";
 
-import IngredientDetails from "../../components/ingredient-details/ingredient-details.tsx";
-import {useAppDispatch, useAppSelector} from "../../hooks.ts";
-import {getIngredientsThunk} from "../../services/ingredients/thunks.ts";
-import {NotFoundPage} from "../index.ts";
+import IngredientDetails from "../../components/ingredient-details/ingredient-details";
+import {useAppDispatch, useAppSelector} from "../../hooks";
+import {getIngredientsThunk} from "../../services/ingredients/thunks";
+import {NotFoundPage} from "../index";
 
 const IngredientDetailsPage: FC = () => {
   const dispatch = useAppDispatch();

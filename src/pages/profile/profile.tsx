@@ -3,7 +3,7 @@ import {Outlet} from "react-router-dom";
 
 import styles from "./styles.module.css";
 
-import ProfileNavigation from "./components/profile-navigation/profile-navigation.tsx";
+import ProfileNavigation from "./components/profile-navigation/profile-navigation";
 
 const ProfilePage: FC = () => {
   return (

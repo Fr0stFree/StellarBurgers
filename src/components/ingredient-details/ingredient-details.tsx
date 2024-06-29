@@ -3,7 +3,7 @@ import React, {FC} from "react";
 import styles from "./styles.module.css";
 
 import {useParams} from "react-router-dom";
-import {useAppSelector} from "../../hooks.ts";
+import {useAppSelector} from "../../hooks";
 import {TailSpin} from "react-loader-spinner";
 
 const IngredientDetails: FC = () => {

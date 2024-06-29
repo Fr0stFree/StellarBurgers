@@ -4,10 +4,10 @@ import {useParams} from "react-router-dom";
 
 import styles from "./styles.module.css";
 
-import {useAppDispatch, useAppSelector} from "../../hooks.ts";
-import {NotFoundPage} from "../index.ts";
-import OrderInfo from "../../components/order-info/order-info.tsx";
-import {getOrderThunk} from "../../services/orders/thunks.ts";
+import {useAppDispatch, useAppSelector} from "../../hooks";
+import {NotFoundPage} from "../index";
+import OrderInfo from "../../components/order-info/order-info";
+import {getOrderThunk} from "../../services/orders/thunks";
 
 const OrderInfoPage: FC = () => {
   const dispatch = useAppDispatch();

@@ -1,7 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
 
-import {type TRequestStatus} from "../common/types.ts";
-import {type IUser} from "./types.ts";
+import {type TRequestStatus} from "../common/types";
+import {type IUser} from "./types";
 import {
   forgotPasswordThunk,
   loginUserThunk,
@@ -11,8 +11,8 @@ import {
   resetPasswordThunk,
   reviewUserThunk,
   updateUserThunk,
-} from "./thunks.ts";
-import {refreshTokenPersistence} from "./persistence.ts";
+} from "./thunks";
+import {refreshTokenPersistence} from "./persistence";
 
 interface IAuthState {
   user: IUser | null;

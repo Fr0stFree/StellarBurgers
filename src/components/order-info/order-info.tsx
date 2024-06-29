@@ -4,15 +4,15 @@ import {useParams} from "react-router-dom";
 
 import styles from './styles.module.css';
 
-import {type TRootState, useAppLocation, useAppSelector} from "../../hooks.ts";
-import {extractOrderIngredients, localizeOrderStatus, localizeOrderTimeSince} from "../../services/orders/utils.ts";
+import {useAppLocation, useAppSelector} from "../../hooks";
+import {extractOrderIngredients, localizeOrderStatus, localizeOrderTimeSince} from "../../services/orders/utils";
 
 
 const OrderInfo: FC = () => {
   const {orderNumber} = useParams();
   const location = useAppLocation();
 
-  let lookup: keyof TRootState['orders'];
+  let lookup: "publicOrders" | "privateOrders";
   location.pathname.startsWith('/profile/orders') ? lookup = "privateOrders" : lookup = "publicOrders";
 
   const orders = useAppSelector(state => state.orders[lookup]);

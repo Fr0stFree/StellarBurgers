@@ -6,12 +6,12 @@ import {AnimatePresence, motion} from "framer-motion";
 import formStyles from "../../components/form/styles.module.css";
 import styles from "./styles.module.css";
 
-import {EMAIL_PATTERN, MAX_NAME_LENGTH, MIN_NAME_LENGTH, MIN_PASSWORD_LENGTH,} from "../../services/auth/const.ts";
-import {useAppDispatch, useAppSelector} from "../../hooks.ts";
-import {updateUserThunk} from "../../services/auth/thunks.ts";
-import {resetRequestStatus} from "../../services/auth/slices.ts";
-import Modal from "../../components/modal/modal.tsx";
-import Tooltip from "../../components/tooltip/tooltip.tsx";
+import {EMAIL_PATTERN, MAX_NAME_LENGTH, MIN_NAME_LENGTH, MIN_PASSWORD_LENGTH,} from "../../services/auth/const";
+import {useAppDispatch, useAppSelector} from "../../hooks";
+import {updateUserThunk} from "../../services/auth/thunks";
+import {resetRequestStatus} from "../../services/auth/slices";
+import Modal from "../../components/modal/modal";
+import Tooltip from "../../components/tooltip/tooltip";
 
 interface IFormInputs {
   name?: string;

@@ -1,11 +1,11 @@
 import {Navigate} from "react-router-dom";
 import React, {FC} from "react";
 
-import {useAppLocation, useAppSelector} from "../hooks.ts";
+import {useAppLocation, useAppSelector} from "../hooks";
 
 interface IProtectedRouteProps {
   allowFor: 'anonymous' | 'authenticated';
-  children: React.ReactNode;
+  children: any;
 }
 
 const ProtectedRoute: FC<IProtectedRouteProps> = ({ allowFor, children }) => {
@@ -20,7 +20,7 @@ const ProtectedRoute: FC<IProtectedRouteProps> = ({ allowFor, children }) => {
   if (allowFor === 'authenticated' && !isAuthenticated) {
     return <Navigate to="/login" replace state={{ from: location }} />;
   }
-  return children
+  return children;
 }
 
 export default ProtectedRoute;

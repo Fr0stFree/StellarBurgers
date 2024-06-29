@@ -4,10 +4,10 @@ import {Reorder, useDragControls} from "framer-motion";
 
 import styles from "./styles.module.css";
 
-import {type ISelectedIngredient} from "../../../../services/ingredients/types.ts";
-import {removeIngredient} from "../../../../services/ingredients/slices.ts";
-import {useAppDispatch} from "../../../../hooks.ts";
-import {IngredientType} from "../../../../services/ingredients/const.ts";
+import {type ISelectedIngredient} from "../../../../services/ingredients/types";
+import {removeIngredient} from "../../../../services/ingredients/slices";
+import {useAppDispatch} from "../../../../hooks";
+import {IngredientType} from "../../../../services/ingredients/const";
 
 interface IConstructorIngredientProps {
   ingredient: ISelectedIngredient;

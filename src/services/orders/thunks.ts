@@ -1,9 +1,9 @@
 import {createAsyncThunk, SerializedError} from "@reduxjs/toolkit";
 import {jwtDecode} from "jwt-decode";
 
-import {getOrder, sendOrder} from "./api.ts";
-import {type TRootState} from "../../hooks.ts";
-import {type IDecodedAccessToken, type IOrderWithOwner} from "./types.ts";
+import {getOrder, sendOrder} from "./api";
+import {type TRootState} from "../../hooks";
+import {type IDecodedAccessToken, type IOrderWithOwner} from "./types";
 
 export const makeOrderThunk = createAsyncThunk(
   'orders/makeOrder',

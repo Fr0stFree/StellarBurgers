@@ -4,7 +4,7 @@ import {AnimatePresence, motion} from "framer-motion";
 
 import styles from "./styles.module.css";
 
-import {useAppSelector} from "../../hooks.ts";
+import {useAppSelector} from "../../hooks";
 
 const StartupLoginLoader: FC = () => {
   const {startSessionRequestStatus: requestStatus} = useAppSelector(state => state.auth);

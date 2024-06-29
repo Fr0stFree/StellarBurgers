@@ -5,13 +5,13 @@ import {TailSpin} from "react-loader-spinner";
 
 import styles from './styles.module.css';
 
-import {hideIngredientsLoadingError} from "../../../../services/ingredients/slices.ts";
-import {useAppDispatch, useAppSelector} from "../../../../hooks.ts";
-import {IngredientType} from "../../../../services/ingredients/const.ts";
-import {type IIngredient} from "../../../../services/ingredients/types.ts";
-import BurgerIngredientsPartition from "../burger-ingredients-partition/burger-ingredients-partition.tsx";
-import Modal from "../../../../components/modal/modal.tsx";
-import Tooltip from "../../../../components/tooltip/tooltip.tsx";
+import {hideIngredientsLoadingError} from "../../../../services/ingredients/slices";
+import {useAppDispatch, useAppSelector} from "../../../../hooks";
+import {IngredientType} from "../../../../services/ingredients/const";
+import {type IIngredient} from "../../../../services/ingredients/types";
+import BurgerIngredientsPartition from "../burger-ingredients-partition/burger-ingredients-partition";
+import Modal from "../../../../components/modal/modal";
+import Tooltip from "../../../../components/tooltip/tooltip";
 
 type TGroupedIngredients = {
   [IngredientType.BUN]: IIngredient[];

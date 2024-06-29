@@ -1,10 +1,10 @@
 import React, {FC, forwardRef, useImperativeHandle} from "react";
 
-import {useAppDispatch, useAppSelector} from "../../hooks.ts";
-import {logoutUserThunk} from "../../services/auth/thunks.ts";
-import {resetRequestStatus} from "../../services/auth/slices.ts";
-import Modal from "../modal/modal.tsx";
-import Tooltip from "../tooltip/tooltip.tsx";
+import {useAppDispatch, useAppSelector} from "../../hooks";
+import {logoutUserThunk} from "../../services/auth/thunks";
+import {resetRequestStatus} from "../../services/auth/slices";
+import Modal from "../modal/modal";
+import Tooltip from "../tooltip/tooltip";
 
 export interface ILogoutRefAttrs {
   handleLogout: () => void;

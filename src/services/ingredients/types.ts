@@ -1,4 +1,4 @@
-import {IngredientType} from "./const.ts";
+import {IngredientType} from "./const";
 
 export interface IIngredient {
   readonly _id: string;

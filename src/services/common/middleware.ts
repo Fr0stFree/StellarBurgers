@@ -1,10 +1,10 @@
 import {type Middleware, type MiddlewareAPI} from 'redux';
 import {type PayloadAction} from "@reduxjs/toolkit";
 
-import {type TAppDispatch, type TRootState} from '../../hooks.ts';
-import {type TWSActions} from "./types.ts";
-import {INVALID_TOKEN_NOTIFICATION} from "./const.ts";
-import {refreshAccessTokenThunk} from "../auth/thunks.ts";
+import {type TAppDispatch, type TRootState} from '../../hooks';
+import {type TWSActions} from "./types";
+import {INVALID_TOKEN_NOTIFICATION} from "./const";
+import {refreshAccessTokenThunk} from "../auth/thunks";
 
 export function genericWSMiddleware(actions: TWSActions): Middleware {
   return ((store: MiddlewareAPI<TAppDispatch, TRootState>) => {

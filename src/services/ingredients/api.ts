@@ -1,9 +1,9 @@
 import axios from "axios";
 
-import {type IIngredient} from "./types.ts";
-import {validateResponse} from "../common/api.ts";
-import {TResponseBody} from "../common/types.ts";
-import {BACKEND_API_BASE_URL} from "../common/const.ts";
+import {type IIngredient} from "./types";
+import {validateResponse} from "../common/api";
+import {TResponseBody} from "../common/types";
+import {BACKEND_API_BASE_URL} from "../common/const";
 
 
 export const getIngredients = async (): Promise<IIngredient[]> => {

@@ -3,7 +3,7 @@ import {FC} from "react";
 import styles from './styles.module.css';
 
 import orderDoneImage from '../../images/order-done.svg';
-import {type IExtendedOrder} from "../../services/orders/types.ts";
+import {type IExtendedOrder} from "../../services/orders/types";
 
 interface IOrderDetailsProps {
   order: IExtendedOrder;
