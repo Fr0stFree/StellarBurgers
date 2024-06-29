@@ -1,5 +1,5 @@
-import {type IIngredient} from "../ingredients/types.ts";
-import {type IUser} from "../auth/types.ts";
+import {type IIngredient} from "../ingredients/types";
+import {type IUser} from "../auth/types";
 
 interface BaseOrder {
   readonly _id: string;

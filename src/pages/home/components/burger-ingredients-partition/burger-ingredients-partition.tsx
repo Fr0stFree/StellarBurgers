@@ -2,8 +2,8 @@ import React, {FC} from "react";
 
 import styles from './styles.module.css';
 
-import BurgerIngredient from "../burger-ingredient/burger-ingredient.tsx";
-import {type IIngredient} from "../../../../services/ingredients/types.ts";
+import BurgerIngredient from "../burger-ingredient/burger-ingredient";
+import {type IIngredient} from "../../../../services/ingredients/types";
 
 interface IBurgerIngredientsPartitionProps {
   title: string;

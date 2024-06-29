@@ -2,7 +2,7 @@ import {FC} from "react";
 
 import styles from "./styles.module.css";
 
-import {IOrder} from "../../../../services/orders/types.ts";
+import {IOrder} from "../../../../services/orders/types";
 
 interface IOrderListProps {
   title: Readonly<string>;

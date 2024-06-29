@@ -1,6 +1,6 @@
-import {initialState, ordersSlice} from '../orders/slices.ts';
-import store from '../store.ts';
-import {generateOrder} from "./utils.ts";
+import {initialState, ordersSlice} from '../orders/slices';
+import store from '../store';
+import {generateOrder} from "./utils";
 
 it('should generate a slice', () => {
   expect(ordersSlice.name).toBe('orders');

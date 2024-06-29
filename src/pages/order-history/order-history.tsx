@@ -3,10 +3,10 @@ import {TailSpin} from "react-loader-spinner";
 
 import styles from "./styles.module.css";
 
-import {useAppDispatch, useAppSelector} from "../../hooks.ts";
-import OrderItem from "../../components/order-item/order-item.tsx";
-import {BACKEND_WS_BASE_URL} from "../../services/common/const.ts";
-import {closePrivateOrdersChannel, openPrivateOrdersChannel} from "../../services/orders/slices.ts";
+import {useAppDispatch, useAppSelector} from "../../hooks";
+import OrderItem from "../../components/order-item/order-item";
+import {BACKEND_WS_BASE_URL} from "../../services/common/const";
+import {closePrivateOrdersChannel, openPrivateOrdersChannel} from "../../services/orders/slices";
 
 const OrderHistoryPage: FC = () => {
   const accessToken = useAppSelector(state => state.auth.accessToken);

@@ -1,11 +1,11 @@
 import {configureStore} from "@reduxjs/toolkit";
 
-import ingredientsReducer from "./ingredients/slices.ts";
-import ordersReducer from "./orders/slices.ts";
+import ingredientsReducer from "./ingredients/slices";
+import ordersReducer from "./orders/slices";
 
-import authReducer from "./auth/slices.ts";
+import authReducer from "./auth/slices";
 import {setupListeners} from "@reduxjs/toolkit/query";
-import {privateOrdersMiddleware, publicOrdersMiddleware} from "./orders/middleware.ts";
+import {privateOrdersMiddleware, publicOrdersMiddleware} from "./orders/middleware";
 
 
 const store = configureStore({

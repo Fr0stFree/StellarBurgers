@@ -5,14 +5,14 @@ import {motion} from "framer-motion";
 
 import styles from "./styles.module.css";
 
-import {type IOrder} from "../../services/orders/types.ts";
-import {useAppLocation, useAppSelector} from "../../hooks.ts";
+import {type IOrder} from "../../services/orders/types";
+import {useAppLocation, useAppSelector} from "../../hooks";
 import {
   extractOrderIngredients,
   localizeOrderStatus,
   localizeOrderTimeSince,
   orderStatusExtraClassMap
-} from "../../services/orders/utils.ts";
+} from "../../services/orders/utils";
 
 interface IOrderItemProps {
   order: IOrder;

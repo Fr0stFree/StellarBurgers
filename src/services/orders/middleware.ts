@@ -1,4 +1,4 @@
-import {genericWSMiddleware} from "../common/middleware.ts";
+import {genericWSMiddleware} from "../common/middleware";
 import {
   closePrivateOrdersChannel,
   closePublicOrdersChannel,
@@ -12,8 +12,8 @@ import {
   publicOrdersChannelError,
   publicOrdersChannelMessage,
   publicOrdersChannelOpened,
-} from "./slices.ts";
-import type {TWSActions} from "../common/types.ts";
+} from "./slices";
+import type {TWSActions} from "../common/types";
 
 const publicOrdersActions: TWSActions = {
   wsInit: openPublicOrdersChannel.type,

@@ -9,10 +9,10 @@ import {
   resetPassword,
   updateAccessToken,
   updateUser,
-} from "./api.ts";
-import {refreshTokenPersistence} from "./persistence.ts";
-import {type TRootState} from "../../hooks.ts";
-import {type IUserWithPassword} from "./types.ts";
+} from "./api";
+import {refreshTokenPersistence} from "./persistence";
+import {type TRootState} from "../../hooks";
+import {type IUserWithPassword} from "./types";
 
 export const reviewUserThunk = createAsyncThunk(
   'auth/startSession',

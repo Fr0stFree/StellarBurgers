@@ -6,9 +6,9 @@ import {Link} from "react-router-dom";
 
 import styles from './styles.module.css';
 
-import {type IIngredient} from "../../../../services/ingredients/types.ts";
-import {useAppLocation, useAppSelector} from "../../../../hooks.ts";
-import {DraggableType} from "../../../../services/ingredients/const.ts";
+import {type IIngredient} from "../../../../services/ingredients/types";
+import {useAppLocation, useAppSelector} from "../../../../hooks";
+import {DraggableType} from "../../../../services/ingredients/const";
 
 interface IBurgerIngredientProps {
   ingredient: IIngredient;
@@ -17,7 +17,7 @@ interface IBurgerIngredientProps {
 const BurgerIngredient: FC<IBurgerIngredientProps> = ({ingredient}) => {
   const location = useAppLocation();
   const { selected: ingredients } = useAppSelector(state => state.ingredients);
-  const [_, dragRef] = useDrag(() => ({
+  const [, dragRef] = useDrag(() => ({
     type: DraggableType.NEW_INGREDIENT,
     item: ingredient,
     collect: (monitor) => ({
@@ -27,7 +27,7 @@ const BurgerIngredient: FC<IBurgerIngredientProps> = ({ingredient}) => {
 
   const selectedAmount = useMemo(() => (
     ingredients.reduce((acc, item) => item._id === ingredient._id ? acc + 1 : acc, 0)
-  ), [ingredients])
+  ), [ingredients, ingredient._id])
   return (
     <motion.div className={styles.ingredient}
                 ref={dragRef}

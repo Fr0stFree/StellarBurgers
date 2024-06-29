@@ -5,12 +5,12 @@ import {Button} from "@ya.praktikum/react-developer-burger-ui-components";
 
 import formStyles from "../../components/form/styles.module.css";
 
-import {EMAIL_PATTERN, MAX_NAME_LENGTH, MIN_NAME_LENGTH, MIN_PASSWORD_LENGTH} from "../../services/auth/const.ts";
-import {useAppDispatch, useAppSelector} from "../../hooks.ts";
-import {registerUserThunk} from "../../services/auth/thunks.ts";
-import Modal from "../../components/modal/modal.tsx";
-import Tooltip from "../../components/tooltip/tooltip.tsx";
-import {resetRequestStatus} from "../../services/auth/slices.ts";
+import {EMAIL_PATTERN, MAX_NAME_LENGTH, MIN_NAME_LENGTH, MIN_PASSWORD_LENGTH} from "../../services/auth/const";
+import {useAppDispatch, useAppSelector} from "../../hooks";
+import {registerUserThunk} from "../../services/auth/thunks";
+import Modal from "../../components/modal/modal";
+import Tooltip from "../../components/tooltip/tooltip";
+import {resetRequestStatus} from "../../services/auth/slices";
 
 interface IFormInputs {
   name: string;

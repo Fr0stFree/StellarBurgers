@@ -1,5 +1,5 @@
 import {v4 as uuid4} from 'uuid';
-import {type IOrder} from '../orders/types.ts';
+import {type IOrder} from '../orders/types';
 
 export const generateOrder = (): IOrder => ({
   _id: Math.random().toString(),

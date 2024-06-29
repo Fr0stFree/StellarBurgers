@@ -8,8 +8,8 @@ import {BrowserRouter} from "react-router-dom";
 import './index.css';
 import 'react-tooltip/dist/react-tooltip.css';
 
-import App from './components/app/app.tsx';
-import store from "./services/store.ts";
+import App from './components/app/app';
+import store from "./services/store";
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

@@ -1,15 +1,15 @@
-import FeedPage from "./feed/feed.tsx";
-import ForgotPasswordPage from "./forgot-password/forgot-password.tsx";
-import HomePage from "./home/home.tsx";
-import IngredientDetailsPage from "./ingredient-details/ingredient-details.tsx";
-import LoginPage from "./login/login.tsx";
-import NotFoundPage from "./not-found/not-found.tsx";
-import ProfileInfoPage from "./profile-info/profile-info.tsx";
-import ProfilePage from "./profile/profile.tsx";
-import RegisterPage from "./register/register.tsx";
-import ResetPasswordPage from "./reset-password/reset-password.tsx";
-import OrderHistoryPage from "./order-history/order-history.tsx";
-import OrderInfoPage from "./order-info/order-info.tsx";
+import FeedPage from "./feed/feed";
+import ForgotPasswordPage from "./forgot-password/forgot-password";
+import HomePage from "./home/home";
+import IngredientDetailsPage from "./ingredient-details/ingredient-details";
+import LoginPage from "./login/login";
+import NotFoundPage from "./not-found/not-found";
+import ProfileInfoPage from "./profile-info/profile-info";
+import ProfilePage from "./profile/profile";
+import RegisterPage from "./register/register";
+import ResetPasswordPage from "./reset-password/reset-password";
+import OrderHistoryPage from "./order-history/order-history";
+import OrderInfoPage from "./order-info/order-info";
 
 export {
   FeedPage,

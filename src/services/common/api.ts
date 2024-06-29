@@ -1,7 +1,7 @@
 import {BAD_REQUEST} from "http-status";
 import {AxiosResponse} from "axios";
 
-import {TResponseBody} from "./types.ts";
+import {TResponseBody} from "./types";
 
 export function validateResponse(response: AxiosResponse<TResponseBody>): AxiosResponse<TResponseBody> {
   const { data, status, statusText } = response;

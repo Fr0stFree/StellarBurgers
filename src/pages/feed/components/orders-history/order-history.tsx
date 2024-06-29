@@ -2,8 +2,8 @@ import {FC} from "react";
 
 import styles from "./styles.module.css";
 
-import {useAppSelector} from "../../../../hooks.ts";
-import OrderItem from "../../../../components/order-item/order-item.tsx";
+import {useAppSelector} from "../../../../hooks";
+import OrderItem from "../../../../components/order-item/order-item";
 
 const OrderHistory: FC = () => {
   const orders = useAppSelector(state => state.orders.publicOrders);

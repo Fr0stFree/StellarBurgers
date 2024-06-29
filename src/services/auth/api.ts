@@ -1,9 +1,9 @@
 import axios from "axios";
 
-import {type IClient, type ICredentials, type IUser, type IUserWithPassword} from "./types.ts";
-import {type TResponseBody} from "../common/types.ts";
-import {validateResponse} from "../common/api.ts";
-import {BACKEND_API_BASE_URL} from "../common/const.ts";
+import {type IClient, type ICredentials, type IUser, type IUserWithPassword} from "./types";
+import {type TResponseBody} from "../common/types";
+import {validateResponse} from "../common/api";
+import {BACKEND_API_BASE_URL} from "../common/const";
 
 export const getUser = async (accessToken: string): Promise<IUser> => {
   const url = `${BACKEND_API_BASE_URL}/auth/user`;

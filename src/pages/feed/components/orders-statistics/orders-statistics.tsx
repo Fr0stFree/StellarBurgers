@@ -2,8 +2,8 @@ import React, {FC} from "react";
 
 import styles from "./styles.module.css";
 
-import {useAppSelector} from "../../../../hooks.ts";
-import OrderList from "../order-list/order-list.tsx";
+import {useAppSelector} from "../../../../hooks";
+import OrderList from "../order-list/order-list";
 
 const OrdersStatistics: FC = () => {
   const {publicOrders: orders, ordersAmountToday, ordersAmountTotal} = useAppSelector(state => state.orders);

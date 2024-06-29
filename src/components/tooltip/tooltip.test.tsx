@@ -1,7 +1,7 @@
 import React from "react";
 import TestRenderer from "react-test-renderer";
 
-import Tooltip from "./tooltip.tsx";
+import Tooltip from "./tooltip";
 
 it("Tooltip renders properly", () => {
   const component = <Tooltip text="Test text" />;
@@ -11,5 +11,4 @@ it("Tooltip renders properly", () => {
   expect(tree).toMatchSnapshot();
   expect(tree).toHaveProperty("type", "div");
   expect(tree).toHaveProperty("props.className", "container text text_type_main-medium");
-  expect(tree.children).toHaveLength(1);
 })

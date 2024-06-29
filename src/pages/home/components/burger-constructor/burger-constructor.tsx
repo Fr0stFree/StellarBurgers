@@ -7,17 +7,17 @@ import {useNavigate} from "react-router-dom";
 
 import styles from './styles.module.css';
 
-import {type IIngredient, type ISelectedIngredient} from "../../../../services/ingredients/types.ts";
-import {useAppDispatch, useAppLocation, useAppSelector} from "../../../../hooks.ts";
-import {addBuns, addIngredient, reorderIngredients} from "../../../../services/ingredients/slices.ts";
-import {hideOrder} from "../../../../services/orders/slices.ts";
-import {DraggableType, IngredientType} from "../../../../services/ingredients/const.ts";
-import BurgerConstructorIngredient from "../burger-constructor-ingredient/burger-constructor-ingredient.tsx";
-import Modal from "../../../../components/modal/modal.tsx";
-import OrderDetails from "../../../../components/order-details/order-details.tsx";
-import Tooltip from "../../../../components/tooltip/tooltip.tsx";
-import {makeOrderThunk} from "../../../../services/orders/thunks.ts";
-import {isIngredientsOrderCorrect} from "../../../../services/ingredients/utils.ts";
+import {type IIngredient, type ISelectedIngredient} from "../../../../services/ingredients/types";
+import {useAppDispatch, useAppLocation, useAppSelector} from "../../../../hooks";
+import {addBuns, addIngredient, reorderIngredients} from "../../../../services/ingredients/slices";
+import {hideOrder} from "../../../../services/orders/slices";
+import {DraggableType, IngredientType} from "../../../../services/ingredients/const";
+import BurgerConstructorIngredient from "../burger-constructor-ingredient/burger-constructor-ingredient";
+import Modal from "../../../../components/modal/modal";
+import OrderDetails from "../../../../components/order-details/order-details";
+import Tooltip from "../../../../components/tooltip/tooltip";
+import {makeOrderThunk} from "../../../../services/orders/thunks";
+import {isIngredientsOrderCorrect} from "../../../../services/ingredients/utils";
 
 const BurgerConstructor: FC = () => {
   const dispatch = useAppDispatch();

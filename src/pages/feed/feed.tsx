@@ -4,11 +4,11 @@ import {TailSpin} from "react-loader-spinner";
 import styles from "./styles.module.css";
 
 
-import OrdersStatistics from "./components/orders-statistics/orders-statistics.tsx";
-import OrderHistory from "./components/orders-history/order-history.tsx";
-import {useAppDispatch, useAppSelector} from "../../hooks.ts";
-import {BACKEND_WS_BASE_URL} from "../../services/common/const.ts";
-import {closePublicOrdersChannel, openPublicOrdersChannel} from "../../services/orders/slices.ts";
+import OrdersStatistics from "./components/orders-statistics/orders-statistics";
+import OrderHistory from "./components/orders-history/order-history";
+import {useAppDispatch, useAppSelector} from "../../hooks";
+import {BACKEND_WS_BASE_URL} from "../../services/common/const";
+import {closePublicOrdersChannel, openPublicOrdersChannel} from "../../services/orders/slices";
 
 
 const FeedPage: FC = () => {

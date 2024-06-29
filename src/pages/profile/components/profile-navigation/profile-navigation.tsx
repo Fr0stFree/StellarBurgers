@@ -3,7 +3,7 @@ import {Link, NavLink} from "react-router-dom";
 
 import styles from "./styles.module.css";
 
-import Logout, {ILogoutRefAttrs} from "../../../../components/logout/logout.tsx";
+import Logout, {ILogoutRefAttrs} from "../../../../components/logout/logout";
 
 const ProfileNavigation: FC = () => {
   const logoutRef = useRef<ILogoutRefAttrs>(null);

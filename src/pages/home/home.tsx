@@ -2,8 +2,8 @@ import React, {FC} from "react";
 
 import styles from "./styles.module.css";
 
-import BurgerIngredients from "./components/burger-ingredients/burger-ingredients.tsx";
-import BurgerConstructor from "./components/burger-constructor/burger-constructor.tsx";
+import BurgerIngredients from "./components/burger-ingredients/burger-ingredients";
+import BurgerConstructor from "./components/burger-constructor/burger-constructor";
 
 const HomePage: FC = () => {
   return (

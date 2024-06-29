@@ -1,5 +1,5 @@
-import type {ISelectedIngredient} from "./types.ts";
-import {IngredientType} from "./const.ts";
+import type {ISelectedIngredient} from "./types";
+import {IngredientType} from "./const";
 
 export const isIngredientsOrderCorrect = (items: ISelectedIngredient[]): [boolean, ISelectedIngredient[]] => {
   const buns = items.filter(ingredient => ingredient.type === IngredientType.BUN);

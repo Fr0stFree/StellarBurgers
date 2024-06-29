@@ -1,7 +1,7 @@
 import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux'
 import {Location, useLocation} from 'react-router-dom';
 
-import store from "./services/store.ts";
+import store from "./services/store";
 
 export type TRootState = ReturnType<typeof store.getState>
 export type TAppDispatch = typeof store.dispatch
