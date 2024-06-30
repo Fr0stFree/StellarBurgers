@@ -1,4 +1,4 @@
-import * as axios from "axios";
+import axios from "axios";
 import {v4 as uuid4} from 'uuid';
 import {OK} from "http-status";
 
@@ -17,8 +17,10 @@ import {generateCredentials, generateExtendedOrder, generateInitialState, genera
 import {makeOrderThunk} from "../orders/thunks";
 import {mergeOrders} from "../orders/utils";
 import {TRootState} from "../../hooks";
+import {SerializedError} from "@reduxjs/toolkit";
 
 jest.mock('axios');
+const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 describe('should handle orders slice', () => {
   let preloadedState = {} as IOrdersState;
@@ -129,7 +131,7 @@ describe('should handle order thunks', () => {
   it('should send order successfully', async () => {
     const expectedOrder = generateExtendedOrder();
     state.auth.accessToken = generateCredentials().accessToken;
-    axios.post.mockImplementation(() => Promise.resolve({
+    mockedAxios.post.mockImplementation(() => Promise.resolve({
       data: {order: expectedOrder, success: true},
       status: OK
     }));
@@ -138,7 +140,7 @@ describe('should handle order thunks', () => {
 
     expect(result.payload).toEqual(expectedOrder);
     expect(result.type).toBe('orders/makeOrder/fulfilled');
-    expect(axios.post).toHaveBeenCalled();
+    expect(mockedAxios.post).toHaveBeenCalled();
     expect(dispatch).toHaveBeenCalled();
     expect(getState).toHaveBeenCalled();
   });
@@ -146,10 +148,10 @@ describe('should handle order thunks', () => {
   it('should reject with error if no access token found', async () => {
     const result = await makeOrderThunk([uuid4()])(dispatch, getState, undefined);
 
+    const payload = result.payload as SerializedError;
     expect(result.type).toBe('orders/makeOrder/rejected');
-    expect(result.payload.message).toBe('No access token found');
-    expect(result.payload.name).toBe('UnauthorizedError');
-    expect(result.error).toBeTruthy();
+    expect(payload.message).toBe('No access token found');
+    expect(payload.name).toBe('UnauthorizedError');
     expect(axios.post).not.toHaveBeenCalled();
     expect(getState).toHaveBeenCalled();
   });

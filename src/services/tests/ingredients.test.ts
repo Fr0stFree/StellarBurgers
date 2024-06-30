@@ -1,4 +1,4 @@
-import * as axios from "axios";
+import axios from "axios";
 import {v4 as uuid4} from 'uuid';
 import {OK} from "http-status";
 
@@ -16,6 +16,7 @@ import {TRootState} from "../../hooks";
 import {getIngredientsThunk} from "../ingredients/thunks";
 
 jest.mock('axios');
+const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 describe('should handle ingredients slice', () => {
   let preloadedState = {} as IIngredientsState;
@@ -86,7 +87,7 @@ describe('should handle ingredients thunks', () => {
 
   it('should receive ingredients successfully', async () => {
     const expectedIngredients = [generateIngredient(IngredientType.BUN), generateIngredient(IngredientType.MAIN)];
-    axios.get.mockImplementation(() => Promise.resolve({
+    mockedAxios.get.mockImplementation(() => Promise.resolve({
       data: {data: expectedIngredients, success: true},
       status: OK
     }));
@@ -95,7 +96,7 @@ describe('should handle ingredients thunks', () => {
 
     expect(result.payload).toEqual(expectedIngredients);
     expect(result.type).toBe('ingredients/getIngredients/fulfilled');
-    expect(axios.get).toHaveBeenCalled();
+    expect(mockedAxios.get).toHaveBeenCalled();
     expect(dispatch).toHaveBeenCalled();
     expect(getState).not.toHaveBeenCalled();
   });

@@ -1,7 +1,7 @@
-import * as axios from "axios";
+import axios from "axios";
 import {OK} from "http-status";
 
-import {refreshTokenPersistence as refreshTokenPersistenceMock} from "../auth/persistence";
+import {refreshTokenPersistence} from "../auth/persistence";
 import authReducer, {IAuthState, initialState, resetRequestStatus,} from '../auth/slices';
 import {TRootState} from "../../hooks";
 import {generateCredentials, generateInitialState, generateUser} from "./utils";
@@ -16,6 +16,8 @@ import {
 
 jest.mock('axios');
 jest.mock('../auth/persistence');
+const mockedAxios = axios as jest.Mocked<typeof axios>;
+const mockedRefreshTokenPersistence = refreshTokenPersistence as jest.Mocked<typeof refreshTokenPersistence>;
 
 describe('should handle auth slice', () => {
   let preloadedState = {} as IAuthState;
@@ -41,6 +43,7 @@ describe('should handle get auth thunks', () => {
   let getState = jest.fn();
   let state = {} as TRootState;
 
+
   beforeEach(() => {
     state = generateInitialState();
     getState.mockReturnValue(state);
@@ -52,9 +55,9 @@ describe('should handle get auth thunks', () => {
 
   it('should handle user registration successfully', async () => {
     const expectedClient = {...generateUser(), ...generateCredentials()}
-    refreshTokenPersistenceMock.save.mockImplementation(() => {
+    mockedRefreshTokenPersistence.save.mockImplementation(() => {
     });
-    axios.post.mockImplementation(() => Promise.resolve({
+    mockedAxios.post.mockImplementation(() => Promise.resolve({
       data: {success: true, ...expectedClient},
       status: OK
     }));
@@ -67,14 +70,14 @@ describe('should handle get auth thunks', () => {
     expect(axios.post).toHaveBeenCalled();
     expect(dispatch).toHaveBeenCalled();
     expect(getState).not.toHaveBeenCalled();
-    expect(refreshTokenPersistenceMock.save).toHaveBeenCalledWith(expectedClient.refreshToken);
+    expect(mockedRefreshTokenPersistence.save).toHaveBeenCalledWith(expectedClient.refreshToken);
   });
 
   it('should handle user login successfully', async () => {
     const expectedClient = {...generateUser(), ...generateCredentials()}
-    refreshTokenPersistenceMock.save.mockImplementation(() => {
+    mockedRefreshTokenPersistence.save.mockImplementation(() => {
     });
-    axios.post.mockImplementation(() => Promise.resolve({
+    mockedAxios.post.mockImplementation(() => Promise.resolve({
       data: {success: true, ...expectedClient},
       status: OK
     }));
@@ -84,17 +87,17 @@ describe('should handle get auth thunks', () => {
 
     expect(result.payload).toMatchObject(expectedClient);
     expect(result.type).toBe('auth/login/fulfilled');
-    expect(axios.post).toHaveBeenCalled();
+    expect(mockedAxios.post).toHaveBeenCalled();
     expect(dispatch).toHaveBeenCalled();
     expect(getState).not.toHaveBeenCalled();
-    expect(refreshTokenPersistenceMock.save).toHaveBeenCalledWith(expectedClient.refreshToken);
+    expect(mockedRefreshTokenPersistence.save).toHaveBeenCalledWith(expectedClient.refreshToken);
   });
 
   it('should handle user logout successfully', async () => {
     state.auth.refreshToken = generateCredentials().refreshToken;
-    refreshTokenPersistenceMock.drop.mockImplementation(() => {
+    mockedRefreshTokenPersistence.drop.mockImplementation(() => {
     });
-    axios.post.mockImplementation(() => Promise.resolve({
+    mockedAxios.post.mockImplementation(() => Promise.resolve({
       status: OK,
       data: {success: true}
     }));
@@ -102,18 +105,18 @@ describe('should handle get auth thunks', () => {
     const result = await logoutUserThunk()(dispatch, getState, undefined);
 
     expect(result.type).toBe('auth/logout/fulfilled');
-    expect(axios.post).toHaveBeenCalled();
+    expect(mockedAxios.post).toHaveBeenCalled();
     expect(dispatch).toHaveBeenCalled();
     expect(getState).toHaveBeenCalled();
-    expect(refreshTokenPersistenceMock.drop).toHaveBeenCalled();
+    expect(mockedRefreshTokenPersistence.drop).toHaveBeenCalled();
   });
 
   it('should handle refresh user access token', async () => {
     const expectedCredentials = generateCredentials();
     state.auth.refreshToken = generateCredentials().refreshToken;
-    refreshTokenPersistenceMock.save.mockImplementation(() => {
+    mockedRefreshTokenPersistence.save.mockImplementation(() => {
     });
-    axios.post.mockImplementation(() => Promise.resolve({
+    mockedAxios.post.mockImplementation(() => Promise.resolve({
       status: OK,
       data: {success: true, ...expectedCredentials}
     }));
@@ -122,15 +125,15 @@ describe('should handle get auth thunks', () => {
 
     expect(result.payload).toEqual(expectedCredentials);
     expect(result.type).toBe('auth/refreshToken/fulfilled');
-    expect(axios.post).toHaveBeenCalled();
+    expect(mockedAxios.post).toHaveBeenCalled();
     expect(dispatch).toHaveBeenCalled();
     expect(getState).toHaveBeenCalled();
-    expect(refreshTokenPersistenceMock.save).toHaveBeenCalledWith(expectedCredentials.refreshToken);
+    expect(mockedRefreshTokenPersistence.save).toHaveBeenCalledWith(expectedCredentials.refreshToken);
   });
 
   it('should handle forgot password procedure', async () => {
     const expectedUser = generateUser();
-    axios.post.mockImplementation(() => Promise.resolve({
+    mockedAxios.post.mockImplementation(() => Promise.resolve({
       status: OK,
       data: {success: true}
     }));
@@ -138,13 +141,13 @@ describe('should handle get auth thunks', () => {
     const result = await forgotPasswordThunk({email: expectedUser.email})(dispatch, getState, undefined);
 
     expect(result.type).toBe('auth/forgotPassword/fulfilled');
-    expect(axios.post).toHaveBeenCalled();
+    expect(mockedAxios.post).toHaveBeenCalled();
     expect(dispatch).toHaveBeenCalled();
     expect(getState).not.toHaveBeenCalled();
   });
 
   it('should handle reset password procedure', async () => {
-    axios.post.mockImplementation(() => Promise.resolve({
+    mockedAxios.post.mockImplementation(() => Promise.resolve({
       status: OK,
       data: {success: true}
     }));
@@ -153,7 +156,7 @@ describe('should handle get auth thunks', () => {
     const result = await thunk(dispatch, getState, undefined);
 
     expect(result.type).toBe('auth/resetPassword/fulfilled');
-    expect(axios.post).toHaveBeenCalled();
+    expect(mockedAxios.post).toHaveBeenCalled();
     expect(dispatch).toHaveBeenCalled();
     expect(getState).not.toHaveBeenCalled();
   });
