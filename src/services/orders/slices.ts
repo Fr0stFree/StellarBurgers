@@ -5,7 +5,7 @@ import {type TRequestStatus, TWSChannelState} from "../common/types";
 import {getOrderThunk, makeOrderThunk} from "./thunks";
 import {mergeOrders} from "./utils";
 
-interface IOrdersState {
+export interface IOrdersState {
   makeOrderRequestStatus: TRequestStatus;
   getOrderRequestStatus: TRequestStatus;
   order: IExtendedOrder | null;
@@ -33,7 +33,7 @@ export const initialState: IOrdersState = {
   privateOrdersChannelState: 'closed',
 };
 
-export const ordersSlice = createSlice({
+const ordersSlice = createSlice({
   name: 'orders',
   initialState,
   reducers: {
