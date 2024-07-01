@@ -1,12 +1,12 @@
 import React from "react";
-import TestRenderer from "react-test-renderer";
+import testRenderer from "react-test-renderer";
 
 import Tooltip from "./tooltip";
 
 it("Tooltip renders properly", () => {
   const component = <Tooltip text="Test text" />;
 
-  const tree = TestRenderer.create(component).toJSON();
+  const tree = testRenderer.create(component).toJSON();
 
   expect(tree).toMatchSnapshot();
   expect(tree).toHaveProperty("type", "div");

@@ -1,6 +1,6 @@
-# Getting Started with Create React App
+# Stellar burgers
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is available on [Github Pages](https://fr0stfree.github.io/StellarBurgers/index.html).
 
 ## Available Scripts
 

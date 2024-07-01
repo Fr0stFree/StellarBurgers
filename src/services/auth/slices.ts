@@ -14,7 +14,7 @@ import {
 } from "./thunks";
 import {refreshTokenPersistence} from "./persistence";
 
-interface IAuthState {
+export interface IAuthState {
   user: IUser | null;
   accessToken: string | null;
   refreshToken: string | null;
@@ -27,7 +27,7 @@ interface IAuthState {
   startSessionRequestStatus: TRequestStatus;
 }
 
-const initialState: IAuthState = {
+export const initialState: IAuthState = {
   user: null,
   accessToken: null,
   refreshToken: null,

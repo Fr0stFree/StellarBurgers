@@ -1,48 +1,158 @@
-import {initialState, ordersSlice} from '../orders/slices';
-import store from '../store';
-import {generateOrder} from "./utils";
+import axios from "axios";
+import {v4 as uuid4} from 'uuid';
+import {OK} from "http-status";
 
-it('should generate a slice', () => {
-  expect(ordersSlice.name).toBe('orders');
-  expect(ordersSlice.getInitialState()).toEqual(initialState);
+import ordersReducer, {
+  closePublicOrdersChannel,
+  hideOrder,
+  initialState,
+  IOrdersState,
+  openPublicOrdersChannel,
+  publicOrdersChannelClosed,
+  publicOrdersChannelError,
+  publicOrdersChannelMessage,
+  publicOrdersChannelOpened,
+} from '../orders/slices';
+import {generateCredentials, generateExtendedOrder, generateInitialState, generateOrder,} from "./utils";
+import {makeOrderThunk} from "../orders/thunks";
+import {mergeOrders} from "../orders/utils";
+import {TRootState} from "../../hooks";
+import {SerializedError} from "@reduxjs/toolkit";
+
+jest.mock('axios');
+const mockedAxios = axios as jest.Mocked<typeof axios>;
+
+describe('should handle orders slice', () => {
+  let preloadedState = {} as IOrdersState;
+  beforeEach(() => {
+    preloadedState = JSON.parse(JSON.stringify(initialState));
+  });
+
+  it('should return an initial state', () => {
+    expect(ordersReducer(undefined, {type: 'unknown'})).toEqual(initialState);
+  });
+
+  it('should handle order hiding', () => {
+    expect(ordersReducer(preloadedState, hideOrder())).toEqual({
+      ...preloadedState,
+      makeOrderRequestStatus: 'idle',
+    });
+  });
+
+  it('should handle ws channel opening', () => {
+    expect(ordersReducer(preloadedState, openPublicOrdersChannel('localhost'))).toEqual({
+      ...preloadedState,
+      publicOrdersChannelState: 'connecting',
+      publicOrdersChannelError: null,
+    });
+  });
+
+  it('should handle ws channel closing', () => {
+    expect(ordersReducer(preloadedState, closePublicOrdersChannel())).toEqual({
+      ...preloadedState,
+      publicOrdersChannelState: 'closing',
+      publicOrdersChannelError: null,
+    });
+  });
+
+  it('should handle ws channel opened event', () => {
+    expect(ordersReducer(preloadedState, publicOrdersChannelOpened())).toEqual({
+      ...preloadedState,
+      publicOrdersChannelState: 'open',
+      publicOrdersChannelError: null,
+    });
+  });
+
+  it('should handle ws channel closed event', () => {
+    expect(ordersReducer(preloadedState, publicOrdersChannelClosed())).toEqual({
+      ...preloadedState,
+      publicOrdersChannelState: 'closed',
+    });
+  });
+
+  it('should handle new ws message', () => {
+    const message = {
+      orders: [generateOrder()],
+      totalToday: 10,
+      total: 100,
+    };
+
+    expect(ordersReducer(preloadedState, publicOrdersChannelMessage(message))).toEqual({
+      ...preloadedState,
+      publicOrders: message.orders,
+      ordersAmountToday: message.totalToday,
+      ordersAmountTotal: message.total,
+    });
+  });
+
+  it('should handle orders merge on new ws message', () => {
+    preloadedState = {
+      ...preloadedState,
+      publicOrders: [generateOrder()],
+      ordersAmountToday: 5,
+      ordersAmountTotal: 50,
+    };
+    const message = {
+      orders: [generateOrder(), generateOrder()],
+      totalToday: 15,
+      total: 150,
+    };
+
+    expect(ordersReducer(preloadedState, publicOrdersChannelMessage(message))).toEqual({
+      ...preloadedState,
+      publicOrders: mergeOrders(preloadedState.publicOrders, message.orders),
+      ordersAmountToday: message.totalToday,
+      ordersAmountTotal: message.total,
+    });
+  });
+
+  it('should handle ws channel error', () => {
+    expect(ordersReducer(preloadedState, publicOrdersChannelError('Connection lost'))).toEqual({
+      ...preloadedState,
+      publicOrdersChannelError: 'Connection lost',
+    });
+  });
 });
 
-it('should hide order', () => {
-  store.dispatch(ordersSlice.actions.hideOrder());
-  const state = store.getState();
-  expect(state.orders.makeOrderRequestStatus).toBe('idle');
-});
+describe('should handle order thunks', () => {
+  let dispatch = jest.fn();
+  let getState = jest.fn();
+  let state = {} as TRootState;
 
-it('should close public orders wss channel', () => {
-  store.dispatch(ordersSlice.actions.closePublicOrdersChannel());
-  const state = store.getState();
-  expect(state.orders.publicOrdersChannelState).toBe('closing');
-  expect(state.orders.publicOrdersChannelError).toBeNull();
-});
+  beforeEach(() => {
+    state = generateInitialState();
+    getState.mockReturnValue(state);
+  });
 
-it('should handle closed public orders wss channel', () => {
-  store.dispatch(ordersSlice.actions.publicOrdersChannelClosed());
-  const state = store.getState();
-  expect(state.orders.publicOrdersChannelState).toBe('closed');
-});
+  afterAll(() => {
+    jest.clearAllMocks();
+  });
 
-it('should handle new message from public orders wss channel', () => {
-  const message = {
-    orders: [generateOrder(), generateOrder()],
-    totalToday: 10,
-    total: 100,
-  };
+  it('should send order successfully', async () => {
+    const expectedOrder = generateExtendedOrder();
+    state.auth.accessToken = generateCredentials().accessToken;
+    mockedAxios.post.mockImplementation(() => Promise.resolve({
+      data: {order: expectedOrder, success: true},
+      status: OK
+    }));
 
-  store.dispatch(ordersSlice.actions.publicOrdersChannelMessage(message));
+    const result = await makeOrderThunk([uuid4()])(dispatch, getState, undefined);
 
-  const {publicOrders, ordersAmountToday, ordersAmountTotal} = store.getState().orders;
-  expect(publicOrders).toHaveLength(2);
-  expect(ordersAmountToday).toBe(10);
-  expect(ordersAmountTotal).toBe(100);
-});
+    expect(result.payload).toEqual(expectedOrder);
+    expect(result.type).toBe('orders/makeOrder/fulfilled');
+    expect(mockedAxios.post).toHaveBeenCalled();
+    expect(dispatch).toHaveBeenCalled();
+    expect(getState).toHaveBeenCalled();
+  });
 
-it('should handle error in public orders wss channel', () => {
-  store.dispatch(ordersSlice.actions.publicOrdersChannelError('Connection lost'));
-  const state = store.getState();
-  expect(state.orders.publicOrdersChannelError).toBe('Connection lost');
+  it('should reject with error if no access token found', async () => {
+    const result = await makeOrderThunk([uuid4()])(dispatch, getState, undefined);
+
+    const payload = result.payload as SerializedError;
+    expect(result.type).toBe('orders/makeOrder/rejected');
+    expect(payload.message).toBe('No access token found');
+    expect(payload.name).toBe('UnauthorizedError');
+    expect(axios.post).not.toHaveBeenCalled();
+    expect(getState).toHaveBeenCalled();
+  });
 });

@@ -7,13 +7,13 @@ import {IngredientType} from "./const";
 import {makeOrderThunk} from "../orders/thunks";
 import {getIngredientsThunk} from "./thunks";
 
-interface IIngredientsState {
+export interface IIngredientsState {
   all: IIngredient[];
   selected: ISelectedIngredient[];
   getIngredientsRequestStatus: TRequestStatus;
 }
 
-const initialState: IIngredientsState = {
+export const initialState: IIngredientsState = {
   all: [],
   selected: [],
   getIngredientsRequestStatus: 'idle',
